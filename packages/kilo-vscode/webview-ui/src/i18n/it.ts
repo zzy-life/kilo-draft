@@ -560,7 +560,6 @@ export const dict = {
   "sidebar.topBar.newTask": "Nuova Attività",
   "sidebar.topBar.history": "Cronologia",
   "sidebar.topBar.agentManager": "Agent Manager",
-  "sidebar.topBar.kiloClaw": "KiloClaw",
   "sidebar.topBar.marketplace": "Marketplace",
   "sidebar.topBar.profile": "Profilo",
   "sidebar.topBar.settings": "Impostazioni",

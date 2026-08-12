@@ -184,14 +184,6 @@ export function useSlashCommand(
       },
     },
     {
-      name: "kiloclaw",
-      description: "Open KiloClaw chat",
-      hints: ["claw"],
-      action: () => {
-        vscode.postMessage({ type: "openKiloClaw" })
-      },
-    },
-    {
       name: "sandbox",
       description: "Toggle sandbox",
       hints: [],
