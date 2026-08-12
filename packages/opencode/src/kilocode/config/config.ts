@@ -28,6 +28,9 @@ export namespace KilocodeConfig {
   /** Schema for AI-generated commit message configuration. */
   export const CommitMessageSchema = Schema.optional(
     Schema.Struct({
+      model: Schema.optional(Schema.NullOr(Schema.String)).annotate({
+        description: "Model used for AI commit message generation in provider/model format.",
+      }),
       prompt: Schema.optional(Schema.String).annotate({
         description:
           "Custom system prompt for AI commit message generation. When set, replaces the default conventional commits prompt entirely.",

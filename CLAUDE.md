@@ -24,6 +24,7 @@ Kilo CLI is an open source AI coding agent that generates code from natural lang
 - **Effect facade ratchet**: Do not add runtime-backed Promise facades to shared `packages/opencode/src` Effect services; use service dependencies, `AppRuntime`, or Kilo-owned boundaries. Run `bun run script/check-opencode-promise-facades.ts` when touching service adapters.
 - **workflow allowlist**: `bun run script/check-workflows.ts` from repo root. CI runs this as part of the annotations workflow — any `.yml` / `.yaml` file added to or removed from `.github/workflows/` must be reflected in the hardcoded list in `script/check-workflows.ts`. Prevents upstream-merged workflows from silently starting to run in our CI.
 - **Backend/SDK programmatic testing**: see [TESTING.md](./TESTING.md) for spawning the local main-branch backend (`bun dev serve`) and driving it via `curl` — use this instead of `kilo serve` (prod binary) when testing backend fixes.
+- **F5 extension debugging**: inspect the effective workspace config first (for example `.kilo/kilo.jsonc`), especially the full `provider/model` value. `VSCode - Compile` bundles `packages/kilo-vscode/bin/kilo.exe`, and the Extension Development Host spawns it as `kilo serve`. CLI logs resolve from `Global.Path.log` to `%USERPROFILE%\\.local\\share\\kilo\\log` on Windows; child stdout/stderr is also forwarded by `server-manager.ts` to the Extension Host debug console. Check config before tracing a generic HTTP 500 through logs.
 
 ## Quality Checks
 

@@ -6,6 +6,8 @@ import { Select } from "@kilocode/kilo-ui/select"
 import { useConfig } from "../../context/config"
 import { useLanguage, LOCALES, LOCALE_LABELS } from "../../context/language"
 import type { Locale } from "../../context/language"
+import { parseModelString } from "../../../../src/shared/provider-model"
+import { ModelSelectorBase } from "../shared/ModelSelector"
 import SettingsRow from "./SettingsRow"
 
 const SYNC = "sync"
@@ -20,11 +22,17 @@ const CommitMessageTab: Component = () => {
 
   const [expanded, setExpanded] = createSignal(Boolean(config().commit_message?.prompt))
 
+  const updateCommitMessage = (value: { model?: string | null; prompt?: string }) => {
+    updateConfig({ commit_message: { ...config().commit_message, ...value } })
+  }
+
+  const selectModel = (providerID: string, modelID: string) => {
+    updateCommitMessage({ model: providerID && modelID ? `${providerID}/${modelID}` : null })
+  }
+
   const toggle = (checked: boolean) => {
     setExpanded(checked)
-    if (!checked) {
-      updateConfig({ commit_message: { prompt: "" } })
-    }
+    if (!checked) updateCommitMessage({ prompt: "" })
   }
 
   const label = (opt: Option) =>
@@ -40,6 +48,26 @@ const CommitMessageTab: Component = () => {
 
   return (
     <Card>
+      <div style={{ padding: "16px" }}>
+        <SettingsRow
+          title={language.t("settings.commitMessage.model.title")}
+          description={language.t("settings.commitMessage.model.description")}
+          last
+        >
+          <ModelSelectorBase
+            value={parseModelString(config().commit_message?.model ?? undefined)}
+            onSelect={selectModel}
+            placement="bottom-start"
+            allowClear
+            clearLabel={language.t("settings.providers.notSet")}
+            label={language.t("settings.commitMessage.model.title")}
+            description={language.t("settings.commitMessage.model.description")}
+          />
+        </SettingsRow>
+      </div>
+
+      <div style={{ "border-bottom": "1px solid var(--border-weak-base)" }} />
+
       <div style={{ padding: "16px" }}>
         <p style={{ "font-size": "var(--kilo-font-size-13)", "margin-bottom": "12px" }}>
           {language.t("settings.commitMessage.language.description")}
@@ -91,7 +119,7 @@ const CommitMessageTab: Component = () => {
                 placeholder={language.t("settings.commitMessage.prompt.placeholder")}
                 multiline
                 onChange={(val) => {
-                  updateConfig({ commit_message: { prompt: val } })
+                  updateCommitMessage({ prompt: val })
                 }}
               />
             </div>

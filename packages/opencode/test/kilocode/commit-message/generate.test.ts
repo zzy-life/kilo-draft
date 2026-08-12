@@ -162,6 +162,18 @@ describe("commit-message.generate", () => {
     })
   })
 
+  describe("model selection", () => {
+    test("uses the configured commit message model", async () => {
+      await generateCommitMessage({ path: "/repo", model: "deepseek/deepseek-chat" })
+      expect(model).toHaveBeenLastCalledWith("deepseek/deepseek-chat")
+    })
+
+    test("falls back when no commit message model is configured", async () => {
+      await generateCommitMessage({ path: "/repo" })
+      expect(model).toHaveBeenLastCalledWith(undefined)
+    })
+  })
+
   describe("custom prompt", () => {
     test("uses default prompt when no custom prompt provided", async () => {
       const result = await generateCommitMessage({ path: "/repo" })

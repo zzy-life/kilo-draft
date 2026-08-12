@@ -1,4 +1,4 @@
-import { Provider } from "@/provider/provider"
+import { Provider, parseModel } from "@/provider/provider"
 import { LLM } from "@/session/llm"
 import { KiloLLM } from "@/kilocode/session/llm"
 import { Agent } from "@/agent/agent"
@@ -21,10 +21,14 @@ export const CommitMessageRuntime = {
   context(repoPath: string, selectedFiles?: string[]) {
     return getGitContext(repoPath, selectedFiles)
   },
-  model() {
+  model(model?: string | null) {
     return AppRuntime.runPromise(
       Provider.Service.use((svc) =>
         Effect.gen(function* () {
+          if (model) {
+            const ref = parseModel(model)
+            return yield* svc.getModel(ref.providerID, ref.modelID)
+          }
           const ref = yield* svc.defaultModel()
           return (yield* svc.getSmallModel(ref.providerID)) ?? (yield* svc.getModel(ref.providerID, ref.modelID))
         }),
@@ -166,7 +170,7 @@ export async function generateCommitMessage(request: CommitMessageRequest): Prom
     files: ctx.files.length,
   })
 
-  const model = await CommitMessageRuntime.model()
+  const model = await CommitMessageRuntime.model(request.model)
 
   const agent: Agent.Info = {
     name: "commit-message",

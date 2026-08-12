@@ -5,6 +5,8 @@ export interface CommitMessageRequest {
   selectedFiles?: string[]
   /** Previously generated message — when set, the LLM is asked to produce a different one */
   previousMessage?: string
+  /** Optional model in provider/model format. Falls back to the default small model when omitted. */
+  model?: string | null
   /** Optional custom system prompt — overrides the default conventional commits prompt */
   prompt?: string
   /** Target language for the generated commit message (e.g. "zh", "en"). Falls back to English. */

@@ -1,0 +1,6 @@
+{
+  "$schema": "https://app.kilo.ai/config.json",
+  "commit_message": {
+    "model": "deepseek/deepseek-v4-flash"
+  }
+}

@@ -2672,6 +2672,7 @@ export type Config = {
     url?: string
   }
   commit_message?: {
+    model?: string
     prompt?: string
   }
   tool_output?: {

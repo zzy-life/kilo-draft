@@ -71,6 +71,7 @@ export interface SandboxConfig {
 }
 
 export interface CommitMessageConfig {
+  model?: string | null
   prompt?: string
 }
 
