@@ -34,7 +34,6 @@ import { useVSCode } from "../../context/vscode"
 import type { ModelSelection } from "../../types/messages"
 import { isEnterKeyCommitNotIme } from "../../utils/ime-enter"
 import {
-  KILO_GATEWAY_ID,
   isSmall,
   providerSortKey,
   isFree,
@@ -217,15 +216,12 @@ export const ModelSelectorBase: Component<ModelSelectorBaseProps> = (props) => {
     window.addEventListener("mouseup", onUp)
   }
 
-  // Only show models from Kilo Gateway or connected providers.
-  // kilo-auto/small is excluded unless includeAutoSmall is explicitly true.
+  // Custom catalogs are already constrained by their caller. The general
+  // catalog must only expose providers the user has actually configured.
   const visibleModels = createMemo(() => {
     if (props.models) return props.models
-    const c = connected()
-    return models().filter((m) => {
-      if (!props.includeAutoSmall && isSmall(m)) return false
-      return m.providerID === KILO_GATEWAY_ID || c.includes(m.providerID)
-    })
+    const c = new Set(connected())
+    return models().filter((m) => c.has(m.providerID) && (props.includeAutoSmall || !isSmall(m)))
   })
 
   const hasProviders = () => visibleModels().length > 0
@@ -1011,7 +1007,6 @@ export const ModelSelectorBase: Component<ModelSelectorBaseProps> = (props) => {
                           const hovered = () => isSelected(row.key)
                           const preActive = () => isPreActive(row.key)
                           const starred = () => favoriteKeys().has(modelKey(model.providerID, model.id))
-                          const showProvider = () => row.kind === "favorite" || hasSearch()
                           const showSelect = () => expanded() && preActive() && !isActive(model)
                           const starLabel = () =>
                             `${starred() ? language.t("model.favorite.remove") : language.t("model.favorite.add")}: ${sanitizeName(model.name)}`
@@ -1082,9 +1077,7 @@ export const ModelSelectorBase: Component<ModelSelectorBaseProps> = (props) => {
                                       </Show>
                                     </span>
                                   </Show>
-                                  <Show when={showProvider()}>
-                                    <span class="model-selector-item-provider-tag">{model.providerName}</span>
-                                  </Show>
+                                  <span class="model-selector-item-provider-tag">{model.providerName}</span>
                                 </div>
                               </div>
                               <Show when={session && props.favorites !== false}>

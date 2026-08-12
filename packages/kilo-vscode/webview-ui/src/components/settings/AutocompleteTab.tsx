@@ -1,8 +1,9 @@
-import { Component } from "solid-js"
+import { Component, createMemo } from "solid-js"
 import { Switch } from "@kilocode/kilo-ui/switch"
 import { Card } from "@kilocode/kilo-ui/card"
 import { useConfig } from "../../context/config"
 import { useLanguage } from "../../context/language"
+import { useProvider } from "../../context/provider"
 import { ModelSelectorBase } from "../shared/ModelSelector"
 import SettingsRow from "./SettingsRow"
 import { AUTOCOMPLETE_SELECTOR_MODELS, getAutocompleteSelection } from "./autocomplete-model-selector"
@@ -10,6 +11,11 @@ import { AUTOCOMPLETE_SELECTOR_MODELS, getAutocompleteSelection } from "./autoco
 const AutocompleteTab: Component = () => {
   const { settings, updateSetting } = useConfig()
   const language = useLanguage()
+  const provider = useProvider()
+  const models = createMemo(() => {
+    const connected = new Set(provider.connected())
+    return AUTOCOMPLETE_SELECTOR_MODELS.filter((model) => connected.has(model.providerID))
+  })
 
   const enabled = (key: string, fallback: boolean) => Boolean(settings()[key] ?? fallback)
   const autocompleteProvider = () => {
@@ -44,7 +50,7 @@ const AutocompleteTab: Component = () => {
             value={getAutocompleteSelection(autocompleteProvider(), autocompleteModel())}
             onSelect={selectModel}
             placement="bottom-start"
-            models={AUTOCOMPLETE_SELECTOR_MODELS}
+            models={models()}
             favorites={false}
             allowClear
             clearLabel={language.t("settings.providers.notSet")}
