@@ -1,6 +1,7 @@
 .husky/_
 .DS_Store
 .secrets/
+.claude/
 node_modules
 .worktrees
 .sst
