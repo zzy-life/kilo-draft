@@ -91,7 +91,6 @@ export const dict = {
   "agentRequirements.blocked.title": "{{agent}} ajanı ön koşulları",
   "agentRequirements.blocked.description": "Bu ajanın çalışmadan önce aşağıdaki araçlara ihtiyacı var.",
   "agentRequirements.prompt.blocked": "Bu ajanı kullanmak için önce gerekli denetimleri tamamlayın",
-  "agentRequirements.action.openMarketplace": "Marketplace’i Aç",
   "agentRequirements.error.unknownAgent": "Seçili ajan bulunamadı.",
   "agentRequirements.error.malformedDeclaration": "Bu ajanın geçersiz bir gereksinim bildirimi var.",
   "agentRequirements.error.discoveryFailed": "Kilo mevcut yetenekleri denetleyemedi.",
@@ -318,7 +317,6 @@ export const dict = {
   "sidebar.topBar.newTask": "Yeni Görev",
   "sidebar.topBar.history": "Geçmiş",
   "sidebar.topBar.agentManager": "Agent Manager",
-  "sidebar.topBar.marketplace": "Marketplace",
   "sidebar.topBar.profile": "Profil",
   "sidebar.topBar.settings": "Ayarlar",
   "sidebar.session.newSession": "Yeni Oturum",
@@ -950,7 +948,6 @@ export const dict = {
   "settings.agentBehaviour.addMcp.args.placeholder": "e.g.\n-y\n@modelcontextprotocol/server-filesystem\n/tmp",
   "settings.agentBehaviour.addMcp.url": "Sunucu URL'si",
   "settings.agentBehaviour.addMcp.url.placeholder": "e.g. http://localhost:3000/sse",
-  "settings.agentBehaviour.mcpBrowseMarketplace": "Marketplace'e Göz At",
   "settings.agentBehaviour.mcpEmpty":
     "Yapılandırılmış MCP sunucusu yok. kilo.jsonc dosyasına MCP sunucuları ekleyin veya ajanın eklemesini isteyin.",
   "settings.agentBehaviour.workflows.description":

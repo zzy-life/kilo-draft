@@ -6,8 +6,6 @@ import { DiffViewerProvider } from "./diff/DiffViewerProvider"
 import { DiffSourceCatalog } from "./diff/sources/catalog"
 import { DiffVirtualProvider } from "./DiffVirtualProvider"
 import { SettingsEditorProvider } from "./SettingsEditorProvider"
-import { MarketplacePanelProvider } from "./MarketplacePanelProvider"
-import { MarketplaceNotifier } from "./services/marketplace/notifier"
 import { SubAgentViewerProvider } from "./SubAgentViewerProvider"
 import { EXTENSION_DISPLAY_NAME } from "./constants"
 import { KiloConnectionService } from "./services/cli-backend"
@@ -115,8 +113,8 @@ export function activate(context: vscode.ExtensionContext) {
   }
 
   // Track all open tab panel providers so toolbar button commands can target them.
-  // NOTE: The editor/title toolbar for tab panels intentionally omits Agent Manager
-  // and Marketplace buttons (unlike the sidebar). Too many icons causes VS Code to
+  // NOTE: The editor/title toolbar for tab panels intentionally omits the Agent Manager
+  // button (unlike the sidebar). Too many icons causes VS Code to
   // collapse them into a "..." overflow menu, hiding important buttons like Settings.
   const tabPanels = new Map<vscode.WebviewPanel, KiloProvider>()
   const activeTabProvider = () => {
@@ -273,15 +271,7 @@ export function activate(context: vscode.ExtensionContext) {
   // Create standalone editor providers (open in editor area, not sidebar)
   const settingsEditorProvider = new SettingsEditorProvider(context.extensionUri, connectionService, context)
   settingsEditorProvider.setRemoteService(remoteService)
-  const marketplacePanelProvider = new MarketplacePanelProvider(context.extensionUri, connectionService, context)
-  context.subscriptions.push(settingsEditorProvider, marketplacePanelProvider)
-
-  // Surface a discardable notification when a marketplace item matches the workspace.
-  const marketplaceNotifier = new MarketplaceNotifier(connectionService, context, (item) =>
-    marketplacePanelProvider.openInstall(item),
-  )
-  context.subscriptions.push(marketplaceNotifier)
-  marketplaceNotifier.start()
+  context.subscriptions.push(settingsEditorProvider)
 
   // Create sub-agent viewer provider (read-only editor panel for sub-agent sessions)
   const subAgentViewerProvider = new SubAgentViewerProvider(context.extensionUri, connectionService, context)
@@ -299,15 +289,6 @@ export function activate(context: vscode.ExtensionContext) {
       }),
     )
   }
-
-  context.subscriptions.push(
-    vscode.window.registerWebviewPanelSerializer(MarketplacePanelProvider.viewType, {
-      deserializeWebviewPanel(panel: vscode.WebviewPanel) {
-        marketplacePanelProvider.deserializePanel(panel)
-        return Promise.resolve()
-      },
-    }),
-  )
 
   context.subscriptions.push(
     vscode.window.registerWebviewPanelSerializer(DiffViewerProvider.viewType, {
@@ -350,9 +331,6 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand("kilo-code.new.sidebarTitle.agentManagerOpen", () => {
       track("agent_manager", "kilo-code.new.agentManagerOpen")
     }),
-    vscode.commands.registerCommand("kilo-code.new.sidebarTitle.marketplaceButtonClicked", () => {
-      track("marketplace", "kilo-code.new.marketplaceButtonClicked")
-    }),
     vscode.commands.registerCommand("kilo-code.new.sidebarTitle.profileButtonClicked", () => {
       track("profile", "kilo-code.new.profileButtonClicked")
     }),
@@ -366,9 +344,6 @@ export function activate(context: vscode.ExtensionContext) {
     }),
     vscode.commands.registerCommand("kilo-code.new.agentManagerOpen", () => {
       agentManagerProvider.openPanel()
-    }),
-    vscode.commands.registerCommand("kilo-code.new.marketplaceButtonClicked", (directory?: string | null) => {
-      marketplacePanelProvider.openPanel(directory)
     }),
     vscode.commands.registerCommand("kilo-code.new.historyButtonClicked", () => {
       const tab = activeTabProvider()

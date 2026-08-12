@@ -91,7 +91,6 @@ export const dict = {
   "agentRequirements.blocked.title": "Preduslovi za agenta {{agent}}",
   "agentRequirements.blocked.description": "Ovom agentu su potrebni sljedeći alati prije pokretanja.",
   "agentRequirements.prompt.blocked": "Prvo dovršite potrebne provjere da biste koristili ovog agenta",
-  "agentRequirements.action.openMarketplace": "Otvori Marketplace",
   "agentRequirements.error.unknownAgent": "Odabrani agent nije pronađen.",
   "agentRequirements.error.malformedDeclaration": "Ovaj agent ima neispravnu deklaraciju zahtjeva.",
   "agentRequirements.error.discoveryFailed": "Kilo nije mogao provjeriti dostupne vještine.",
@@ -320,7 +319,6 @@ export const dict = {
   "sidebar.topBar.newTask": "Novi Zadatak",
   "sidebar.topBar.history": "Historija",
   "sidebar.topBar.agentManager": "Agent Manager",
-  "sidebar.topBar.marketplace": "Marketplace",
   "sidebar.topBar.profile": "Profil",
   "sidebar.topBar.settings": "Postavke",
   "sidebar.session.newSession": "Nova Sesija",
@@ -991,7 +989,6 @@ export const dict = {
   "settings.agentBehaviour.mcpDetail.command": "Naredba",
   "settings.agentBehaviour.mcpDetail.args": "Argumenti",
   "settings.agentBehaviour.mcpDetail.env": "Okruženje",
-  "settings.agentBehaviour.mcpBrowseMarketplace": "Pregledaj Marketplace",
   "settings.agentBehaviour.mcpEmpty":
     "Nema konfiguriranih MCP servera. Dodajte MCP servere u kilo.jsonc ili zamolite agenta da ih doda.",
   "settings.agentBehaviour.workflows.description":

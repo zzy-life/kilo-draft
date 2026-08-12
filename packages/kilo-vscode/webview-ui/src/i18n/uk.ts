@@ -91,7 +91,6 @@ export const dict = {
   "agentRequirements.blocked.title": "Передумови агента {{agent}}",
   "agentRequirements.blocked.description": "Цьому агенту потрібні такі інструменти, перш ніж він зможе працювати.",
   "agentRequirements.prompt.blocked": "Спочатку завершіть необхідні перевірки, щоб використати цього агента",
-  "agentRequirements.action.openMarketplace": "Відкрити Marketplace",
   "agentRequirements.error.unknownAgent": "Вибраного агента не знайдено.",
   "agentRequirements.error.malformedDeclaration": "Цей агент має недійсну декларацію вимог.",
   "agentRequirements.error.discoveryFailed": "Kilo не зміг перевірити доступні навички.",
@@ -322,7 +321,6 @@ export const dict = {
   "sidebar.topBar.newTask": "Нове завдання",
   "sidebar.topBar.history": "Історія",
   "sidebar.topBar.agentManager": "Agent Manager",
-  "sidebar.topBar.marketplace": "Маркетплейс",
   "sidebar.topBar.profile": "Профіль",
   "sidebar.topBar.settings": "Налаштування",
   "sidebar.session.newSession": "Нова сесія",
@@ -950,7 +948,6 @@ export const dict = {
   "settings.agentBehaviour.addMcp.args.placeholder": "напр.\n-y\n@modelcontextprotocol/server-filesystem\n/tmp",
   "settings.agentBehaviour.addMcp.url": "URL сервера",
   "settings.agentBehaviour.addMcp.url.placeholder": "напр. http://localhost:3000/sse",
-  "settings.agentBehaviour.mcpBrowseMarketplace": "Переглянути Marketplace",
   "settings.agentBehaviour.mcpEmpty":
     "MCP-серверів не налаштовано. Додайте MCP-сервери до kilo.jsonc або попросіть агента додати їх.",
   "settings.agentBehaviour.workflows.description":

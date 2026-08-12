@@ -88,7 +88,6 @@ export const dict = {
   "agentRequirements.blocked.title": "متطلبات وكيل {{agent}}",
   "agentRequirements.blocked.description": "يحتاج هذا الوكيل إلى الأدوات التالية قبل أن يتمكن من العمل.",
   "agentRequirements.prompt.blocked": "أكمل الفحوصات المطلوبة لاستخدام هذا الوكيل أولاً",
-  "agentRequirements.action.openMarketplace": "فتح Marketplace",
   "agentRequirements.error.unknownAgent": "تعذر العثور على الوكيل المحدد.",
   "agentRequirements.error.malformedDeclaration": "لدى هذا الوكيل تعريف متطلبات غير صالح.",
   "agentRequirements.error.discoveryFailed": "تعذر على Kilo فحص المهارات المتاحة.",
@@ -311,7 +310,6 @@ export const dict = {
   "sidebar.topBar.newTask": "مهمة جديدة",
   "sidebar.topBar.history": "السجل",
   "sidebar.topBar.agentManager": "مدير الوكلاء",
-  "sidebar.topBar.marketplace": "المتجر",
   "sidebar.topBar.profile": "الملف الشخصي",
   "sidebar.topBar.settings": "الإعدادات",
   "sidebar.session.newSession": "جلسة جديدة",
@@ -967,7 +965,6 @@ export const dict = {
   "settings.agentBehaviour.mcpDetail.command": "الأمر",
   "settings.agentBehaviour.mcpDetail.args": "الوسائط",
   "settings.agentBehaviour.mcpDetail.env": "البيئة",
-  "settings.agentBehaviour.mcpBrowseMarketplace": "تصفح Marketplace",
   "settings.agentBehaviour.mcpEmpty":
     "لم يتم تهيئة خوادم MCP. أضف خوادم MCP في kilo.jsonc، أو اطلب من الوكيل إضافتها لك.",
   "settings.agentBehaviour.workflows.description":

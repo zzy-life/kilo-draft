@@ -89,7 +89,6 @@ export const dict = {
   "agentRequirements.blocked.title": "{{agent}} 代理前置需求",
   "agentRequirements.blocked.description": "此代理需要以下工具後才能執行。",
   "agentRequirements.prompt.blocked": "請先完成必要檢查，才能使用此代理",
-  "agentRequirements.action.openMarketplace": "開啟 Marketplace",
   "agentRequirements.error.unknownAgent": "找不到所選代理。",
   "agentRequirements.error.malformedDeclaration": "此代理的需求宣告無效。",
   "agentRequirements.error.discoveryFailed": "Kilo 無法檢查可用技能。",
@@ -304,7 +303,6 @@ export const dict = {
   "sidebar.topBar.newTask": "新建任務",
   "sidebar.topBar.history": "歷史記錄",
   "sidebar.topBar.agentManager": "代理管理器",
-  "sidebar.topBar.marketplace": "市集",
   "sidebar.topBar.profile": "個人資料",
   "sidebar.topBar.settings": "設定",
   "sidebar.session.newSession": "新會話",
@@ -906,7 +904,6 @@ export const dict = {
   "settings.agentBehaviour.mcpDetail.command": "指令",
   "settings.agentBehaviour.mcpDetail.args": "引數",
   "settings.agentBehaviour.mcpDetail.env": "環境",
-  "settings.agentBehaviour.mcpBrowseMarketplace": "瀏覽市場",
   "settings.agentBehaviour.mcpEmpty": "未設定 MCP 伺服器。在 kilo.jsonc 中新增 MCP 伺服器，或請代理為您新增。",
   "settings.agentBehaviour.workflows.description":
     "工作流程是在設定中定義的自訂斜線命令。在聊天中輸入 /command-name 來呼叫它們。命令在 opencode.json 的 'command' 區段中設定。",

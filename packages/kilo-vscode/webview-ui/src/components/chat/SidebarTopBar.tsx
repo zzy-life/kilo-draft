@@ -1,6 +1,6 @@
 /**
- * Renders New Task, History, Agent Manager, Marketplace, Profile, and
- * Settings inside the webview, as a fallback for Cursor only (see isCursorHost()
+ * Renders New Task, History, Agent Manager, Profile, and Settings inside the
+ * webview, as a fallback for Cursor only (see isCursorHost()
  * in src/utils.ts). Cursor's Secondary Side Bar support is unreliable for
  * extension-contributed `view/title` toolbars, which render outside the webview
  * DOM with no API to detect or work around the failure. Real VS Code renders the
@@ -22,7 +22,7 @@ export interface SidebarTopBarProps {
 }
 
 /** Codicon names used below. */
-type Codicon = "add" | "history" | "organization" | "extensions" | "account" | "settings-gear"
+type Codicon = "add" | "history" | "organization" | "account" | "settings-gear"
 
 interface Action {
   key: string
@@ -43,15 +43,12 @@ export const SidebarTopBar: Component<SidebarTopBarProps> = (props) => {
       properties: { button, surface: props.surface },
     })
 
-  const open = (
-    type: "openAgentManager" | "openMarketplacePanel" | "openProfilePanel" | "openSettingsPanel",
-  ) => vscode.postMessage({ type })
+  const open = (type: "openAgentManager" | "openProfilePanel" | "openSettingsPanel") => vscode.postMessage({ type })
 
   const actions: Action[] = [
     { key: "newTask", codicon: "add", button: "new_task", run: () => props.onNewTask() },
     { key: "history", codicon: "history", button: "history", run: () => props.onHistory() },
     { key: "agentManager", codicon: "organization", button: "agent_manager", run: () => open("openAgentManager") },
-    { key: "marketplace", codicon: "extensions", button: "marketplace", run: () => open("openMarketplacePanel") },
     { key: "profile", codicon: "account", button: "profile", run: () => open("openProfilePanel") },
     { key: "settings", codicon: "settings-gear", button: "settings", run: () => open("openSettingsPanel") },
   ]

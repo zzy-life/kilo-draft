@@ -90,7 +90,6 @@ export const dict = {
   "agentRequirements.blocked.title": "ข้อกำหนดเบื้องต้นของเอเจนต์ {{agent}}",
   "agentRequirements.blocked.description": "เอเจนต์นี้ต้องใช้เครื่องมือต่อไปนี้ก่อนจึงจะทำงานได้",
   "agentRequirements.prompt.blocked": "ทำการตรวจสอบที่จำเป็นให้เสร็จก่อนเพื่อใช้เอเจนต์นี้",
-  "agentRequirements.action.openMarketplace": "เปิด Marketplace",
   "agentRequirements.error.unknownAgent": "ไม่พบเอเจนต์ที่เลือก",
   "agentRequirements.error.malformedDeclaration": "เอเจนต์นี้มีการประกาศข้อกำหนดที่ไม่ถูกต้อง",
   "agentRequirements.error.discoveryFailed": "Kilo ไม่สามารถตรวจสอบสกิลที่มีอยู่ได้",
@@ -317,7 +316,6 @@ export const dict = {
   "sidebar.topBar.newTask": "งานใหม่",
   "sidebar.topBar.history": "ประวัติ",
   "sidebar.topBar.agentManager": "ตัวจัดการเอเจนต์",
-  "sidebar.topBar.marketplace": "มาร์เก็ตเพลส",
   "sidebar.topBar.profile": "โปรไฟล์",
   "sidebar.topBar.settings": "การตั้งค่า",
   "sidebar.session.newSession": "เซสชันใหม่",
@@ -974,7 +972,6 @@ export const dict = {
   "settings.agentBehaviour.mcpDetail.command": "คำสั่ง",
   "settings.agentBehaviour.mcpDetail.args": "อาร์กิวเมนต์",
   "settings.agentBehaviour.mcpDetail.env": "สภาพแวดล้อม",
-  "settings.agentBehaviour.mcpBrowseMarketplace": "เรียกดู Marketplace",
   "settings.agentBehaviour.mcpEmpty":
     "ไม่ได้กำหนดค่าเซิร์ฟเวอร์ MCP เพิ่มเซิร์ฟเวอร์ MCP ใน kilo.jsonc หรือขอให้เอเจนต์เพิ่มให้คุณ",
   "settings.agentBehaviour.workflows.description":

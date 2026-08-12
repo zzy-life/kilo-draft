@@ -118,12 +118,6 @@
         "icon": "$(organization)"
       },
       {
-        "command": "kilo-code.new.marketplaceButtonClicked",
-        "title": "Marketplace",
-        "category": "Kilo Code",
-        "icon": "$(extensions)"
-      },
-      {
         "command": "kilo-code.new.historyButtonClicked",
         "title": "History",
         "category": "Kilo Code",
@@ -150,11 +144,6 @@
         "command": "kilo-code.new.sidebarTitle.agentManagerOpen",
         "title": "Agent Manager",
         "icon": "$(organization)"
-      },
-      {
-        "command": "kilo-code.new.sidebarTitle.marketplaceButtonClicked",
-        "title": "Marketplace",
-        "icon": "$(extensions)"
       },
       {
         "command": "kilo-code.new.sidebarTitle.historyButtonClicked",
@@ -483,10 +472,6 @@
           "when": "false"
         },
         {
-          "command": "kilo-code.new.sidebarTitle.marketplaceButtonClicked",
-          "when": "false"
-        },
-        {
           "command": "kilo-code.new.sidebarTitle.profileButtonClicked",
           "when": "false"
         },
@@ -509,11 +494,6 @@
         {
           "command": "kilo-code.new.sidebarTitle.agentManagerOpen",
           "group": "navigation@2",
-          "when": "view == kilo-code.SidebarProvider && !kilo-code.new.isCursor"
-        },
-        {
-          "command": "kilo-code.new.sidebarTitle.marketplaceButtonClicked",
-          "group": "navigation@3",
           "when": "view == kilo-code.SidebarProvider && !kilo-code.new.isCursor"
         },
         {

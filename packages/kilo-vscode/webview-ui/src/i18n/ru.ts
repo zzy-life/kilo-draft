@@ -91,7 +91,6 @@ export const dict = {
   "agentRequirements.blocked.title": "Требования агента {{agent}}",
   "agentRequirements.blocked.description": "Этому агенту нужны следующие инструменты перед запуском.",
   "agentRequirements.prompt.blocked": "Сначала выполните необходимые проверки, чтобы использовать этого агента",
-  "agentRequirements.action.openMarketplace": "Открыть Marketplace",
   "agentRequirements.error.unknownAgent": "Выбранный агент не найден.",
   "agentRequirements.error.malformedDeclaration": "У этого агента недопустимое объявление требований.",
   "agentRequirements.error.discoveryFailed": "Kilo не смог проверить доступные навыки.",
@@ -317,7 +316,6 @@ export const dict = {
   "sidebar.topBar.newTask": "Новая задача",
   "sidebar.topBar.history": "История",
   "sidebar.topBar.agentManager": "Agent Manager",
-  "sidebar.topBar.marketplace": "Маркетплейс",
   "sidebar.topBar.profile": "Профиль",
   "sidebar.topBar.settings": "Настройки",
   "sidebar.session.newSession": "Новая сессия",
@@ -987,7 +985,6 @@ export const dict = {
   "settings.agentBehaviour.mcpDetail.command": "Команда",
   "settings.agentBehaviour.mcpDetail.args": "Аргументы",
   "settings.agentBehaviour.mcpDetail.env": "Окружение",
-  "settings.agentBehaviour.mcpBrowseMarketplace": "Обзор Marketplace",
   "settings.agentBehaviour.mcpEmpty":
     "MCP-серверы не настроены. Добавьте MCP-серверы в kilo.jsonc или попросите агента добавить их.",
   "settings.agentBehaviour.workflows.description":

@@ -91,7 +91,6 @@ export const dict = {
   "agentRequirements.blocked.title": "Forudsætninger for {{agent}}-agenten",
   "agentRequirements.blocked.description": "Denne agent skal have følgende værktøjer, før den kan køre.",
   "agentRequirements.prompt.blocked": "Fuldfør først de krævede kontroller for at bruge denne agent",
-  "agentRequirements.action.openMarketplace": "Åbn Marketplace",
   "agentRequirements.error.unknownAgent": "Den valgte agent blev ikke fundet.",
   "agentRequirements.error.malformedDeclaration": "Denne agent har en ugyldig kravdeklaration.",
   "agentRequirements.error.discoveryFailed": "Kilo kunne ikke kontrollere de tilgængelige skills.",
@@ -318,7 +317,6 @@ export const dict = {
   "sidebar.topBar.newTask": "Ny Opgave",
   "sidebar.topBar.history": "Historik",
   "sidebar.topBar.agentManager": "Agent Manager",
-  "sidebar.topBar.marketplace": "Markedsplads",
   "sidebar.topBar.profile": "Profil",
   "sidebar.topBar.settings": "Indstillinger",
   "sidebar.session.newSession": "Ny Session",
@@ -989,7 +987,6 @@ export const dict = {
   "settings.agentBehaviour.mcpDetail.command": "Kommando",
   "settings.agentBehaviour.mcpDetail.args": "Argumenter",
   "settings.agentBehaviour.mcpDetail.env": "Miljø",
-  "settings.agentBehaviour.mcpBrowseMarketplace": "Gennemse Marketplace",
   "settings.agentBehaviour.mcpEmpty":
     "Ingen MCP-servere konfigureret. Tilføj MCP-servere i kilo.jsonc, eller bed agenten om at tilføje dem.",
   "settings.agentBehaviour.workflows.description":

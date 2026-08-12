@@ -92,7 +92,6 @@ export const dict = {
   "agentRequirements.blocked.description":
     "Este agente necesita las siguientes herramientas antes de poder ejecutarse.",
   "agentRequirements.prompt.blocked": "Completa primero las comprobaciones requeridas para usar este agente",
-  "agentRequirements.action.openMarketplace": "Abrir Marketplace",
   "agentRequirements.error.unknownAgent": "No se pudo encontrar el agente seleccionado.",
   "agentRequirements.error.malformedDeclaration": "Este agente tiene una declaración de requisitos no válida.",
   "agentRequirements.error.discoveryFailed": "Kilo no pudo comprobar las habilidades disponibles.",
@@ -322,7 +321,6 @@ export const dict = {
   "sidebar.topBar.newTask": "Nueva Tarea",
   "sidebar.topBar.history": "Historial",
   "sidebar.topBar.agentManager": "Agent Manager",
-  "sidebar.topBar.marketplace": "Marketplace",
   "sidebar.topBar.profile": "Perfil",
   "sidebar.topBar.settings": "Configuración",
   "sidebar.session.newSession": "Nueva Sesión",
@@ -1004,7 +1002,6 @@ export const dict = {
   "settings.agentBehaviour.mcpDetail.command": "Comando",
   "settings.agentBehaviour.mcpDetail.args": "Argumentos",
   "settings.agentBehaviour.mcpDetail.env": "Entorno",
-  "settings.agentBehaviour.mcpBrowseMarketplace": "Explorar Marketplace",
   "settings.agentBehaviour.mcpEmpty":
     "No hay servidores MCP configurados. Añada servidores MCP en kilo.jsonc o pida al agente que los añada.",
   "settings.agentBehaviour.workflows.description":

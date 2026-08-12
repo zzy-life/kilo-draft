@@ -272,7 +272,6 @@ function getWebviewsConfig() {
   return {
     entryPoints: {
       "agent-manager": "webview-ui/agent-manager/index.tsx",
-      marketplace: "webview-ui/marketplace/index.tsx",
       "diff-viewer": "webview-ui/diff-viewer/index.tsx",
       "diff-virtual": "webview-ui/diff-virtual/index.tsx",
       webview: "webview-ui/src/index.tsx",

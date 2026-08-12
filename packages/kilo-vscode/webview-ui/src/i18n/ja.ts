@@ -91,7 +91,6 @@ export const dict = {
   "agentRequirements.blocked.title": "{{agent}} エージェントの前提条件",
   "agentRequirements.blocked.description": "このエージェントを実行するには、次のツールが必要です。",
   "agentRequirements.prompt.blocked": "このエージェントを使用するには、先に必要な確認を完了してください",
-  "agentRequirements.action.openMarketplace": "Marketplace を開く",
   "agentRequirements.error.unknownAgent": "選択したエージェントが見つかりませんでした。",
   "agentRequirements.error.malformedDeclaration": "このエージェントの要件宣言は無効です。",
   "agentRequirements.error.discoveryFailed": "Kilo は利用可能なスキルを確認できませんでした。",
@@ -318,7 +317,6 @@ export const dict = {
   "sidebar.topBar.newTask": "新規タスク",
   "sidebar.topBar.history": "履歴",
   "sidebar.topBar.agentManager": "エージェントマネージャー",
-  "sidebar.topBar.marketplace": "マーケットプレイス",
   "sidebar.topBar.profile": "プロフィール",
   "sidebar.topBar.settings": "設定",
   "sidebar.session.newSession": "新規セッション",
@@ -984,7 +982,6 @@ export const dict = {
   "settings.agentBehaviour.mcpDetail.command": "コマンド",
   "settings.agentBehaviour.mcpDetail.args": "引数",
   "settings.agentBehaviour.mcpDetail.env": "環境",
-  "settings.agentBehaviour.mcpBrowseMarketplace": "マーケットプレイスを閲覧",
   "settings.agentBehaviour.mcpEmpty":
     "MCPサーバーが設定されていません。kilo.jsoncでMCPサーバーを追加するか、エージェントに追加を依頼してください。",
   "settings.agentBehaviour.workflows.description":

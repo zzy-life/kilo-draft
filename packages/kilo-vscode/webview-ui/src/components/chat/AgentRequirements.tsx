@@ -1,7 +1,6 @@
 /** @jsxImportSource solid-js */
 
 import { For, Show, type Component } from "solid-js"
-import { Button } from "@kilocode/kilo-ui/button"
 import { Card } from "@kilocode/kilo-ui/card"
 import { Icon } from "@kilocode/kilo-ui/icon"
 import { useAgentRequirements } from "../../context/agent-requirements"
@@ -20,19 +19,12 @@ export const AgentRequirements: Component = () => {
   const mcps = () => result()?.mcps ?? []
   const extensions = () => result()?.vscode_extensions ?? []
   const total = () => skills().length + mcps().length + extensions().length
-  const marketplace = () =>
-    skills().some((item) => item.status !== "ready") || mcps().some((item) => item.status !== "ready")
   const tools = () => {
     if (skills().length && mcps().length) {
       return `${language.t("agentRequirements.group.skills")} / ${language.t("agentRequirements.group.mcps")}`
     }
     if (skills().length) return language.t("agentRequirements.group.skills")
     return language.t("agentRequirements.group.mcps")
-  }
-  const open = () => {
-    const current = result()
-    if (!current) return
-    vscode.postMessage({ type: "openMarketplacePanel", directory: current.directory })
   }
   const title = () =>
     (result()?.agent ?? "")
@@ -141,13 +133,6 @@ export const AgentRequirements: Component = () => {
                           )}
                         </For>
                       </ul>
-                    </div>
-                  </Show>
-                  <Show when={marketplace()}>
-                    <div class="agent-requirements-actions">
-                      <Button variant="primary" onClick={open}>
-                        {language.t("agentRequirements.action.openMarketplace")}
-                      </Button>
                     </div>
                   </Show>
                 </div>

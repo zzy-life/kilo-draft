@@ -90,7 +90,6 @@ export const dict = {
   "agentRequirements.blocked.title": "{{agent}} agent prerequisites",
   "agentRequirements.blocked.description": "This agent needs the following tools before it can run.",
   "agentRequirements.prompt.blocked": "Complete the required checks to use this agent first",
-  "agentRequirements.action.openMarketplace": "Open Marketplace",
   "agentRequirements.error.unknownAgent": "The selected agent could not be found.",
   "agentRequirements.error.malformedDeclaration": "This agent has an invalid requirement declaration.",
   "agentRequirements.error.discoveryFailed": "Kilo could not check the available skills.",
@@ -677,7 +676,6 @@ export const dict = {
   "sidebar.topBar.newTask": "New Task",
   "sidebar.topBar.history": "History",
   "sidebar.topBar.agentManager": "Agent Manager",
-  "sidebar.topBar.marketplace": "Marketplace",
   "sidebar.topBar.profile": "Profile",
   "sidebar.topBar.settings": "Settings",
   "sidebar.session.newSession": "New Session",
@@ -927,7 +925,6 @@ export const dict = {
   "settings.agentBehaviour.addMcp.args.placeholder": "e.g.\n-y\n@modelcontextprotocol/server-filesystem\n/tmp",
   "settings.agentBehaviour.addMcp.url": "Server URL",
   "settings.agentBehaviour.addMcp.url.placeholder": "e.g. http://localhost:3000/sse",
-  "settings.agentBehaviour.mcpBrowseMarketplace": "Browse Marketplace",
   "settings.agentBehaviour.mcpEmpty":
     "No MCP servers configured. Add MCP servers in kilo.jsonc, or ask the agent to add them for you.",
   "settings.agentBehaviour.workflows.description":

@@ -92,7 +92,6 @@ export const dict = {
   "agentRequirements.blocked.description":
     "Deze agent heeft de volgende tools nodig voordat deze kan worden uitgevoerd.",
   "agentRequirements.prompt.blocked": "Voltooi eerst de vereiste controles om deze agent te gebruiken",
-  "agentRequirements.action.openMarketplace": "Marketplace openen",
   "agentRequirements.error.unknownAgent": "De geselecteerde agent kon niet worden gevonden.",
   "agentRequirements.error.malformedDeclaration": "Deze agent heeft een ongeldige vereistenverklaring.",
   "agentRequirements.error.discoveryFailed": "Kilo kon de beschikbare skills niet controleren.",
@@ -323,7 +322,6 @@ export const dict = {
   "sidebar.topBar.newTask": "Nieuwe Taak",
   "sidebar.topBar.history": "Geschiedenis",
   "sidebar.topBar.agentManager": "Agent Manager",
-  "sidebar.topBar.marketplace": "Marketplace",
   "sidebar.topBar.profile": "Profiel",
   "sidebar.topBar.settings": "Instellingen",
   "sidebar.session.newSession": "Nieuwe Sessie",
@@ -962,7 +960,6 @@ export const dict = {
   "settings.agentBehaviour.addMcp.args.placeholder": "e.g.\n-y\n@modelcontextprotocol/server-filesystem\n/tmp",
   "settings.agentBehaviour.addMcp.url": "Server-URL",
   "settings.agentBehaviour.addMcp.url.placeholder": "e.g. http://localhost:3000/sse",
-  "settings.agentBehaviour.mcpBrowseMarketplace": "Bladeren door Marketplace",
   "settings.agentBehaviour.mcpEmpty":
     "Geen MCP-servers geconfigureerd. Voeg MCP-servers toe in kilo.jsonc of vraag de agent om ze toe te voegen.",
   "settings.agentBehaviour.workflows.description":

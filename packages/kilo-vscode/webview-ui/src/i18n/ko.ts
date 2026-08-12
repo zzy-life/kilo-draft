@@ -95,7 +95,6 @@ export const dict = {
   "agentRequirements.blocked.title": "{{agent}} 에이전트 필수 조건",
   "agentRequirements.blocked.description": "이 에이전트를 실행하려면 다음 도구가 필요합니다.",
   "agentRequirements.prompt.blocked": "이 에이전트를 사용하려면 먼저 필요한 확인을 완료하세요",
-  "agentRequirements.action.openMarketplace": "Marketplace 열기",
   "agentRequirements.error.unknownAgent": "선택한 에이전트를 찾을 수 없습니다.",
   "agentRequirements.error.malformedDeclaration": "이 에이전트의 요구 사항 선언이 올바르지 않습니다.",
   "agentRequirements.error.discoveryFailed": "Kilo가 사용 가능한 스킬을 확인하지 못했습니다.",
@@ -319,7 +318,6 @@ export const dict = {
   "sidebar.topBar.newTask": "새 작업",
   "sidebar.topBar.history": "기록",
   "sidebar.topBar.agentManager": "에이전트 관리자",
-  "sidebar.topBar.marketplace": "마켓플레이스",
   "sidebar.topBar.profile": "프로필",
   "sidebar.topBar.settings": "설정",
   "sidebar.session.newSession": "새 세션",
@@ -978,7 +976,6 @@ export const dict = {
   "settings.agentBehaviour.mcpDetail.command": "명령어",
   "settings.agentBehaviour.mcpDetail.args": "인수",
   "settings.agentBehaviour.mcpDetail.env": "환경",
-  "settings.agentBehaviour.mcpBrowseMarketplace": "마켓플레이스 둘러보기",
   "settings.agentBehaviour.mcpEmpty":
     "MCP 서버가 구성되지 않았습니다. kilo.jsonc에서 MCP 서버를 추가하거나 에이전트에게 추가를 요청하세요.",
   "settings.agentBehaviour.workflows.description":

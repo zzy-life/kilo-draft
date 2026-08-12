@@ -560,7 +560,6 @@ export const dict = {
   "sidebar.topBar.newTask": "Nuova Attività",
   "sidebar.topBar.history": "Cronologia",
   "sidebar.topBar.agentManager": "Agent Manager",
-  "sidebar.topBar.marketplace": "Marketplace",
   "sidebar.topBar.profile": "Profilo",
   "sidebar.topBar.settings": "Impostazioni",
   "sidebar.session.newSession": "Nuova sessione",
@@ -814,7 +813,6 @@ export const dict = {
   "settings.agentBehaviour.addMcp.args.placeholder": "es.\n-y\n@modelcontextprotocol/server-filesystem\n/tmp",
   "settings.agentBehaviour.addMcp.url": "URL server",
   "settings.agentBehaviour.addMcp.url.placeholder": "es. http://localhost:3000/sse",
-  "settings.agentBehaviour.mcpBrowseMarketplace": "Sfoglia Marketplace",
   "settings.agentBehaviour.mcpEmpty":
     "Nessun server MCP configurato. Aggiungi server MCP in kilo.jsonc, o chiedi all'agente di aggiungerli per te.",
   "settings.agentBehaviour.workflows.description":
@@ -1091,7 +1089,7 @@ export const dict = {
   "notifications.action.tryModel": "Prova {{model}}",
   "notifications.action.tryModelGeneric": "Prova modello",
 
-  // Marketplace agents (replaces modes)
+  // Agent settings
   "settings.agentBehaviour.noAgentsFound": "Nessun agente trovato.",
   "settings.agentBehaviour.removeAgent.title": "Rimuovi agente",
   "settings.agentBehaviour.removeAgent.confirm":
@@ -1210,7 +1208,6 @@ export const dict = {
   "agentRequirements.blocked.description":
     "Questo agente richiede i seguenti strumenti prima di poter essere eseguito.",
   "agentRequirements.prompt.blocked": "Completa prima i controlli richiesti per usare questo agente",
-  "agentRequirements.action.openMarketplace": "Apri Marketplace",
   "agentRequirements.error.unknownAgent": "Impossibile trovare l’agente selezionato.",
   "agentRequirements.error.malformedDeclaration": "Questo agente ha una dichiarazione dei requisiti non valida.",
   "agentRequirements.error.discoveryFailed": "Kilo non ha potuto controllare le skill disponibili.",

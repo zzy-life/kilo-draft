@@ -50,7 +50,7 @@ import {
 } from "./kilo-provider-utils"
 import { GitOps } from "./agent-manager/GitOps"
 import { GitStatsPoller, type LocalStats } from "./agent-manager/GitStatsPoller"
-import { createMarketplaceRemover, removeMcp } from "./kilo-provider/remove-config-item"
+import { removeMcp } from "./kilo-provider/remove-config-item"
 import { AgentRequirementsController } from "./kilo-provider/agent-requirements-controller"
 import type { RemoteStatusService } from "./services/RemoteStatusService"
 import { resolveProjectDirectory } from "./project-directory"
@@ -429,7 +429,6 @@ export class KiloProvider implements vscode.WebviewViewProvider, TelemetryProper
   private viewStateDisposable: vscode.Disposable | null = null
   private visibilityDisposable: vscode.Disposable | null = null
   private autoApproveBridge: ReturnType<typeof createAutoApproveBridge> | null = null
-  private readonly marketplaceRemove = createMarketplaceRemover()
 
   private ignoreController: FileIgnoreController | null = null
   private ignoreControllerDir: string | null = null
@@ -610,14 +609,6 @@ export class KiloProvider implements vscode.WebviewViewProvider, TelemetryProper
     })
   }
 
-  private openMarketplacePanel(directory: unknown): void {
-    if (typeof directory === "string" && directory) {
-      vscode.commands.executeCommand("kilo-code.new.marketplaceButtonClicked", directory)
-      return
-    }
-    vscode.commands.executeCommand("kilo-code.new.marketplaceButtonClicked", this.projectDirectory)
-  }
-
   // Strip metadata unused by the webview to keep session switches fast.
   // Logic in kilo-provider/slim-metadata.ts.
   private slimInfo<T>(info: T): T {
@@ -652,7 +643,6 @@ export class KiloProvider implements vscode.WebviewViewProvider, TelemetryProper
       connection: this.connectionService,
       project: () => this.getProjectDirectory(this.currentSession?.id),
       directory: () => this.getWorkspaceDirectory(),
-      remove: this.marketplaceRemove,
       refresh: async () => {
         this.cachedAgentsMessage = null
         this.cachedConfigMessage = null
@@ -1200,9 +1190,6 @@ export class KiloProvider implements vscode.WebviewViewProvider, TelemetryProper
           break
         case "openConfigFile":
           await openConfig(message.scope, message.labels, this.getProjectDirectory(this.currentSession?.id))
-          break
-        case "openMarketplacePanel":
-          this.openMarketplacePanel(message.directory)
           break
         case "forkSession":
           handleForkSession(this.forkCtx, message.sessionId, message.messageId).catch((e) =>
@@ -4069,7 +4056,6 @@ export class KiloProvider implements vscode.WebviewViewProvider, TelemetryProper
     await this.extensionContext?.globalState.update("modelUsage", undefined)
     await this.extensionContext?.globalState.update("kilo.dismissedNotificationIds", undefined)
     await this.extensionContext?.globalState.update("kilo.agentMigrationBannerDismissed", undefined)
-    await this.extensionContext?.globalState.update("kilo.marketplace.dismissedSuggestions", undefined)
 
     // Re-send all settings to the webview so the UI reflects the reset
     this.postMessage(buildAutocompleteSettingsMessage())

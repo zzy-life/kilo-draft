@@ -91,7 +91,6 @@ export const dict = {
   "agentRequirements.blocked.title": "پیش‌نیازهای عامل {{agent}}",
   "agentRequirements.blocked.description": "این عامل پیش از اجرا به ابزارهای زیر نیاز دارد.",
   "agentRequirements.prompt.blocked": "ابتدا بررسی‌های لازم را تکمیل کنید تا بتوانید از این عامل استفاده کنید",
-  "agentRequirements.action.openMarketplace": "باز کردن Marketplace",
   "agentRequirements.error.unknownAgent": "عامل انتخاب‌شده یافت نشد.",
   "agentRequirements.error.malformedDeclaration": "این عامل دارای اعلان پیش‌نیاز نامعتبر است.",
   "agentRequirements.error.discoveryFailed": "Kilo نتوانست مهارت‌های موجود را بررسی کند.",
@@ -681,7 +680,6 @@ export const dict = {
   "sidebar.topBar.newTask": "وظیفه جدید",
   "sidebar.topBar.history": "تاریخچه",
   "sidebar.topBar.agentManager": "مدیر عامل‌ها",
-  "sidebar.topBar.marketplace": "بازارچه",
   "sidebar.topBar.profile": "پروفایل",
   "sidebar.topBar.settings": "تنظیمات",
   "sidebar.session.newSession": "جلسه جدید",
@@ -935,7 +933,6 @@ export const dict = {
   "settings.agentBehaviour.addMcp.args.placeholder": "مثلاً\n-y\n@modelcontextprotocol/server-filesystem\n/tmp",
   "settings.agentBehaviour.addMcp.url": "URL سرور",
   "settings.agentBehaviour.addMcp.url.placeholder": "مثلاً http://localhost:3000/sse",
-  "settings.agentBehaviour.mcpBrowseMarketplace": "مرور Marketplace",
   "settings.agentBehaviour.mcpEmpty":
     "هیچ سرور MCP پیکربندی نشده است. سرورهای MCP را در kilo.jsonc اضافه کنید، یا از agent بخواهید آن‌ها را برایتان اضافه کند.",
   "settings.agentBehaviour.workflows.description":
