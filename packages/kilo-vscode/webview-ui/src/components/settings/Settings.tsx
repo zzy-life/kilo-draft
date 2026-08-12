@@ -11,6 +11,9 @@ import { useSession } from "../../context/session"
 import ProvidersTab from "./ProvidersTab"
 import AutocompleteTab from "./AutocompleteTab"
 import CommitMessageTab from "./CommitMessageTab"
+import LanguageTab from "./LanguageTab"
+import AboutKiloCodeTab from "./AboutKiloCodeTab"
+import { useServer } from "../../context/server"
 import type { MigrationSource } from "../../types/messages"
 import { configMessage } from "../../utils/open-config"
 
@@ -21,11 +24,12 @@ export interface SettingsProps {
 }
 
 const Settings: Component<SettingsProps> = (props) => {
+  const server = useServer()
   const language = useLanguage()
   const vscode = useVSCode()
   const { isDirty, saving, saveError, saveConfig, discardConfig } = useConfig()
   const session = useSession()
-  const visibleTabs = new Set(["providers", "autocomplete", "commitMessage"])
+  const visibleTabs = new Set(["providers", "autocomplete", "commitMessage", "language", "aboutKiloCode"])
   const initialTab = props.tab && visibleTabs.has(props.tab) ? props.tab : "providers"
   const [active, setActive] = createSignal(initialTab)
   const [errorExpanded, setErrorExpanded] = createSignal(false)
@@ -121,6 +125,14 @@ const Settings: Component<SettingsProps> = (props) => {
             <Icon name="edit" />
             <span class="label">{language.t("settings.commitMessage.title")}</span>
           </Tabs.Trigger>
+          <Tabs.Trigger value="language" aria-label={language.t("settings.language.title")}>
+            <Icon name="speech-bubble" />
+            <span class="label">{language.t("settings.language.title")}</span>
+          </Tabs.Trigger>
+          <Tabs.Trigger value="aboutKiloCode" aria-label={language.t("settings.aboutKiloCode.title")}>
+            <Icon name="help" />
+            <span class="label">{language.t("settings.aboutKiloCode.title")}</span>
+          </Tabs.Trigger>
         </Tabs.List>
 
         <Tabs.Content value="providers">
@@ -134,6 +146,19 @@ const Settings: Component<SettingsProps> = (props) => {
         <Tabs.Content value="commitMessage">
           <h3>{language.t("settings.commitMessage.title")}</h3>
           <CommitMessageTab />
+        </Tabs.Content>
+        <Tabs.Content value="language">
+          <h3>{language.t("settings.language.title")}</h3>
+          <LanguageTab />
+        </Tabs.Content>
+        <Tabs.Content value="aboutKiloCode">
+          <h3>{language.t("settings.aboutKiloCode.title")}</h3>
+          <AboutKiloCodeTab
+            port={server.serverInfo()?.port ?? null}
+            connectionState={server.connectionState()}
+            extensionVersion={server.extensionVersion()}
+            onMigrationClick={props.onMigrationClick}
+          />
         </Tabs.Content>
       </Tabs>
 
