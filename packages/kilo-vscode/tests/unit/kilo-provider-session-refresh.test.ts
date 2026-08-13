@@ -93,7 +93,6 @@ function createConnection(client: ReturnType<typeof createClient>) {
     onNotificationDismissed: () => () => undefined,
     onLanguageChanged: () => () => undefined,
     onProfileChanged: () => () => undefined,
-    onMigrationComplete: () => () => undefined,
     onFavoritesChanged: () => () => undefined,
     onModelSelectorExpandedChanged: () => () => undefined,
     onClearPendingPrompts: () => () => undefined,

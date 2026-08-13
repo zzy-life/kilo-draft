@@ -740,18 +740,6 @@ export const dict = {
     "This resets only VS Code extension-specific settings to their default values. Settings shared with the CLI, such as modes and auto-approve rules, are stored in the CLI configuration and will not be reset.",
   "settings.aboutKiloCode.resetSettings.button": "Reset All Settings",
   "settings.aboutKiloCode.resetSettings.notificationsButton": "Reset Read Notifications",
-  "settings.aboutKiloCode.settingsTransfer.title": "Settings Transfer",
-  "settings.aboutKiloCode.settingsTransfer.description":
-    "Export or import your settings to transfer them between VS Code instances.",
-  "settings.aboutKiloCode.exportSettings": "Export",
-  "settings.aboutKiloCode.importSettings": "Import",
-  "settings.aboutKiloCode.importSettings.invalidJson": "Invalid JSON file. Please select a valid settings file.",
-  "settings.aboutKiloCode.importSettings.invalidConfig": "File does not contain valid Kilo settings.",
-  "settings.aboutKiloCode.importSettings.tooLarge": "File is too large. Settings files must be under 1 MB.",
-  "settings.aboutKiloCode.importSettings.newerVersion":
-    "This file was exported from a newer version of Kilo. Some settings may be ignored.",
-  "settings.aboutKiloCode.importSettings.success": "Settings imported. Review the changes above, then click Save.",
-
   "settings.aboutKiloCode.telemetry.title": "Telemetry",
   "settings.aboutKiloCode.telemetry.description":
     'Telemetry is controlled by VS Code\'s built-in telemetry setting. To disable it, go to Settings > Telemetry > Telemetry Level and set it to "off". Restart VS Code to apply the change.',
@@ -1122,91 +1110,6 @@ export const dict = {
   "question.summary": "{{n}} of {{total}} questions",
   "common.review": "Review",
 
-  // legacy-migration start
-  "settings.legacyMigration.link": "Migrate from Legacy Version",
-  "settings.aboutKiloCode.legacyMigration.title": "Legacy Migration",
-  "settings.aboutKiloCode.legacyMigration.description":
-    "Migrate settings from a previous installation of Kilo Code, including provider API keys and default model.",
-  "settings.aboutKiloCode.rooImport.description": "Import conversation history from a Roo Code installation.",
-  "settings.aboutKiloCode.rooImport.button": "Import Sessions from Roo Code",
-
-  // Screen 1 — What's New
-  "migration.whatsNew.title": "What's New in Kilo Code",
-  "migration.whatsNew.subtitle": "We've rebuilt the extension on a faster, more efficient foundation.",
-  "migration.whatsNew.features.performance.title": "Faster Agent Performance",
-  "migration.whatsNew.features.performance.detail":
-    "Parallel tool calls and subagents let your agent tackle more at once — so you spend less time watching and more time shipping.",
-  "migration.whatsNew.features.interface.title": "Streamlined Interface",
-  "migration.whatsNew.features.interface.detail": "Fewer distractions, easier and quicker to read.",
-  "migration.whatsNew.features.agentManager.title": "Agent Manager",
-  "migration.whatsNew.features.agentManager.detail":
-    "A unified interface for running multiple agents in parallel, each on its own worktree — monitor progress, switch context, and review changes in one place.",
-  "migration.whatsNew.features.foundation.title": "Shared Foundation",
-  "migration.whatsNew.features.foundation.detail":
-    "One small, efficient core across every Kilo product. A familiar experience however you choose to work.",
-  "migration.whatsNew.blogLink": "Read the full announcement",
-  "migration.whatsNew.docsLink": "What's new & FAQ",
-  "migration.whatsNew.continue": "Continue",
-
-  // Screen 2 — Migrate Settings
-  "migration.migrate.title": "Migrate Your Settings",
-  "migration.migrate.subtitle": "We found settings from your previous installation. Here's what we can bring over.",
-  "migration.migrate.selectLabel": "Select what to migrate",
-  "migration.migrate.chatHistory": "Chat Sessions & History",
-  "migration.migrate.button": "Migrate Settings",
-  "migration.migrate.skip": "Skip",
-  "migration.migrate.keysDetected": "{{count}} keys detected",
-  "migration.migrate.serversConfigured": "{{count}} server(s) configured",
-  "migration.migrate.modesFound": "{{count}} mode(s) found",
-  "migration.migrate.sessionsDetected": "{{count}} sessions detected",
-  "migration.migrate.nothingToMigrate": "Nothing to migrate was found in the legacy settings.",
-
-  // Migrate — item labels (reused from old select keys)
-  "migration.select.providers": "Provider API Keys",
-  "migration.select.mcpServers": "MCP Servers",
-  "migration.select.customModes": "Custom Modes / Agents",
-  "migration.select.defaultModel": "Default Model",
-  "migration.select.autoApproval": "Auto-Approval",
-  "migration.select.language": "UI Language",
-  "migration.select.autocomplete": "Autocomplete Settings",
-
-  // Migrate — completion
-  "migration.complete.summary": "{{success}} of {{total}} items migrated successfully.",
-  "migration.complete.cleanup": "Remove legacy settings data",
-  "migration.complete.cleanupDescription":
-    "This removes the old settings from VS Code storage. You will not be able to re-run this migration.",
-  "migration.complete.done": "Done",
-  "migration.error.continue": "Continue",
-  "migration.sessionSummary.title": "Summary:",
-  "migration.sessionSummary.copy": "Copy Report",
-  "migration.sessionSummary.toast.copied": "Copied report",
-  "migration.sessionSummary.successful": "Successful",
-  "migration.sessionSummary.skipped": "Skipped",
-  "migration.sessionSummary.alreadyMigrated": "Already migrated",
-  "migration.sessionSummary.errored": "Errored",
-  "migration.sessionSummary.none": "None",
-  "migration.forceReimport.title": "Force Re-import",
-  "migration.forceReimport.description":
-    "Re-importing {{target}} will overwrite them and delete any new messages already made in those sessions.",
-  "migration.forceReimport.target.one": "this session",
-  "migration.forceReimport.target.many": "these {{count}} sessions",
-  "migration.forceReimport.button": "Force Re-import",
-  "migration.forceReimport.all": "Re-import all",
-  "migration.forceReimport.proceed": "Proceed",
-  "migration.forceReimport.toast.started": "Force re-import started",
-  "migration.running.title": "Migration in Progress",
-  "migration.running.description.line1": "You are about to finish while there are still sessions being migrated.",
-  "migration.running.description.line2": "If you leave now, some sessions may remain incomplete.",
-  "migration.running.stay": "Stay",
-  "migration.running.proceed": "Proceed",
-  "migration.sessionProgress.preparing": "Preparing session",
-  "migration.sessionProgress.storing": "Storing session",
-  "migration.sessionProgress.skipped": "Session skipped",
-  "migration.sessionProgress.header": "Migrating {{current}} of {{total}}",
-  "migration.sessionFormat.unknownDate": "Unknown date",
-  "migration.sessionFormat.unknown": "Unknown",
-  "migration.sessionFormat.unknownError": "Unknown error",
-  // legacy-migration end
 
   "error.details.show": "Details",
 

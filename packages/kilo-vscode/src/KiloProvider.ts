@@ -101,19 +101,6 @@ import {
 import * as McpOAuth from "./kilo-provider/mcp-oauth"
 import { retryable, backoff, MAX_RETRIES } from "./util/retry"
 import { hasGit } from "./kilo-provider/git-status"
-// legacy-migration start
-import {
-  checkAndShowMigrationWizard,
-  handleRequestMigrationData,
-  handleStartMigration,
-  handleFinalizeLegacyMigration,
-  handleSkipLegacyMigration,
-  handleClearLegacyData,
-  type MigrationContext,
-  type MigrationSource,
-} from "./kilo-provider/handlers/migration"
-import type { MigrationSelections } from "./legacy-migration/legacy-types"
-// legacy-migration end
 import {
   handleLogin,
   handleLogout,
@@ -404,16 +391,11 @@ export class KiloProvider implements vscode.WebviewViewProvider, TelemetryProper
   })
   private unsubscribeEvent: (() => void) | null = null
   private unsubscribeState: (() => void) | null = null
-  /** Cached migration data so migration doesn't re-read from disk/SecretStorage. */ // legacy-migration
-  private migrationCache: MigrationContext["migrationCache"] = new Map()
-  /** Guard to prevent checkAndShowMigrationWizard running concurrently. */ // legacy-migration
-  private migrationCheckInFlight = false // legacy-migration
   private unsubscribeNotificationDismiss: (() => void) | null = null
   private unsubscribeLanguageChange: (() => void) | null = null
   private unsubscribeProfileChange: (() => void) | null = null
   private unsubscribeFavoritesChange: (() => void) | null = null
   private unsubscribeModelSelectorExpanded: (() => void) | null = null
-  private unsubscribeMigrationComplete: (() => void) | null = null // legacy-migration
   private unsubscribeClearPendingPrompts: (() => void) | null = null
   private unsubscribeDirectoryProvider: (() => void) | null = null
   private unsubscribeSandboxPreference: (() => void) | null = null
@@ -711,17 +693,6 @@ export class KiloProvider implements vscode.WebviewViewProvider, TelemetryProper
       this.sendRemoteStatus()
     }
 
-    // legacy-migration start
-    // Show the migration wizard once the CLI connection is established.
-    // Three triggers cover all timing scenarios:
-    //   "webviewReady" + connected — webview loaded after SSE was already up
-    //   "sse-connected"            — SSE connected after webview was ready
-    //   "initializeConnection"     — sidebar path where connect() resolves before
-    //                                onStateChange is subscribed, so sse-connected never fires
-    if (this.connectionState === "connected") {
-      void checkAndShowMigrationWizard(this.migrationCtx)
-    }
-    // legacy-migration end
   }
 
   public resolveWebviewView(
@@ -1034,7 +1005,6 @@ export class KiloProvider implements vscode.WebviewViewProvider, TelemetryProper
       this.handleWebviewFocusMessage(message)
       this.visibleTaskStreams.handle(message)
       if (await this.handleMemoryMessage(message)) return
-      if (this.handleLegacyMigrationMessage(message)) return
       switch (message.type) {
         case "webviewReady":
           console.log("[Kilo New] KiloProvider: ✅ webviewReady received")
@@ -1540,39 +1510,6 @@ export class KiloProvider implements vscode.WebviewViewProvider, TelemetryProper
     return false
   }
 
-  // legacy-migration start
-  private handleLegacyMigrationMessage(message: { type: string }): boolean {
-    switch (message.type) {
-      case "requestMigrationData": {
-        const msg = message as unknown as { source: MigrationSource; operationId: string }
-        void handleRequestMigrationData(this.migrationCtx, msg.source, msg.operationId)
-        break
-      }
-      case "startMigration": {
-        const msg = message as unknown as {
-          source: MigrationSource
-          operationId: string
-          selections: MigrationSelections
-        }
-        void handleStartMigration(this.migrationCtx, msg.source, msg.operationId, msg.selections)
-        break
-      }
-      case "skipLegacyMigration":
-        void handleSkipLegacyMigration(this.migrationCtx)
-        break
-      case "clearLegacyData":
-        void handleClearLegacyData(this.migrationCtx)
-        break
-      case "finalizeLegacyMigration":
-        void handleFinalizeLegacyMigration(this.migrationCtx)
-        break
-      default:
-        return false
-    }
-    return true
-  }
-  // legacy-migration end
-
   private async toggleFavorite(message: {
     action: "add" | "remove"
     providerID: string
@@ -1736,12 +1673,6 @@ export class KiloProvider implements vscode.WebviewViewProvider, TelemetryProper
         this.postMessage({ type: "modelSelectorExpandedLoaded", value })
       })
 
-      // legacy-migration start
-      // Subscribe to migration-complete broadcast from any KiloProvider instance
-      this.unsubscribeMigrationComplete = this.connectionService.onMigrationComplete(() => {
-        this.postMessage({ type: "migrationState", needed: false, source: "legacy" })
-      })
-      // legacy-migration end
 
       // Subscribe to clear-pending-prompts broadcast (fired after config save drains prompts)
       this.unsubscribeClearPendingPrompts = this.connectionService.onClearPendingPrompts(() => {
@@ -4881,30 +4812,6 @@ export class KiloProvider implements vscode.WebviewViewProvider, TelemetryProper
     })
   }
 
-  // legacy-migration start -------------------------------------------------------
-  // Migration handlers extracted to kilo-provider/handlers/migration.ts
-
-  private get migrationCtx(): MigrationContext {
-    const self = this
-    return {
-      client: this.client,
-      extensionContext: this.extensionContext,
-      postMessage: (msg) => this.postMessage(msg),
-      migrationCache: self.migrationCache,
-      get migrationCheckInFlight() {
-        return self.migrationCheckInFlight
-      },
-      set migrationCheckInFlight(val) {
-        self.migrationCheckInFlight = val
-      },
-      refreshSessions: () => this.refreshSessions(),
-      disposeGlobal: () => this.disposeGlobal(),
-      broadcastComplete: () => this.connectionService.notifyMigrationComplete(),
-    }
-  }
-
-  // legacy-migration end ---------------------------------------------------------
-
   // ── Worktree stats polling (sidebar diff badge) ──────────────────
   private startStatsPolling(): void {
     this.statsPoller?.stop()
@@ -4954,7 +4861,6 @@ export class KiloProvider implements vscode.WebviewViewProvider, TelemetryProper
     this.unsubscribeProfileChange?.()
     this.unsubscribeFavoritesChange?.()
     this.unsubscribeModelSelectorExpanded?.()
-    this.unsubscribeMigrationComplete?.()
     this.unsubscribeClearPendingPrompts?.()
     this.unsubscribeDirectoryProvider?.()
     this.unsubscribeSandboxPreference?.()

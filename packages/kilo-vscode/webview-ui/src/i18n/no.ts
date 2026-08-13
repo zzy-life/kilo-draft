@@ -726,19 +726,6 @@ export const dict = {
     "Dette tilbakestiller kun VS Code-utvidelsesspecifikke innstillinger til standardverdiene. Innstillinger som deles med CLI, som modi og regler for automatisk godkjenning, lagres i CLI-konfigurasjonen og vil ikke tilbakestilles.",
   "settings.aboutKiloCode.resetSettings.button": "Tilbakestill alle innstillinger",
   "settings.aboutKiloCode.resetSettings.notificationsButton": "Reset Read Notifications",
-  "settings.aboutKiloCode.settingsTransfer.title": "Overføring av innstillinger",
-  "settings.aboutKiloCode.settingsTransfer.description":
-    "Eksporter eller importer innstillingene dine for å overføre dem mellom VS Code-instanser.",
-  "settings.aboutKiloCode.exportSettings": "Eksporter",
-  "settings.aboutKiloCode.importSettings": "Importer",
-  "settings.aboutKiloCode.importSettings.invalidJson": "Ugyldig JSON-fil. Vennligst velg en gyldig innstillingsfil.",
-  "settings.aboutKiloCode.importSettings.invalidConfig": "Filen inneholder ikke gyldige Kilo-innstillinger.",
-  "settings.aboutKiloCode.importSettings.tooLarge": "Filen er for stor. Innstillingsfiler må være under 1 MB.",
-  "settings.aboutKiloCode.importSettings.newerVersion":
-    "Denne filen ble eksportert fra en nyere versjon av Kilo. Noen innstillinger kan bli ignorert.",
-  "settings.aboutKiloCode.importSettings.success":
-    "Innstillinger importert. Gjennomgå endringene ovenfor, og klikk deretter på Lagre.",
-
   "settings.aboutKiloCode.telemetry.title": "Telemetri",
   "settings.aboutKiloCode.telemetry.description":
     'Telemetri styres av den innebygde telemetri-innstillingen i VS Code. For å deaktivere den, gå til Innstillinger > Telemetry > Telemetry Level og sett den til "off". Start VS Code på nytt for å ta i bruk endringen.',
@@ -1131,92 +1118,6 @@ export const dict = {
   "question.summary": "{{n}} av {{total}} spørsmål",
   "common.review": "Gjennomgå",
 
-  // legacy-migration start
-  "settings.legacyMigration.link": "Migrer fra eldre versjon",
-  "settings.aboutKiloCode.legacyMigration.title": "Migrering fra eldre versjon",
-  "settings.aboutKiloCode.legacyMigration.description":
-    "Migrer innstillinger fra en tidligere installasjon av Kilo Code, inkludert API-nøkler for leverandører og standardmodell.",
-  "settings.aboutKiloCode.rooImport.description": "Importer samtalehistorikk fra en installasjon av Roo Code.",
-  "settings.aboutKiloCode.rooImport.button": "Importer økter fra Roo Code",
-
-  // Screen 1 — What's New
-  "migration.whatsNew.title": "Hva er nytt i Kilo Code",
-  "migration.whatsNew.subtitle": "Vi har bygget utvidelsen på nytt med et raskere og mer effektivt grunnlag.",
-  "migration.whatsNew.features.performance.title": "Raskere agentytelse",
-  "migration.whatsNew.features.performance.detail":
-    "Parallelle verktøykall og underagenter lar agenten din håndtere mer samtidig — slik at du bruker mindre tid på å vente og mer tid på å levere.",
-  "migration.whatsNew.features.interface.title": "Strømlinjeformet grensesnitt",
-  "migration.whatsNew.features.interface.detail": "Færre forstyrrelser, enklere og raskere å lese.",
-  "migration.whatsNew.features.agentManager.title": "Agentbehandling",
-  "migration.whatsNew.features.agentManager.detail":
-    "Et samlet grensesnitt for å kjøre flere agenter parallelt, hver på sitt eget worktree — overvåk fremdrift, bytt kontekst og gjennomgå endringer på ett sted.",
-  "migration.whatsNew.features.foundation.title": "Delt grunnlag",
-  "migration.whatsNew.features.foundation.detail":
-    "Én liten, effektiv kjerne på tvers av alle Kilo-produkter. En kjent opplevelse uansett hvordan du velger å jobbe.",
-  "migration.whatsNew.blogLink": "Les hele kunngjøringen",
-  "migration.whatsNew.docsLink": "Nyheter og ofte stilte spørsmål",
-  "migration.whatsNew.continue": "Fortsett",
-
-  // Screen 2 — Migrate Settings
-  "migration.migrate.title": "Migrer innstillingene dine",
-  "migration.migrate.subtitle": "Vi fant innstillinger fra din tidligere installasjon. Her er hva vi kan ta med over.",
-  "migration.migrate.selectLabel": "Velg hva som skal migreres",
-  "migration.migrate.chatHistory": "Chatøkter og historikk",
-  "migration.migrate.button": "Migrer innstillinger",
-  "migration.migrate.skip": "Hopp over",
-  "migration.migrate.keysDetected": "{{count}} nøkler oppdaget",
-  "migration.migrate.serversConfigured": "{{count}} server(e) konfigurert",
-  "migration.migrate.modesFound": "{{count}} modus(er) funnet",
-  "migration.migrate.nothingToMigrate": "Ingenting å migrere ble funnet i de eldre innstillingene.",
-
-  // Migrate — item labels (reused from old select keys)
-  "migration.select.providers": "API-nøkler for leverandører",
-  "migration.select.mcpServers": "MCP-servere",
-  "migration.select.customModes": "Egendefinerte moduser / Agenter",
-  "migration.select.defaultModel": "Standardmodell",
-  "migration.select.autoApproval": "Automatisk godkjenning",
-  "migration.select.language": "UI-språk",
-  "migration.select.autocomplete": "Innstillinger for autofullføring",
-
-  // Migrate — completion
-  "migration.complete.summary": "{{success}} av {{total}} elementer ble migrert.",
-  "migration.complete.cleanup": "Fjern eldre innstillingsdata",
-  "migration.complete.cleanupDescription":
-    "Dette fjerner de gamle innstillingene fra VS Code-lagringen. Du vil ikke kunne kjøre denne migreringen på nytt.",
-  "migration.complete.done": "Ferdig",
-  "migration.migrate.sessionsDetected": "{{count}} økter oppdaget",
-  "migration.error.continue": "Fortsett",
-
-  "migration.sessionSummary.title": "Oppsummering:",
-  "migration.sessionSummary.copy": "Kopier rapport",
-  "migration.sessionSummary.toast.copied": "Rapport kopiert",
-  "migration.sessionSummary.successful": "Vellykkede",
-  "migration.sessionSummary.skipped": "Hoppet over",
-  "migration.sessionSummary.alreadyMigrated": "Allerede migrert",
-  "migration.sessionSummary.errored": "Med feil",
-  "migration.sessionSummary.none": "Ingen",
-  "migration.forceReimport.title": "Tving ny import",
-  "migration.forceReimport.description":
-    "Hvis du importerer {{target}} på nytt, blir de overskrevet og alle nye meldinger som allerede er opprettet i disse øktene blir slettet.",
-  "migration.forceReimport.target.one": "denne økten",
-  "migration.forceReimport.target.many": "disse {{count}} øktene",
-  "migration.forceReimport.button": "Tving ny import",
-  "migration.forceReimport.all": "Importer alle på nytt",
-  "migration.forceReimport.proceed": "Fortsett",
-  "migration.forceReimport.toast.started": "Tvungen ny import startet",
-  "migration.running.title": "Migrering pågår",
-  "migration.running.description.line1": "Du er i ferd med å avslutte mens det fortsatt er økter som migreres.",
-  "migration.running.description.line2": "Hvis du går nå, kan noen økter forbli ufullstendige.",
-  "migration.running.stay": "Bli",
-  "migration.running.proceed": "Fortsett",
-  "migration.sessionProgress.preparing": "Forbereder økt",
-  "migration.sessionProgress.storing": "Lagrer økt",
-  "migration.sessionProgress.skipped": "Økt hoppet over",
-  "migration.sessionProgress.header": "Migrerer {{current}} av {{total}}",
-  "migration.sessionFormat.unknownDate": "Ukjent dato",
-  "migration.sessionFormat.unknown": "Ukjent",
-  "migration.sessionFormat.unknownError": "Ukjent feil",
-  // legacy-migration end
 
   "task.todos.progress": "{{done}}/{{total}} oppgaver fullført",
   "task.todos.allDone": "{{count}} oppgaver fullført",

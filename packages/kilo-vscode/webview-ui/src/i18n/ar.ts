@@ -748,17 +748,6 @@ export const dict = {
     "يؤدي هذا إلى إعادة تعيين الإعدادات الخاصة بامتداد VS Code فقط إلى قيمها الافتراضية. الإعدادات المشتركة مع CLI، مثل الأوضاع وقواعد الموافقة التلقائية، مخزّنة في تكوين CLI ولن تتأثر.",
   "settings.aboutKiloCode.resetSettings.button": "إعادة تعيين جميع الإعدادات",
   "settings.aboutKiloCode.resetSettings.notificationsButton": "Reset Read Notifications",
-  "settings.aboutKiloCode.settingsTransfer.title": "نقل الإعدادات",
-  "settings.aboutKiloCode.settingsTransfer.description": "تصدير أو استيراد إعداداتك لنقلها بين نُسخ VS Code.",
-  "settings.aboutKiloCode.exportSettings": "تصدير",
-  "settings.aboutKiloCode.importSettings": "استيراد",
-  "settings.aboutKiloCode.importSettings.invalidJson": "ملف JSON غير صالح. يرجى اختيار ملف إعدادات صالح.",
-  "settings.aboutKiloCode.importSettings.invalidConfig": "الملف لا يحتوي على إعدادات Kilo صالحة.",
-  "settings.aboutKiloCode.importSettings.tooLarge": "الملف كبير جدًا. يجب أن تكون ملفات الإعدادات أقل من 1 MB.",
-  "settings.aboutKiloCode.importSettings.newerVersion":
-    "تم تصدير هذا الملف من إصدار أحدث من Kilo. قد يتم تجاهل بعض الإعدادات.",
-  "settings.aboutKiloCode.importSettings.success": "تم استيراد الإعدادات. راجع التغييرات أعلاه، ثم انقر على حفظ.",
-
   "settings.aboutKiloCode.telemetry.title": "Telemetry",
   "settings.aboutKiloCode.telemetry.description":
     'يتم التحكم في Telemetry بواسطة إعداد Telemetry المدمج في VS Code. لتعطيله، انتقل إلى الإعدادات > Telemetry > Telemetry Level واضبطه على "off". أعد تشغيل VS Code لتطبيق التغيير.',
@@ -1104,92 +1093,6 @@ export const dict = {
   "question.summary": "{{n}} من {{total}} أسئلة",
   "common.review": "مراجعة",
 
-  // legacy-migration start
-  "settings.legacyMigration.link": "الترحيل من الإصدار القديم",
-  "settings.aboutKiloCode.legacyMigration.title": "ترحيل الإصدار القديم",
-  "settings.aboutKiloCode.legacyMigration.description":
-    "ترحيل الإعدادات من تثبيت سابق لـ Kilo Code، بما في ذلك مفاتيح API لمقدمي الخدمة والنموذج الافتراضي.",
-  "settings.aboutKiloCode.rooImport.description": "استيراد سجل المحادثات من تثبيت Roo Code.",
-  "settings.aboutKiloCode.rooImport.button": "استيراد الجلسات من Roo Code",
-
-  // Screen 1 — What's New
-  "migration.whatsNew.title": "ما الجديد في Kilo Code",
-  "migration.whatsNew.subtitle": "لقد أعدنا بناء الإضافة على أساس أسرع وأكثر كفاءة.",
-  "migration.whatsNew.features.performance.title": "أداء أسرع للوكيل",
-  "migration.whatsNew.features.performance.detail":
-    "استدعاءات الأدوات المتوازية والوكلاء الفرعيون يتيحون لوكيلك إنجاز المزيد في وقت واحد — فتقضي وقتًا أقل في الانتظار ووقتًا أكثر في الإنجاز.",
-  "migration.whatsNew.features.interface.title": "واجهة مبسّطة",
-  "migration.whatsNew.features.interface.detail": "أقل تشتيتًا، أسهل وأسرع في القراءة.",
-  "migration.whatsNew.features.agentManager.title": "مدير الوكلاء",
-  "migration.whatsNew.features.agentManager.detail":
-    "واجهة موحدة لتشغيل عدة وكلاء بالتوازي، كل منهم في شجرة عمل خاصة — راقب التقدم، وبدّل السياق، وراجع التغييرات في مكان واحد.",
-  "migration.whatsNew.features.foundation.title": "أساس مشترك",
-  "migration.whatsNew.features.foundation.detail":
-    "نواة صغيرة وفعالة واحدة عبر كل منتجات Kilo. تجربة مألوفة بغض النظر عن طريقة عملك.",
-  "migration.whatsNew.blogLink": "اقرأ الإعلان الكامل",
-  "migration.whatsNew.docsLink": "الجديد والأسئلة الشائعة",
-  "migration.whatsNew.continue": "متابعة",
-
-  // Screen 2 — Migrate Settings
-  "migration.migrate.title": "ترحيل إعداداتك",
-  "migration.migrate.subtitle": "لقد وجدنا إعدادات من تثبيتك السابق. إليك ما يمكننا نقله.",
-  "migration.migrate.selectLabel": "اختر ما تريد ترحيله",
-  "migration.migrate.chatHistory": "جلسات الدردشة والسجل",
-  "migration.migrate.button": "ترحيل الإعدادات",
-  "migration.migrate.skip": "تخطي",
-  "migration.migrate.keysDetected": "تم اكتشاف {{count}} مفاتيح",
-  "migration.migrate.serversConfigured": "تم تكوين {{count}} خادم(خوادم)",
-  "migration.migrate.modesFound": "تم العثور على {{count}} وضع(أوضاع)",
-  "migration.migrate.nothingToMigrate": "لم يتم العثور على أي شيء لترحيله في الإعدادات القديمة.",
-
-  // Migrate — item labels (reused from old select keys)
-  "migration.select.providers": "مفاتيح API لمقدمي الخدمة",
-  "migration.select.mcpServers": "خوادم MCP",
-  "migration.select.customModes": "الأوضاع المخصصة / الوكلاء",
-  "migration.select.defaultModel": "النموذج الافتراضي",
-  "migration.select.autoApproval": "الموافقة التلقائية",
-  "migration.select.language": "لغة واجهة المستخدم",
-  "migration.select.autocomplete": "إعدادات الإكمال التلقائي",
-
-  // Migrate — completion
-  "migration.complete.summary": "تم ترحيل {{success}} من {{total}} عناصر بنجاح.",
-  "migration.complete.cleanup": "إزالة بيانات الإعدادات القديمة",
-  "migration.complete.cleanupDescription":
-    "هذا يزيل الإعدادات القديمة من مساحة تخزين VS Code. لن تتمكن من إعادة تشغيل هذا الترحيل.",
-  "migration.complete.done": "تم",
-  "migration.migrate.sessionsDetected": "تم اكتشاف {{count}} جلسة",
-  "migration.error.continue": "متابعة",
-
-  "migration.sessionSummary.title": "الملخص:",
-  "migration.sessionSummary.copy": "نسخ التقرير",
-  "migration.sessionSummary.toast.copied": "تم نسخ التقرير",
-  "migration.sessionSummary.successful": "ناجحة",
-  "migration.sessionSummary.skipped": "تم تخطيها",
-  "migration.sessionSummary.alreadyMigrated": "تم ترحيلها بالفعل",
-  "migration.sessionSummary.errored": "حدثت بها أخطاء",
-  "migration.sessionSummary.none": "لا يوجد",
-  "migration.forceReimport.title": "فرض إعادة الاستيراد",
-  "migration.forceReimport.description":
-    "ستؤدي إعادة استيراد {{target}} إلى استبدالها وحذف أي رسائل جديدة تم إنشاؤها بالفعل في تلك الجلسات.",
-  "migration.forceReimport.target.one": "هذه الجلسة",
-  "migration.forceReimport.target.many": "هذه الجلسات الـ {{count}}",
-  "migration.forceReimport.button": "فرض إعادة الاستيراد",
-  "migration.forceReimport.all": "إعادة استيراد الكل",
-  "migration.forceReimport.proceed": "متابعة",
-  "migration.forceReimport.toast.started": "بدأت إعادة الاستيراد القسرية",
-  "migration.running.title": "الترحيل قيد التنفيذ",
-  "migration.running.description.line1": "أنت على وشك الإنهاء بينما لا تزال هناك جلسات قيد الترحيل.",
-  "migration.running.description.line2": "إذا غادرت الآن، فقد تبقى بعض الجلسات غير مكتملة.",
-  "migration.running.stay": "البقاء",
-  "migration.running.proceed": "متابعة",
-  "migration.sessionProgress.preparing": "جارٍ تحضير الجلسة",
-  "migration.sessionProgress.storing": "جارٍ حفظ الجلسة",
-  "migration.sessionProgress.skipped": "تم تخطي الجلسة",
-  "migration.sessionProgress.header": "جارٍ ترحيل {{current}} من {{total}}",
-  "migration.sessionFormat.unknownDate": "تاريخ غير معروف",
-  "migration.sessionFormat.unknown": "غير معروف",
-  "migration.sessionFormat.unknownError": "خطأ غير معروف",
-  // legacy-migration end
 
   "error.details.show": "التفاصيل",
 

@@ -780,21 +780,6 @@ export const dict = {
     "Ceci réinitialise uniquement les paramètres spécifiques à l'extension VS Code à leurs valeurs par défaut. Les paramètres partagés avec le CLI, tels que les modes et les règles d'approbation automatique, sont stockés dans la configuration du CLI et ne seront pas réinitialisés.",
   "settings.aboutKiloCode.resetSettings.button": "Réinitialiser tous les paramètres",
   "settings.aboutKiloCode.resetSettings.notificationsButton": "Reset Read Notifications",
-  "settings.aboutKiloCode.settingsTransfer.title": "Transfert des paramètres",
-  "settings.aboutKiloCode.settingsTransfer.description":
-    "Exportez ou importez vos paramètres pour les transférer entre instances VS Code.",
-  "settings.aboutKiloCode.exportSettings": "Exporter",
-  "settings.aboutKiloCode.importSettings": "Importer",
-  "settings.aboutKiloCode.importSettings.invalidJson":
-    "Fichier JSON invalide. Veuillez sélectionner un fichier de paramètres valide.",
-  "settings.aboutKiloCode.importSettings.invalidConfig": "Le fichier ne contient pas de paramètres Kilo valides.",
-  "settings.aboutKiloCode.importSettings.tooLarge":
-    "Le fichier est trop volumineux. Les fichiers de paramètres doivent faire moins de 1 MB.",
-  "settings.aboutKiloCode.importSettings.newerVersion":
-    "Ce fichier a été exporté depuis une version plus récente de Kilo. Certains paramètres pourraient être ignorés.",
-  "settings.aboutKiloCode.importSettings.success":
-    "Paramètres importés. Vérifiez les modifications ci-dessus, puis cliquez sur Enregistrer.",
-
   "settings.aboutKiloCode.telemetry.title": "Télémétrie",
   "settings.aboutKiloCode.telemetry.description":
     'La télémétrie est contrôlée par le paramètre de télémétrie intégré de VS Code. Pour la désactiver, allez dans Paramètres > Télémétrie > Niveau de télémétrie et réglez-le sur "off". Redémarrez VS Code pour appliquer la modification.',
@@ -1167,96 +1152,6 @@ export const dict = {
   "question.summary": "{{n}} sur {{total}} questions",
   "common.review": "Réviser",
 
-  // legacy-migration start
-  "settings.legacyMigration.link": "Migrer depuis l'ancienne version",
-  "settings.aboutKiloCode.legacyMigration.title": "Migration de l'ancienne version",
-  "settings.aboutKiloCode.legacyMigration.description":
-    "Migrer les paramètres d'une précédente installation de Kilo Code, y compris les clés d'API des fournisseurs et le modèle par défaut.",
-  "settings.aboutKiloCode.rooImport.description":
-    "Importer l'historique des conversations depuis une installation de Roo Code.",
-  "settings.aboutKiloCode.rooImport.button": "Importer les sessions depuis Roo Code",
-
-  // Screen 1 — What's New
-  "migration.whatsNew.title": "Nouveautés de Kilo Code",
-  "migration.whatsNew.subtitle": "Nous avons reconstruit l'extension sur une base plus rapide et plus efficace.",
-  "migration.whatsNew.features.performance.title": "Performance accélérée de l'agent",
-  "migration.whatsNew.features.performance.detail":
-    "Les appels d'outils en parallèle et les sous-agents permettent à votre agent de traiter plus de tâches simultanément — vous passez moins de temps à attendre et plus de temps à livrer.",
-  "migration.whatsNew.features.interface.title": "Interface simplifiée",
-  "migration.whatsNew.features.interface.detail": "Moins de distractions, plus facile et plus rapide à lire.",
-  "migration.whatsNew.features.agentManager.title": "Gestionnaire d'agents",
-  "migration.whatsNew.features.agentManager.detail":
-    "Une interface unifiée pour exécuter plusieurs agents en parallèle, chacun sur son propre arbre de travail — surveillez la progression, changez de contexte et examinez les modifications depuis un seul endroit.",
-  "migration.whatsNew.features.foundation.title": "Base partagée",
-  "migration.whatsNew.features.foundation.detail":
-    "Un noyau petit et efficace partagé par tous les produits Kilo. Une expérience familière quelle que soit votre façon de travailler.",
-  "migration.whatsNew.blogLink": "Lire l'annonce complète",
-  "migration.whatsNew.docsLink": "Nouveautés & questions fréquentes",
-  "migration.whatsNew.continue": "Continuer",
-
-  // Screen 2 — Migrate Settings
-  "migration.migrate.title": "Migrer vos paramètres",
-  "migration.migrate.subtitle":
-    "Nous avons trouvé des paramètres de votre précédente installation. Voici ce que nous pouvons récupérer.",
-  "migration.migrate.selectLabel": "Sélectionnez ce que vous souhaitez migrer",
-  "migration.migrate.chatHistory": "Sessions de discussion et historique",
-  "migration.migrate.button": "Migrer les paramètres",
-  "migration.migrate.skip": "Ignorer",
-  "migration.migrate.keysDetected": "{{count}} clés détectées",
-  "migration.migrate.serversConfigured": "{{count}} serveur(s) configuré(s)",
-  "migration.migrate.modesFound": "{{count}} mode(s) trouvé(s)",
-  "migration.migrate.nothingToMigrate": "Rien à migrer n'a été trouvé dans les anciens paramètres.",
-
-  // Migrate — item labels (reused from old select keys)
-  "migration.select.providers": "Clés d'API des fournisseurs",
-  "migration.select.mcpServers": "Serveurs MCP",
-  "migration.select.customModes": "Modes personnalisés / Agents",
-  "migration.select.defaultModel": "Modèle par défaut",
-  "migration.select.autoApproval": "Approbation automatique",
-  "migration.select.language": "Langue de l'interface",
-  "migration.select.autocomplete": "Paramètres de saisie semi-automatique",
-
-  // Migrate — completion
-  "migration.complete.summary": "{{success}} éléments sur {{total}} migrés avec succès.",
-  "migration.complete.cleanup": "Supprimer les données des anciens paramètres",
-  "migration.complete.cleanupDescription":
-    "Cela supprime les anciens paramètres du stockage de VS Code. Vous ne pourrez pas réexécuter cette migration.",
-  "migration.complete.done": "Terminé",
-  "migration.migrate.sessionsDetected": "{{count}} sessions détectées",
-  "migration.error.continue": "Continuer",
-
-  "migration.sessionSummary.title": "Résumé :",
-  "migration.sessionSummary.copy": "Copier le rapport",
-  "migration.sessionSummary.toast.copied": "Rapport copié",
-  "migration.sessionSummary.successful": "Réussies",
-  "migration.sessionSummary.skipped": "Ignorées",
-  "migration.sessionSummary.alreadyMigrated": "Déjà migrées",
-  "migration.sessionSummary.errored": "En erreur",
-  "migration.sessionSummary.none": "Aucune",
-  "migration.forceReimport.title": "Forcer la réimportation",
-  "migration.forceReimport.description":
-    "Réimporter {{target}} les écrasera et supprimera tous les nouveaux messages déjà créés dans ces sessions.",
-  "migration.forceReimport.target.one": "cette session",
-  "migration.forceReimport.target.many": "ces {{count}} sessions",
-  "migration.forceReimport.button": "Forcer la réimportation",
-  "migration.forceReimport.all": "Tout réimporter",
-  "migration.forceReimport.proceed": "Continuer",
-  "migration.forceReimport.toast.started": "Réimportation forcée lancée",
-  "migration.running.title": "Migration en cours",
-  "migration.running.description.line1":
-    "Vous êtes sur le point de terminer alors que certaines sessions sont encore en cours de migration.",
-  "migration.running.description.line2":
-    "Si vous quittez maintenant, certaines sessions risquent de rester incomplètes.",
-  "migration.running.stay": "Rester",
-  "migration.running.proceed": "Continuer",
-  "migration.sessionProgress.preparing": "Préparation de la session",
-  "migration.sessionProgress.storing": "Enregistrement de la session",
-  "migration.sessionProgress.skipped": "Session ignorée",
-  "migration.sessionProgress.header": "Migration de {{current}} sur {{total}}",
-  "migration.sessionFormat.unknownDate": "Date inconnue",
-  "migration.sessionFormat.unknown": "Inconnu",
-  "migration.sessionFormat.unknownError": "Erreur inconnue",
-  // legacy-migration end
 
   "error.details.show": "Détails",
 

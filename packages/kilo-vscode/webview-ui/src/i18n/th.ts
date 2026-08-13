@@ -754,18 +754,6 @@ export const dict = {
     "การดำเนินการนี้จะรีเซ็ตเฉพาะการตั้งค่าเฉพาะของส่วนขยาย VS Code กลับเป็นค่าเริ่มต้นเท่านั้น การตั้งค่าที่ใช้ร่วมกับ CLI เช่น โหมดและกฎการอนุมัติอัตโนมัติ จะถูกเก็บไว้ในการกำหนดค่า CLI และจะไม่ถูกรีเซ็ต",
   "settings.aboutKiloCode.resetSettings.button": "รีเซ็ตการตั้งค่าทั้งหมด",
   "settings.aboutKiloCode.resetSettings.notificationsButton": "Reset Read Notifications",
-  "settings.aboutKiloCode.settingsTransfer.title": "ถ่ายโอนการตั้งค่า",
-  "settings.aboutKiloCode.settingsTransfer.description":
-    "ส่งออกหรือนำเข้าการตั้งค่าเพื่อถ่ายโอนระหว่างอินสแตนซ์ VS Code",
-  "settings.aboutKiloCode.exportSettings": "ส่งออก",
-  "settings.aboutKiloCode.importSettings": "นำเข้า",
-  "settings.aboutKiloCode.importSettings.invalidJson": "ไฟล์ JSON ไม่ถูกต้อง กรุณาเลือกไฟล์การตั้งค่าที่ถูกต้อง",
-  "settings.aboutKiloCode.importSettings.invalidConfig": "ไฟล์ไม่มีการตั้งค่า Kilo ที่ถูกต้อง",
-  "settings.aboutKiloCode.importSettings.tooLarge": "ไฟล์มีขนาดใหญ่เกินไป ไฟล์การตั้งค่าต้องมีขนาดไม่เกิน 1 MB",
-  "settings.aboutKiloCode.importSettings.newerVersion":
-    "ไฟล์นี้ถูกส่งออกจาก Kilo เวอร์ชันใหม่กว่า การตั้งค่าบางรายการอาจถูกข้ามไป",
-  "settings.aboutKiloCode.importSettings.success": "นำเข้าการตั้งค่าแล้ว ตรวจสอบการเปลี่ยนแปลงด้านบน จากนั้นคลิกบันทึก",
-
   "settings.aboutKiloCode.telemetry.title": "Telemetry",
   "settings.aboutKiloCode.telemetry.description":
     'Telemetry ถูกควบคุมโดยการตั้งค่า Telemetry ในตัวของ VS Code หากต้องการปิดใช้งาน ให้ไปที่ Settings > Telemetry > Telemetry Level แล้วตั้งค่าเป็น "off" รีสตาร์ท VS Code เพื่อให้การเปลี่ยนแปลงมีผล',
@@ -1110,92 +1098,6 @@ export const dict = {
   "question.summary": "{{n}} จาก {{total}} คำถาม",
   "common.review": "ตรวจสอบ",
 
-  // legacy-migration start
-  "settings.legacyMigration.link": "ย้ายข้อมูลจากเวอร์ชันดั้งเดิม",
-  "settings.aboutKiloCode.legacyMigration.title": "การย้ายข้อมูลจากเวอร์ชันดั้งเดิม",
-  "settings.aboutKiloCode.legacyMigration.description":
-    "ย้ายการตั้งค่าจากการติดตั้ง Kilo Code ก่อนหน้านี้ รวมถึงคีย์ API ของผู้ให้บริการและโมเดลเริ่มต้น",
-  "settings.aboutKiloCode.rooImport.description": "นำเข้าประวัติการสนทนาจากการติดตั้ง Roo Code",
-  "settings.aboutKiloCode.rooImport.button": "นำเข้าเซสชันจาก Roo Code",
-
-  // Screen 1 — What's New
-  "migration.whatsNew.title": "มีอะไรใหม่ใน Kilo Code",
-  "migration.whatsNew.subtitle": "เราได้สร้างส่วนขยายใหม่บนรากฐานที่เร็วและมีประสิทธิภาพมากขึ้น",
-  "migration.whatsNew.features.performance.title": "ประสิทธิภาพเอเจนต์ที่เร็วขึ้น",
-  "migration.whatsNew.features.performance.detail":
-    "การเรียกเครื่องมือแบบขนานและเอเจนต์ย่อยช่วยให้เอเจนต์ของคุณจัดการได้มากขึ้นในครั้งเดียว — คุณจึงใช้เวลารอน้อยลงและส่งงานได้มากขึ้น",
-  "migration.whatsNew.features.interface.title": "อินเทอร์เฟซที่กระชับ",
-  "migration.whatsNew.features.interface.detail": "สิ่งรบกวนน้อยลง อ่านง่ายและรวดเร็วขึ้น",
-  "migration.whatsNew.features.agentManager.title": "ตัวจัดการตัวแทน",
-  "migration.whatsNew.features.agentManager.detail":
-    "อินเทอร์เฟซรวมสำหรับการเรียกใช้เอเจนต์หลายตัวพร้อมกัน แต่ละตัวบน worktree ของตัวเอง — ติดตามความคืบหน้า สลับบริบท และตรวจสอบการเปลี่ยนแปลงได้ในที่เดียว",
-  "migration.whatsNew.features.foundation.title": "รากฐานที่ใช้ร่วมกัน",
-  "migration.whatsNew.features.foundation.detail":
-    "แกนหลักขนาดเล็กและมีประสิทธิภาพเดียวกันในทุกผลิตภัณฑ์ Kilo ประสบการณ์ที่คุ้นเคยไม่ว่าคุณจะเลือกทำงานอย่างไร",
-  "migration.whatsNew.blogLink": "อ่านประกาศฉบับเต็ม",
-  "migration.whatsNew.docsLink": "มีอะไรใหม่และคำถามที่พบบ่อย",
-  "migration.whatsNew.continue": "ดำเนินการต่อ",
-
-  // Screen 2 — Migrate Settings
-  "migration.migrate.title": "ย้ายการตั้งค่าของคุณ",
-  "migration.migrate.subtitle": "เราพบการตั้งค่าจากการติดตั้งก่อนหน้านี้ของคุณ นี่คือสิ่งที่เราสามารถนำมาได้",
-  "migration.migrate.selectLabel": "เลือกสิ่งที่จะย้าย",
-  "migration.migrate.chatHistory": "เซสชันแชทและประวัติ",
-  "migration.migrate.button": "ย้ายการตั้งค่า",
-  "migration.migrate.skip": "ข้าม",
-  "migration.migrate.keysDetected": "ตรวจพบ {{count}} คีย์",
-  "migration.migrate.serversConfigured": "กำหนดค่า {{count}} เซิร์ฟเวอร์",
-  "migration.migrate.modesFound": "พบ {{count}} โหมด",
-  "migration.migrate.nothingToMigrate": "ไม่พบสิ่งที่จะย้ายในการตั้งค่าดั้งเดิม",
-
-  // Migrate — item labels (reused from old select keys)
-  "migration.select.providers": "คีย์ API ของผู้ให้บริการ",
-  "migration.select.mcpServers": "เซิร์ฟเวอร์ MCP",
-  "migration.select.customModes": "โหมดที่กำหนดเอง / เอเจนต์",
-  "migration.select.defaultModel": "โมเดลเริ่มต้น",
-  "migration.select.autoApproval": "การอนุมัติอัตโนมัติ",
-  "migration.select.language": "ภาษาของ UI",
-  "migration.select.autocomplete": "การตั้งค่าการเติมข้อความอัตโนมัติ",
-
-  // Migrate — completion
-  "migration.complete.summary": "ย้ายข้อมูลสำเร็จ {{success}} จาก {{total}} รายการ",
-  "migration.complete.cleanup": "ลบข้อมูลการตั้งค่าเดิม",
-  "migration.complete.cleanupDescription":
-    "การดำเนินการนี้จะลบการตั้งค่าเดิมจากที่เก็บข้อมูล VS Code คุณจะไม่สามารถเรียกใช้การย้ายข้อมูลนี้ได้อีก",
-  "migration.complete.done": "เสร็จสิ้น",
-  "migration.migrate.sessionsDetected": "ตรวจพบ {{count}} เซสชัน",
-  "migration.error.continue": "ดำเนินการต่อ",
-
-  "migration.sessionSummary.title": "สรุป:",
-  "migration.sessionSummary.copy": "คัดลอกรายงาน",
-  "migration.sessionSummary.toast.copied": "คัดลอกรายงานแล้ว",
-  "migration.sessionSummary.successful": "สำเร็จ",
-  "migration.sessionSummary.skipped": "ข้ามแล้ว",
-  "migration.sessionSummary.alreadyMigrated": "ย้ายแล้ว",
-  "migration.sessionSummary.errored": "มีข้อผิดพลาด",
-  "migration.sessionSummary.none": "ไม่มี",
-  "migration.forceReimport.title": "บังคับนำเข้าใหม่",
-  "migration.forceReimport.description":
-    "การนำเข้า {{target}} ใหม่จะเขียนทับและลบข้อความใหม่ใด ๆ ที่สร้างไว้แล้วในเซสชันเหล่านั้น",
-  "migration.forceReimport.target.one": "เซสชันนี้",
-  "migration.forceReimport.target.many": "{{count}} เซสชันเหล่านี้",
-  "migration.forceReimport.button": "บังคับนำเข้าใหม่",
-  "migration.forceReimport.all": "นำเข้าทั้งหมดใหม่",
-  "migration.forceReimport.proceed": "ดำเนินการต่อ",
-  "migration.forceReimport.toast.started": "เริ่มการนำเข้าใหม่แบบบังคับแล้ว",
-  "migration.running.title": "กำลังย้ายข้อมูล",
-  "migration.running.description.line1": "คุณกำลังจะเสร็จสิ้นในขณะที่ยังมีบางเซสชันกำลังย้ายข้อมูลอยู่",
-  "migration.running.description.line2": "หากคุณออกตอนนี้ บางเซสชันอาจยังไม่สมบูรณ์",
-  "migration.running.stay": "อยู่ต่อ",
-  "migration.running.proceed": "ดำเนินการต่อ",
-  "migration.sessionProgress.preparing": "กำลังเตรียมเซสชัน",
-  "migration.sessionProgress.storing": "กำลังบันทึกเซสชัน",
-  "migration.sessionProgress.skipped": "ข้ามเซสชันแล้ว",
-  "migration.sessionProgress.header": "กำลังย้าย {{current}} จาก {{total}}",
-  "migration.sessionFormat.unknownDate": "ไม่ทราบวันที่",
-  "migration.sessionFormat.unknown": "ไม่ทราบ",
-  "migration.sessionFormat.unknownError": "ข้อผิดพลาดที่ไม่ทราบสาเหตุ",
-  // legacy-migration end
 
   "error.details.show": "รายละเอียด",
 

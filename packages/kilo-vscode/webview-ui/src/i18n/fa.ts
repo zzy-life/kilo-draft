@@ -744,21 +744,6 @@ export const dict = {
     "این گزینه فقط تنظیمات مخصوص افزونه VS Code را به مقادیر پیش‌فرض بازنشانی می‌کند. تنظیمات مشترک با CLI، مانند حالت‌ها و قوانین تأیید خودکار، در پیکربندی CLI ذخیره می‌شوند و بازنشانی نخواهند شد.",
   "settings.aboutKiloCode.resetSettings.button": "بازنشانی همه تنظیمات",
   "settings.aboutKiloCode.resetSettings.notificationsButton": "بازنشانی اعلان‌های خوانده‌شده",
-  "settings.aboutKiloCode.settingsTransfer.title": "انتقال تنظیمات",
-  "settings.aboutKiloCode.settingsTransfer.description":
-    "تنظیمات خود را برای انتقال بین نمونه‌های VS Code صادر یا وارد کنید.",
-  "settings.aboutKiloCode.exportSettings": "صادر کردن",
-  "settings.aboutKiloCode.importSettings": "وارد کردن",
-  "settings.aboutKiloCode.importSettings.invalidJson":
-    "فایل JSON نامعتبر است. لطفاً یک فایل تنظیمات معتبر انتخاب کنید.",
-  "settings.aboutKiloCode.importSettings.invalidConfig": "فایل حاوی تنظیمات معتبر Kilo نیست.",
-  "settings.aboutKiloCode.importSettings.tooLarge":
-    "فایل بیش از حد بزرگ است. فایل‌های تنظیمات باید کمتر از ۱ مگابایت باشند.",
-  "settings.aboutKiloCode.importSettings.newerVersion":
-    "این فایل از نسخه جدیدتری از Kilo صادر شده است. برخی تنظیمات ممکن است نادیده گرفته شوند.",
-  "settings.aboutKiloCode.importSettings.success":
-    "تنظیمات وارد شد. تغییرات بالا را بررسی کنید، سپس روی ذخیره کلیک کنید.",
-
   "settings.aboutKiloCode.telemetry.title": "تله‌متری",
   "settings.aboutKiloCode.telemetry.description":
     "تله‌متری توسط تنظیمات داخلی تله‌متری VS Code کنترل می‌شود. برای غیرفعال کردن آن، به Settings > Telemetry > Telemetry Level بروید و آن را روی «off» تنظیم کنید. VS Code را مجدداً راه‌اندازی کنید تا تغییر اعمال شود.",
@@ -1130,91 +1115,6 @@ export const dict = {
   "question.summary": "{{n}} از {{total}} سؤال",
   "common.review": "بررسی",
 
-  // legacy-migration start
-  "settings.legacyMigration.link": "انتقال از نسخه قدیمی",
-  "settings.aboutKiloCode.legacyMigration.title": "انتقال از نسخه قدیمی",
-  "settings.aboutKiloCode.legacyMigration.description":
-    "تنظیمات را از نصب قبلی Kilo Code منتقل کنید، از جمله کلیدهای API ارائه‌دهنده و مدل پیش‌فرض.",
-  "settings.aboutKiloCode.rooImport.description": "تاریخچه مکالمات را از یک نصب Roo Code وارد کنید.",
-  "settings.aboutKiloCode.rooImport.button": "وارد کردن جلسات از Roo Code",
-
-  // Screen 1 — What's New
-  "migration.whatsNew.title": "تازه‌های Kilo Code",
-  "migration.whatsNew.subtitle": "افزونه را بر پایه‌ای سریع‌تر و کارآمدتر بازسازی کرده‌ایم.",
-  "migration.whatsNew.features.performance.title": "عملکرد سریع‌تر عامل",
-  "migration.whatsNew.features.performance.detail":
-    "فراخوانی ابزارهای موازی و زیرعامل‌ها به عامل شما امکان می‌دهند کارهای بیشتری را همزمان انجام دهد — تا زمان کمتری صرف نظارت کنید و زمان بیشتری برای ارسال داشته باشید.",
-  "migration.whatsNew.features.interface.title": "رابط کاربری ساده‌تر",
-  "migration.whatsNew.features.interface.detail": "حواس‌پرتی کمتر، خواندن آسان‌تر و سریع‌تر.",
-  "migration.whatsNew.features.agentManager.title": "Agent Manager",
-  "migration.whatsNew.features.agentManager.detail":
-    "یک رابط یکپارچه برای اجرای چندین عامل به‌صورت موازی، هر کدام در worktree مخصوص خود — پیشرفت را رصد کنید، بین زمینه‌ها جابه‌جا شوید و تغییرات را در یک مکان بررسی کنید.",
-  "migration.whatsNew.features.foundation.title": "پایه مشترک",
-  "migration.whatsNew.features.foundation.detail":
-    "یک هسته کوچک و کارآمد در تمام محصولات Kilo. تجربه‌ای آشنا، هر طور که انتخاب کنید کار کنید.",
-  "migration.whatsNew.blogLink": "خواندن اعلامیه کامل",
-  "migration.whatsNew.docsLink": "چه چیزی جدید است و سؤالات متداول",
-  "migration.whatsNew.continue": "ادامه",
-
-  // Screen 2 — Migrate Settings
-  "migration.migrate.title": "تنظیمات خود را منتقل کنید",
-  "migration.migrate.subtitle": "تنظیماتی از نصب قبلی شما یافتیم. این‌ها چیزهایی هستند که می‌توانیم منتقل کنیم.",
-  "migration.migrate.selectLabel": "انتخاب موارد برای انتقال",
-  "migration.migrate.chatHistory": "جلسات و تاریخچه چت",
-  "migration.migrate.button": "انتقال تنظیمات",
-  "migration.migrate.skip": "رد کردن",
-  "migration.migrate.keysDetected": "{{count}} کلید شناسایی شد",
-  "migration.migrate.serversConfigured": "{{count}} سرور پیکربندی شده",
-  "migration.migrate.modesFound": "{{count}} حالت یافت شد",
-  "migration.migrate.sessionsDetected": "{{count}} نشست شناسایی شد",
-  "migration.migrate.nothingToMigrate": "هیچ موردی برای انتقال در تنظیمات قدیمی یافت نشد.",
-
-  // Migrate — item labels (reused from old select keys)
-  "migration.select.providers": "کلیدهای API ارائه‌دهنده",
-  "migration.select.mcpServers": "سرورهای MCP",
-  "migration.select.customModes": "حالت‌ها / عوامل سفارشی",
-  "migration.select.defaultModel": "مدل پیش‌فرض",
-  "migration.select.autoApproval": "تأیید خودکار",
-  "migration.select.language": "زبان رابط کاربری",
-  "migration.select.autocomplete": "تنظیمات تکمیل خودکار",
-
-  // Migrate — completion
-  "migration.complete.summary": "{{success}} از {{total}} مورد با موفقیت منتقل شد.",
-  "migration.complete.cleanup": "حذف داده‌های تنظیمات قدیمی",
-  "migration.complete.cleanupDescription":
-    "این گزینه تنظیمات قدیمی را از حافظه VS Code حذف می‌کند. پس از این کار، امکان اجرای مجدد این انتقال وجود نخواهد داشت.",
-  "migration.complete.done": "انجام شد",
-  "migration.error.continue": "ادامه",
-  "migration.sessionSummary.title": "خلاصه:",
-  "migration.sessionSummary.copy": "کپی گزارش",
-  "migration.sessionSummary.toast.copied": "گزارش کپی شد",
-  "migration.sessionSummary.successful": "موفق",
-  "migration.sessionSummary.skipped": "رد شده",
-  "migration.sessionSummary.alreadyMigrated": "قبلاً منتقل شده",
-  "migration.sessionSummary.errored": "با خطا مواجه شد",
-  "migration.sessionSummary.none": "هیچ‌کدام",
-  "migration.forceReimport.title": "وارد کردن مجدد اجباری",
-  "migration.forceReimport.description":
-    "وارد کردن مجدد {{target}} آن‌ها را بازنویسی کرده و هر پیام جدیدی که در آن نشست‌ها ایجاد شده را حذف می‌کند.",
-  "migration.forceReimport.target.one": "این نشست",
-  "migration.forceReimport.target.many": "این {{count}} نشست",
-  "migration.forceReimport.button": "وارد کردن مجدد اجباری",
-  "migration.forceReimport.all": "وارد کردن مجدد همه",
-  "migration.forceReimport.proceed": "ادامه",
-  "migration.forceReimport.toast.started": "وارد کردن مجدد اجباری آغاز شد",
-  "migration.running.title": "انتقال در حال انجام است",
-  "migration.running.description.line1": "در حالی که هنوز نشست‌هایی در حال انتقال هستند، می‌خواهید پایان دهید.",
-  "migration.running.description.line2": "اگر اکنون خارج شوید، برخی جلسات ممکن است ناتمام بمانند.",
-  "migration.running.stay": "ماندن",
-  "migration.running.proceed": "ادامه",
-  "migration.sessionProgress.preparing": "در حال آماده‌سازی جلسه",
-  "migration.sessionProgress.storing": "در حال ذخیره جلسه",
-  "migration.sessionProgress.skipped": "جلسه رد شد",
-  "migration.sessionProgress.header": "در حال انتقال {{current}} از {{total}}",
-  "migration.sessionFormat.unknownDate": "تاریخ نامشخص",
-  "migration.sessionFormat.unknown": "نامشخص",
-  "migration.sessionFormat.unknownError": "خطای نامشخص",
-  // legacy-migration end
 
   "error.details.show": "جزئیات",
 

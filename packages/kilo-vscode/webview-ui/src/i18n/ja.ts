@@ -759,20 +759,6 @@ export const dict = {
     "これはVS Code拡張機能固有の設定のみをデフォルト値にリセットします。モードや自動承認ルールなど、CLIと共有される設定はCLI設定ファイルに保存されており、リセットされません。",
   "settings.aboutKiloCode.resetSettings.button": "すべての設定をリセット",
   "settings.aboutKiloCode.resetSettings.notificationsButton": "Reset Read Notifications",
-  "settings.aboutKiloCode.settingsTransfer.title": "設定の移行",
-  "settings.aboutKiloCode.settingsTransfer.description":
-    "VS Code インスタンス間で設定を転送するには、エクスポートまたはインポートしてください。",
-  "settings.aboutKiloCode.exportSettings": "エクスポート",
-  "settings.aboutKiloCode.importSettings": "インポート",
-  "settings.aboutKiloCode.importSettings.invalidJson":
-    "無効な JSON ファイルです。有効な設定ファイルを選択してください。",
-  "settings.aboutKiloCode.importSettings.invalidConfig": "ファイルに有効な Kilo の設定が含まれていません。",
-  "settings.aboutKiloCode.importSettings.tooLarge": "ファイルが大きすぎます。設定ファイルは 1 MB 以下にしてください。",
-  "settings.aboutKiloCode.importSettings.newerVersion":
-    "このファイルはより新しいバージョンの Kilo からエクスポートされたものです。一部の設定が無視される場合があります。",
-  "settings.aboutKiloCode.importSettings.success":
-    "設定をインポートしました。上記の変更内容を確認してから、保存をクリックしてください。",
-
   "settings.aboutKiloCode.telemetry.title": "テレメトリ",
   "settings.aboutKiloCode.telemetry.description":
     "テレメトリは VS Code の組み込みテレメトリ設定によって制御されます。無効にするには、設定 > テレメトリ > Telemetry Level に移動して「off」に設定してください。変更を適用するには、VS Code を再起動してください。",
@@ -1126,92 +1112,6 @@ export const dict = {
   "question.summary": "{{total}} 問中 {{n}} 問目",
   "common.review": "確認",
 
-  // legacy-migration start
-  "settings.legacyMigration.link": "レガシーバージョンからの移行",
-  "settings.aboutKiloCode.legacyMigration.title": "レガシー移行",
-  "settings.aboutKiloCode.legacyMigration.description":
-    "プロバイダーのAPIキーやデフォルトモデルなど、以前にインストールしたKilo Codeから設定を移行します。",
-  "settings.aboutKiloCode.rooImport.description": "インストールしたRoo Codeから会話履歴を移行します。",
-  "settings.aboutKiloCode.rooImport.button": "Roo Codeからセッションをインポート",
-
-  // Screen 1 — What's New
-  "migration.whatsNew.title": "Kilo Codeの新機能",
-  "migration.whatsNew.subtitle": "より高速で効率的な基盤上に拡張機能を再構築しました。",
-  "migration.whatsNew.features.performance.title": "高速なエージェントパフォーマンス",
-  "migration.whatsNew.features.performance.detail":
-    "並列ツール呼び出しとサブエージェントにより、エージェントがより多くのタスクを同時に処理できます — 待ち時間が減り、作業効率が向上します。",
-  "migration.whatsNew.features.interface.title": "洗練されたインターフェース",
-  "migration.whatsNew.features.interface.detail": "不要な要素を排除し、より読みやすく素早く操作できます。",
-  "migration.whatsNew.features.agentManager.title": "エージェントマネージャー",
-  "migration.whatsNew.features.agentManager.detail":
-    "複数のエージェントを並列実行するための統合インターフェース。それぞれ独自のワークツリー上で動作し、進捗の確認、コンテキストの切り替え、変更のレビューを一箇所で行えます。",
-  "migration.whatsNew.features.foundation.title": "共通基盤",
-  "migration.whatsNew.features.foundation.detail":
-    "すべてのKilo製品で共有される小さく効率的なコア。どのような作業スタイルでも馴染みのある体験を提供します。",
-  "migration.whatsNew.blogLink": "完全なアナウンスを読む",
-  "migration.whatsNew.docsLink": "新機能とよくある質問",
-  "migration.whatsNew.continue": "続行",
-
-  // Screen 2 — Migrate Settings
-  "migration.migrate.title": "設定の移行",
-  "migration.migrate.subtitle": "以前のインストールから設定が見つかりました。移行可能な項目は以下の通りです。",
-  "migration.migrate.selectLabel": "移行する項目を選択",
-  "migration.migrate.chatHistory": "チャットセッションと履歴",
-  "migration.migrate.button": "設定を移行",
-  "migration.migrate.skip": "スキップ",
-  "migration.migrate.keysDetected": "{{count}}個のキーを検出",
-  "migration.migrate.serversConfigured": "{{count}}個のサーバーが設定済み",
-  "migration.migrate.modesFound": "{{count}}個のモードが見つかりました",
-  "migration.migrate.nothingToMigrate": "レガシー設定に移行する項目が見つかりませんでした。",
-
-  // Migrate — item labels (reused from old select keys)
-  "migration.select.providers": "プロバイダーのAPIキー",
-  "migration.select.mcpServers": "MCPサーバー",
-  "migration.select.customModes": "カスタムモード / エージェント",
-  "migration.select.defaultModel": "デフォルトモデル",
-  "migration.select.autoApproval": "自動承認",
-  "migration.select.language": "UI言語",
-  "migration.select.autocomplete": "オートコンプリート設定",
-
-  // Migrate — completion
-  "migration.complete.summary": "{{total}}個中{{success}}個の項目が正常に移行されました。",
-  "migration.complete.cleanup": "レガシー設定データを削除する",
-  "migration.complete.cleanupDescription":
-    "VS Codeのストレージから古い設定を削除します。この移行を再度実行することはできなくなります。",
-  "migration.complete.done": "完了",
-  "migration.migrate.sessionsDetected": "{{count}} 件のセッションが見つかりました",
-  "migration.error.continue": "続行",
-
-  "migration.sessionSummary.title": "概要:",
-  "migration.sessionSummary.copy": "レポートをコピー",
-  "migration.sessionSummary.toast.copied": "レポートをコピーしました",
-  "migration.sessionSummary.successful": "成功",
-  "migration.sessionSummary.skipped": "スキップ",
-  "migration.sessionSummary.alreadyMigrated": "移行済み",
-  "migration.sessionSummary.errored": "エラーあり",
-  "migration.sessionSummary.none": "なし",
-  "migration.forceReimport.title": "再インポートを強制",
-  "migration.forceReimport.description":
-    "{{target}} を再インポートすると上書きされ、それらのセッションで既に作成された新しいメッセージは削除されます。",
-  "migration.forceReimport.target.one": "このセッション",
-  "migration.forceReimport.target.many": "これら {{count}} 件のセッション",
-  "migration.forceReimport.button": "再インポートを強制",
-  "migration.forceReimport.all": "すべて再インポート",
-  "migration.forceReimport.proceed": "続行",
-  "migration.forceReimport.toast.started": "強制再インポートを開始しました",
-  "migration.running.title": "移行を実行中",
-  "migration.running.description.line1": "まだ移行中のセッションがある状態で終了しようとしています。",
-  "migration.running.description.line2": "今離れると、一部のセッションは未完了のままになる可能性があります。",
-  "migration.running.stay": "このままにする",
-  "migration.running.proceed": "続行",
-  "migration.sessionProgress.preparing": "セッションを準備中",
-  "migration.sessionProgress.storing": "セッションを保存中",
-  "migration.sessionProgress.skipped": "セッションをスキップしました",
-  "migration.sessionProgress.header": "{{total}} 件中 {{current}} 件を移行中",
-  "migration.sessionFormat.unknownDate": "不明な日付",
-  "migration.sessionFormat.unknown": "不明",
-  "migration.sessionFormat.unknownError": "不明なエラー",
-  // legacy-migration end
 
   "error.details.show": "詳細",
 

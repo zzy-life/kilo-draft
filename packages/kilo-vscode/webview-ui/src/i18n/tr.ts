@@ -752,19 +752,6 @@ export const dict = {
     "Bu, yalnızca VS Code uzantısına özgü ayarları varsayılan değerlerine sıfırlar. Modlar ve otomatik onay kuralları gibi CLI ile paylaşılan ayarlar, CLI yapılandırmasında depolanır ve sıfırlanmaz.",
   "settings.aboutKiloCode.resetSettings.button": "Tüm Ayarları Sıfırla",
   "settings.aboutKiloCode.resetSettings.notificationsButton": "Reset Read Notifications",
-  "settings.aboutKiloCode.settingsTransfer.title": "Ayar Aktarımı",
-  "settings.aboutKiloCode.settingsTransfer.description":
-    "Ayarlarınızı VS Code örnekleri arasında aktarmak için dışa veya içe aktarın.",
-  "settings.aboutKiloCode.exportSettings": "Dışa Aktar",
-  "settings.aboutKiloCode.importSettings": "İçe Aktar",
-  "settings.aboutKiloCode.importSettings.invalidJson": "Geçersiz JSON dosyası. Lütfen geçerli bir ayar dosyası seçin.",
-  "settings.aboutKiloCode.importSettings.invalidConfig": "Dosya geçerli Kilo ayarları içermiyor.",
-  "settings.aboutKiloCode.importSettings.tooLarge": "Dosya çok büyük. Ayar dosyaları 1 MB altında olmalıdır.",
-  "settings.aboutKiloCode.importSettings.newerVersion":
-    "Bu dosya Kilo'nun daha yeni bir sürümünden dışa aktarılmış. Bazı ayarlar göz ardı edilebilir.",
-  "settings.aboutKiloCode.importSettings.success":
-    "Ayarlar içe aktarıldı. Yukarıdaki değişiklikleri gözden geçirin, ardından Kaydet'e tıklayın.",
-
   "settings.aboutKiloCode.telemetry.title": "Telemetri",
   "settings.aboutKiloCode.telemetry.description":
     "Telemetri, VS Code'un yerleşik telemetri ayarı tarafından kontrol edilir. Devre dışı bırakmak için Ayarlar > Telemetri > Telemetri Düzeyi'ne gidin ve \"off\" olarak ayarlayın. Değişikliği uygulamak için VS Code'u yeniden başlatın.",
@@ -1104,93 +1091,6 @@ export const dict = {
   "question.summary": "{{total}} sorudan {{n}} tanesi",
   "common.review": "İncele",
 
-  // legacy-migration start
-  "settings.legacyMigration.link": "Eski Sürümden Taşı",
-  "settings.aboutKiloCode.legacyMigration.title": "Eski Sürüm Taşıma",
-  "settings.aboutKiloCode.legacyMigration.description":
-    "Sağlayıcı API anahtarları ve varsayılan model dahil olmak üzere Kilo Code'un önceki yüklemesinden ayarları taşıyın.",
-  "settings.aboutKiloCode.rooImport.description": "Bir Roo Code yüklemesinden konuşma geçmişini içe aktarın.",
-  "settings.aboutKiloCode.rooImport.button": "Roo Code'dan Oturumları İçe Aktar",
-
-  // Screen 1 — What's New
-  "migration.whatsNew.title": "Kilo Code'daki Yenilikler",
-  "migration.whatsNew.badge": "Beta",
-  "migration.whatsNew.subtitle": "Uzantıyı daha hızlı ve daha verimli bir temel üzerine yeniden inşa ettik.",
-  "migration.whatsNew.features.performance.title": "Daha Hızlı Ajan Performansı",
-  "migration.whatsNew.features.performance.detail":
-    "Paralel araç çağrıları ve alt ajanlar, ajanınızın aynı anda daha fazlasını yapmasını sağlar — böylece izlemek yerine daha fazla üretirsiniz.",
-  "migration.whatsNew.features.interface.title": "Basitleştirilmiş Arayüz",
-  "migration.whatsNew.features.interface.detail": "Daha az dikkat dağıtıcı, daha kolay ve hızlı okuma.",
-  "migration.whatsNew.features.agentManager.title": "Ajan Yöneticisi",
-  "migration.whatsNew.features.agentManager.detail":
-    "Birden fazla ajanı paralel olarak çalıştırmak için birleşik bir arayüz, her biri kendi worktree'sinde — ilerlemeyi izleyin, bağlam değiştirin ve değişiklikleri tek bir yerden inceleyin.",
-  "migration.whatsNew.features.foundation.title": "Paylaşılan Temel",
-  "migration.whatsNew.features.foundation.detail":
-    "Her Kilo ürününde küçük ve verimli bir çekirdek. Nasıl çalışmayı tercih ederseniz edin, tanıdık bir deneyim.",
-  "migration.whatsNew.blogLink": "Tam duyuruyu oku",
-  "migration.whatsNew.docsLink": "Yenilikler ve sık sorulan sorular",
-  "migration.whatsNew.continue": "Devam",
-
-  // Screen 2 — Migrate Settings
-  "migration.migrate.title": "Ayarlarınızı Taşıyın",
-  "migration.migrate.subtitle": "Önceki yüklemenizden ayarlar bulduk. İşte taşıyabileceğimiz ayarlar.",
-  "migration.migrate.selectLabel": "Taşınacakları seçin",
-  "migration.migrate.chatHistory": "Sohbet Oturumları ve Geçmiş",
-  "migration.migrate.button": "Ayarları Taşı",
-  "migration.migrate.skip": "Atla",
-  "migration.migrate.keysDetected": "{{count}} anahtar algılandı",
-  "migration.migrate.serversConfigured": "{{count}} sunucu yapılandırıldı",
-  "migration.migrate.modesFound": "{{count}} mod bulundu",
-  "migration.migrate.nothingToMigrate": "Eski ayarlarda taşınacak bir şey bulunamadı.",
-
-  // Migrate — item labels
-  "migration.select.providers": "Sağlayıcı API Anahtarları",
-  "migration.select.mcpServers": "MCP Sunucuları",
-  "migration.select.customModes": "Özel Modlar / Ajanlar",
-  "migration.select.defaultModel": "Varsayılan Model",
-  "migration.select.autoApproval": "Otomatik Onay",
-  "migration.select.language": "Arayüz Dili",
-  "migration.select.autocomplete": "Otomatik Tamamlama Ayarları",
-
-  // Migrate — completion
-  "migration.complete.summary": "{{total}} öğeden {{success}} tanesi başarıyla taşındı.",
-  "migration.complete.cleanup": "Eski ayar verilerini kaldır",
-  "migration.complete.cleanupDescription":
-    "Bu, VS Code depolamasından eski ayarları kaldırır. Bu taşımayı yeniden çalıştıramazsınız.",
-  "migration.complete.done": "Bitti",
-  "migration.migrate.sessionsDetected": "{{count}} oturum bulundu",
-  "migration.error.continue": "Devam et",
-
-  "migration.sessionSummary.title": "Özet:",
-  "migration.sessionSummary.copy": "Raporu kopyala",
-  "migration.sessionSummary.toast.copied": "Rapor kopyalandı",
-  "migration.sessionSummary.successful": "Başarılı",
-  "migration.sessionSummary.skipped": "Atlandı",
-  "migration.sessionSummary.alreadyMigrated": "Zaten taşındı",
-  "migration.sessionSummary.errored": "Hatalı",
-  "migration.sessionSummary.none": "Yok",
-  "migration.forceReimport.title": "Yeniden içe aktarmayı zorla",
-  "migration.forceReimport.description":
-    "{{target}} yeniden içe aktarılırsa üzerlerine yazılır ve bu oturumlarda zaten oluşturulmuş yeni mesajlar silinir.",
-  "migration.forceReimport.target.one": "bu oturum",
-  "migration.forceReimport.target.many": "bu {{count}} oturum",
-  "migration.forceReimport.button": "Yeniden içe aktarmayı zorla",
-  "migration.forceReimport.all": "Hepsini yeniden içe aktar",
-  "migration.forceReimport.proceed": "Devam et",
-  "migration.forceReimport.toast.started": "Zorunlu yeniden içe aktarma başlatıldı",
-  "migration.running.title": "Taşıma sürüyor",
-  "migration.running.description.line1": "Hâlâ taşınan oturumlar varken işlemi bitirmek üzeresiniz.",
-  "migration.running.description.line2": "Şimdi çıkarsanız bazı oturumlar eksik kalabilir.",
-  "migration.running.stay": "Kal",
-  "migration.running.proceed": "Devam et",
-  "migration.sessionProgress.preparing": "Oturum hazırlanıyor",
-  "migration.sessionProgress.storing": "Oturum kaydediliyor",
-  "migration.sessionProgress.skipped": "Oturum atlandı",
-  "migration.sessionProgress.header": "{{total}} içinden {{current}} taşınıyor",
-  "migration.sessionFormat.unknownDate": "Bilinmeyen tarih",
-  "migration.sessionFormat.unknown": "Bilinmiyor",
-  "migration.sessionFormat.unknownError": "Bilinmeyen hata",
-  // legacy-migration end
 
   "error.details.show": "Ayrıntılar",
 

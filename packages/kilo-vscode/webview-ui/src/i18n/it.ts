@@ -619,18 +619,6 @@ export const dict = {
     "Ripristina solo le impostazioni specifiche dell'estensione VS Code ai valori predefiniti. Le impostazioni condivise con la CLI, come modalità e regole di approvazione automatica, sono salvate nella configurazione CLI e non verranno ripristinate.",
   "settings.aboutKiloCode.resetSettings.button": "Ripristina tutte le impostazioni",
   "settings.aboutKiloCode.resetSettings.notificationsButton": "Reset Read Notifications",
-  "settings.aboutKiloCode.settingsTransfer.title": "Trasferimento impostazioni",
-  "settings.aboutKiloCode.settingsTransfer.description":
-    "Esporta o importa le impostazioni per trasferirle tra istanze VS Code.",
-  "settings.aboutKiloCode.exportSettings": "Esporta",
-  "settings.aboutKiloCode.importSettings": "Importa",
-  "settings.aboutKiloCode.importSettings.invalidJson": "File JSON non valido. Seleziona un file impostazioni valido.",
-  "settings.aboutKiloCode.importSettings.invalidConfig": "Il file non contiene impostazioni Kilo valide.",
-  "settings.aboutKiloCode.importSettings.tooLarge": "File troppo grande. I file impostazioni devono essere sotto 1 MB.",
-  "settings.aboutKiloCode.importSettings.newerVersion":
-    "Questo file è stato esportato da una versione più recente di Kilo. Alcune impostazioni potrebbero essere ignorate.",
-  "settings.aboutKiloCode.importSettings.success":
-    "Impostazioni importate. Controlla le modifiche sopra, poi fai clic su Salva.",
   "settings.aboutKiloCode.telemetry.title": "Telemetria",
   "settings.aboutKiloCode.telemetry.description":
     'La telemetria è controllata dall\'impostazione integrata di VS Code. Per disabilitarla, vai in Impostazioni > Telemetria > Livello telemetria e impostala su "off". Riavvia VS Code per applicare la modifica.',

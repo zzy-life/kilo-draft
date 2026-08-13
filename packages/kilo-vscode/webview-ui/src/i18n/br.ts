@@ -767,21 +767,6 @@ export const dict = {
     "Isso redefine apenas as configurações específicas da extensão VS Code para seus valores padrão. As configurações compartilhadas com o CLI, como modos e regras de aprovação automática, são armazenadas na configuração do CLI e não serão redefinidas.",
   "settings.aboutKiloCode.resetSettings.button": "Redefinir Todas as Configurações",
   "settings.aboutKiloCode.resetSettings.notificationsButton": "Reset Read Notifications",
-  "settings.aboutKiloCode.settingsTransfer.title": "Transferência de configurações",
-  "settings.aboutKiloCode.settingsTransfer.description":
-    "Exporte ou importe suas configurações para transferi-las entre instâncias do VS Code.",
-  "settings.aboutKiloCode.exportSettings": "Exportar",
-  "settings.aboutKiloCode.importSettings": "Importar",
-  "settings.aboutKiloCode.importSettings.invalidJson":
-    "Arquivo JSON inválido. Selecione um arquivo de configurações válido.",
-  "settings.aboutKiloCode.importSettings.invalidConfig": "O arquivo não contém configurações válidas do Kilo.",
-  "settings.aboutKiloCode.importSettings.tooLarge":
-    "O arquivo é muito grande. Arquivos de configurações devem ter menos de 1 MB.",
-  "settings.aboutKiloCode.importSettings.newerVersion":
-    "Este arquivo foi exportado de uma versão mais recente do Kilo. Algumas configurações podem ser ignoradas.",
-  "settings.aboutKiloCode.importSettings.success":
-    "Configurações importadas. Revise as alterações acima e clique em Salvar.",
-
   "settings.aboutKiloCode.telemetry.title": "Telemetria",
   "settings.aboutKiloCode.telemetry.description":
     'A telemetria é controlada pela configuração de telemetria integrada do VS Code. Para desativá-la, vá para Configurações > Telemetria > Nível de Telemetria e defina como "off". Reinicie o VS Code para aplicar a alteração.',
@@ -1147,92 +1132,6 @@ export const dict = {
   "question.summary": "{{n}} de {{total}} perguntas",
   "common.review": "Revisar",
 
-  // legacy-migration start
-  "settings.legacyMigration.link": "Migrar da Versão Legada",
-  "settings.aboutKiloCode.legacyMigration.title": "Migração Legada",
-  "settings.aboutKiloCode.legacyMigration.description":
-    "Migre as configurações de uma instalação anterior do Kilo Code, incluindo chaves de API de provedor e modelo padrão.",
-  "settings.aboutKiloCode.rooImport.description": "Importe o histórico de conversas de uma instalação do Roo Code.",
-  "settings.aboutKiloCode.rooImport.button": "Importar sessões do Roo Code",
-
-  // Screen 1 — What's New
-  "migration.whatsNew.title": "O Que Há de Novo no Kilo Code",
-  "migration.whatsNew.subtitle": "Reconstruímos a extensão sobre uma base mais rápida e eficiente.",
-  "migration.whatsNew.features.performance.title": "Desempenho de Agente Mais Rápido",
-  "migration.whatsNew.features.performance.detail":
-    "Chamadas de ferramentas paralelas e subagentes permitem que seu agente faça mais de uma vez — assim você gasta menos tempo esperando e mais tempo entregando.",
-  "migration.whatsNew.features.interface.title": "Interface Simplificada",
-  "migration.whatsNew.features.interface.detail": "Menos distrações, mais fácil e rápido de ler.",
-  "migration.whatsNew.features.agentManager.title": "Gerenciador de Agentes",
-  "migration.whatsNew.features.agentManager.detail":
-    "Uma interface unificada para executar múltiplos agentes em paralelo, cada um em sua própria worktree — monitore o progresso, troque de contexto e revise alterações em um só lugar.",
-  "migration.whatsNew.features.foundation.title": "Base Compartilhada",
-  "migration.whatsNew.features.foundation.detail":
-    "Um núcleo pequeno e eficiente em todos os produtos Kilo. Uma experiência familiar independentemente de como você escolha trabalhar.",
-  "migration.whatsNew.blogLink": "Leia o anúncio completo",
-  "migration.whatsNew.docsLink": "Novidades e perguntas frequentes",
-  "migration.whatsNew.continue": "Continuar",
-
-  // Screen 2 — Migrate Settings
-  "migration.migrate.title": "Migre Suas Configurações",
-  "migration.migrate.subtitle": "Encontramos configurações da sua instalação anterior. Veja o que podemos trazer.",
-  "migration.migrate.selectLabel": "Selecione o que migrar",
-  "migration.migrate.chatHistory": "Sessões de Chat e Histórico",
-  "migration.migrate.button": "Migrar Configurações",
-  "migration.migrate.skip": "Pular",
-  "migration.migrate.keysDetected": "{{count}} chaves detectadas",
-  "migration.migrate.serversConfigured": "{{count}} servidor(es) configurado(s)",
-  "migration.migrate.modesFound": "{{count}} modo(s) encontrado(s)",
-  "migration.migrate.nothingToMigrate": "Nada para migrar foi encontrado nas configurações legadas.",
-
-  // Migrate — item labels (reused from old select keys)
-  "migration.select.providers": "Chaves de API de Provedor",
-  "migration.select.mcpServers": "Servidores MCP",
-  "migration.select.customModes": "Modos Personalizados / Agentes",
-  "migration.select.defaultModel": "Modelo Padrão",
-  "migration.select.autoApproval": "Aprovação Automática",
-  "migration.select.language": "Idioma da Interface",
-  "migration.select.autocomplete": "Configurações de Autocomplete",
-
-  // Migrate — completion
-  "migration.complete.summary": "{{success}} de {{total}} itens migrados com sucesso.",
-  "migration.complete.cleanup": "Remover dados de configurações legadas",
-  "migration.complete.cleanupDescription":
-    "Isso remove as configurações antigas do armazenamento do VS Code. Você não poderá executar esta migração novamente.",
-  "migration.complete.done": "Concluído",
-  "migration.migrate.sessionsDetected": "{{count}} sessões detectadas",
-  "migration.error.continue": "Continuar",
-
-  "migration.sessionSummary.title": "Resumo:",
-  "migration.sessionSummary.copy": "Copiar relatório",
-  "migration.sessionSummary.toast.copied": "Relatório copiado",
-  "migration.sessionSummary.successful": "Bem-sucedidas",
-  "migration.sessionSummary.skipped": "Ignoradas",
-  "migration.sessionSummary.alreadyMigrated": "Já migradas",
-  "migration.sessionSummary.errored": "Com erro",
-  "migration.sessionSummary.none": "Nenhuma",
-  "migration.forceReimport.title": "Forçar reimportação",
-  "migration.forceReimport.description":
-    "Reimportar {{target}} vai sobrescrevê-los e apagar quaisquer novas mensagens já criadas nessas sessões.",
-  "migration.forceReimport.target.one": "esta sessão",
-  "migration.forceReimport.target.many": "estas {{count}} sessões",
-  "migration.forceReimport.button": "Forçar reimportação",
-  "migration.forceReimport.all": "Reimportar tudo",
-  "migration.forceReimport.proceed": "Prosseguir",
-  "migration.forceReimport.toast.started": "Reimportação forçada iniciada",
-  "migration.running.title": "Migração em andamento",
-  "migration.running.description.line1": "Você está prestes a concluir enquanto ainda há sessões sendo migradas.",
-  "migration.running.description.line2": "Se você sair agora, algumas sessões podem ficar incompletas.",
-  "migration.running.stay": "Ficar",
-  "migration.running.proceed": "Prosseguir",
-  "migration.sessionProgress.preparing": "Preparando sessão",
-  "migration.sessionProgress.storing": "Salvando sessão",
-  "migration.sessionProgress.skipped": "Sessão ignorada",
-  "migration.sessionProgress.header": "Migrando {{current}} de {{total}}",
-  "migration.sessionFormat.unknownDate": "Data desconhecida",
-  "migration.sessionFormat.unknown": "Desconhecido",
-  "migration.sessionFormat.unknownError": "Erro desconhecido",
-  // legacy-migration end
 
   "error.details.show": "Detalhes",
 

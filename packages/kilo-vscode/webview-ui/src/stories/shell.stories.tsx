@@ -33,11 +33,11 @@ const shellPart: ToolPart = {
   state: {
     status: "completed",
     input: {
-      description: "Check for migration message types",
-      command: `grep -n "migration\\|openMigration" packages/kilo-vscode/webview-ui/src/types/messages.ts`,
+      description: "Check application message types",
+      command: `grep -n "newTask\\|history" packages/kilo-vscode/webview-ui/src/types/messages.ts`,
     },
-    output: `534:  view: "newTask" | "history" | "profile" | "settings" | "migration" // legacy-migration`,
-    title: "Check for migration message types",
+    output: `534:  view: "newTask" | "history" | "profile" | "settings"`,
+    title: "Check application message types",
     metadata: {},
     time: { start: now - 5000, end: now - 4500 },
   },

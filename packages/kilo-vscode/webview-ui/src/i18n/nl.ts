@@ -757,21 +757,6 @@ export const dict = {
     "Dit reset alleen VS Code-extensiespecifieke instellingen naar hun standaardwaarden. Instellingen die gedeeld worden met de CLI, zoals modi en regels voor automatisch goedkeuren, worden opgeslagen in de CLI-configuratie en worden niet gereset.",
   "settings.aboutKiloCode.resetSettings.button": "Alle instellingen resetten",
   "settings.aboutKiloCode.resetSettings.notificationsButton": "Reset Read Notifications",
-  "settings.aboutKiloCode.settingsTransfer.title": "Instellingen overdragen",
-  "settings.aboutKiloCode.settingsTransfer.description":
-    "Exporteer of importeer uw instellingen om ze tussen VS Code-instanties over te dragen.",
-  "settings.aboutKiloCode.exportSettings": "Exporteren",
-  "settings.aboutKiloCode.importSettings": "Importeren",
-  "settings.aboutKiloCode.importSettings.invalidJson":
-    "Ongeldig JSON-bestand. Selecteer een geldig instellingenbestand.",
-  "settings.aboutKiloCode.importSettings.invalidConfig": "Het bestand bevat geen geldige Kilo-instellingen.",
-  "settings.aboutKiloCode.importSettings.tooLarge":
-    "Het bestand is te groot. Instellingenbestanden moeten kleiner zijn dan 1 MB.",
-  "settings.aboutKiloCode.importSettings.newerVersion":
-    "Dit bestand is geëxporteerd vanuit een nieuwere versie van Kilo. Sommige instellingen worden mogelijk genegeerd.",
-  "settings.aboutKiloCode.importSettings.success":
-    "Instellingen geïmporteerd. Controleer de bovenstaande wijzigingen en klik vervolgens op Opslaan.",
-
   "settings.aboutKiloCode.telemetry.title": "Telemetrie",
   "settings.aboutKiloCode.telemetry.description":
     'Telemetrie wordt beheerd door de ingebouwde telemetrie-instelling van VS Code. Om dit uit te schakelen, gaat u naar Instellingen > Telemetrie > Telemetrieniveau en stelt u dit in op "off". Herstart VS Code om de wijziging toe te passen.',
@@ -1119,93 +1104,6 @@ export const dict = {
   "question.summary": "{{n}} van de {{total}} vragen",
   "common.review": "Beoordelen",
 
-  // legacy-migration start
-  "settings.legacyMigration.link": "Migreer van Legacy Versie",
-  "settings.aboutKiloCode.legacyMigration.title": "Legacy Migratie",
-  "settings.aboutKiloCode.legacyMigration.description":
-    "Migreer instellingen van een eerdere installatie van Kilo Code, inclusief provider API-sleutels en standaard model.",
-  "settings.aboutKiloCode.rooImport.description": "Importeer gespreksgeschiedenis van een Roo Code installatie.",
-  "settings.aboutKiloCode.rooImport.button": "Sessies importeren uit Roo Code",
-
-  // Screen 1 — What's New
-  "migration.whatsNew.title": "Wat is er Nieuw in Kilo Code",
-  "migration.whatsNew.subtitle": "We hebben de extensie opnieuw opgebouwd op een snellere, efficiëntere basis.",
-  "migration.whatsNew.features.performance.title": "Snellere Agent Prestaties",
-  "migration.whatsNew.features.performance.detail":
-    "Parallelle tool calls en subagents laten je agent meer tegelijk aanpakken — zodat je minder tijd besteedt aan wachten en meer tijd aan releasen.",
-  "migration.whatsNew.features.interface.title": "Gestroomlijnde Interface",
-  "migration.whatsNew.features.interface.detail": "Minder afleiding, makkelijker en sneller te lezen.",
-  "migration.whatsNew.features.agentManager.title": "Agentenbeheer",
-  "migration.whatsNew.features.agentManager.detail":
-    "Een uniforme interface voor het parallel uitvoeren van meerdere agents, elk op zijn eigen worktree — monitor de voortgang, wissel van context en bekijk wijzigingen op één plek.",
-  "migration.whatsNew.features.foundation.title": "Gedeelde Basis",
-  "migration.whatsNew.features.foundation.detail":
-    "Één kleine, efficiënte kern voor elk Kilo-product. Een vertrouwde ervaring, hoe je ook wilt werken.",
-  "migration.whatsNew.blogLink": "Lees de volledige aankondiging",
-  "migration.whatsNew.docsLink": "Wat is er nieuw & veelgestelde vragen",
-  "migration.whatsNew.continue": "Doorgaan",
-
-  // Screen 2 — Migrate Settings
-  "migration.migrate.title": "Migreer Je Instellingen",
-  "migration.migrate.subtitle":
-    "We hebben instellingen gevonden van je vorige installatie. Hier is wat we kunnen overzetten.",
-  "migration.migrate.selectLabel": "Selecteer wat je wilt migreren",
-  "migration.migrate.chatHistory": "Chatsessies & Geschiedenis",
-  "migration.migrate.button": "Migreer Instellingen",
-  "migration.migrate.skip": "Overslaan",
-  "migration.migrate.keysDetected": "{{count}} sleutels gedetecteerd",
-  "migration.migrate.serversConfigured": "{{count}} server(s) geconfigureerd",
-  "migration.migrate.modesFound": "{{count}} modus(sen) gevonden",
-  "migration.migrate.nothingToMigrate": "Er is niets om te migreren gevonden in de oude instellingen.",
-
-  // Migrate — item labels (reused from old select keys)
-  "migration.select.providers": "Provider API-sleutels",
-  "migration.select.mcpServers": "MCP Servers",
-  "migration.select.customModes": "Aangepaste Modi / Agents",
-  "migration.select.defaultModel": "Standaard Model",
-  "migration.select.autoApproval": "Automatische Goedkeuring",
-  "migration.select.language": "UI Taal",
-  "migration.select.autocomplete": "Automatisch Aanvullen Instellingen",
-
-  // Migrate — completion
-  "migration.complete.summary": "{{success}} van de {{total}} items succesvol gemigreerd.",
-  "migration.complete.cleanup": "Verwijder oude instellingendata",
-  "migration.complete.cleanupDescription":
-    "Dit verwijdert de oude instellingen uit de VS Code-opslag. U zult deze migratie niet opnieuw kunnen uitvoeren.",
-  "migration.complete.done": "Klaar",
-  "migration.migrate.sessionsDetected": "{{count}} sessies gedetecteerd",
-  "migration.error.continue": "Doorgaan",
-
-  "migration.sessionSummary.title": "Samenvatting:",
-  "migration.sessionSummary.copy": "Rapport kopiëren",
-  "migration.sessionSummary.toast.copied": "Rapport gekopieerd",
-  "migration.sessionSummary.successful": "Geslaagd",
-  "migration.sessionSummary.skipped": "Overgeslagen",
-  "migration.sessionSummary.alreadyMigrated": "Al gemigreerd",
-  "migration.sessionSummary.errored": "Met fouten",
-  "migration.sessionSummary.none": "Geen",
-  "migration.forceReimport.title": "Herimport forceren",
-  "migration.forceReimport.description":
-    "Het opnieuw importeren van {{target}} zal deze overschrijven en alle nieuwe berichten verwijderen die al in die sessies zijn gemaakt.",
-  "migration.forceReimport.target.one": "deze sessie",
-  "migration.forceReimport.target.many": "deze {{count}} sessies",
-  "migration.forceReimport.button": "Herimport forceren",
-  "migration.forceReimport.all": "Alles opnieuw importeren",
-  "migration.forceReimport.proceed": "Doorgaan",
-  "migration.forceReimport.toast.started": "Geforceerde herimport gestart",
-  "migration.running.title": "Migratie bezig",
-  "migration.running.description.line1": "Je staat op het punt af te ronden terwijl er nog sessies worden gemigreerd.",
-  "migration.running.description.line2": "Als je nu vertrekt, kunnen sommige sessies onvolledig blijven.",
-  "migration.running.stay": "Blijven",
-  "migration.running.proceed": "Doorgaan",
-  "migration.sessionProgress.preparing": "Sessie voorbereiden",
-  "migration.sessionProgress.storing": "Sessie opslaan",
-  "migration.sessionProgress.skipped": "Sessie overgeslagen",
-  "migration.sessionProgress.header": "Bezig met migreren van {{current}} van {{total}}",
-  "migration.sessionFormat.unknownDate": "Onbekende datum",
-  "migration.sessionFormat.unknown": "Onbekend",
-  "migration.sessionFormat.unknownError": "Onbekende fout",
-  // legacy-migration end
 
   "error.details.show": "Details",
 

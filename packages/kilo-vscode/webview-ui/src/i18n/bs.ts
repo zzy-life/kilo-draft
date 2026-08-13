@@ -766,19 +766,6 @@ export const dict = {
     "Ovo resetuje samo postavke specifične za VS Code ekstenziju na njihove zadane vrijednosti. Postavke koje se dijele s CLI-jem, kao što su načini rada i pravila automatskog odobravanja, pohranjene su u CLI konfiguraciji i neće biti resetovane.",
   "settings.aboutKiloCode.resetSettings.button": "Resetuj sve postavke",
   "settings.aboutKiloCode.resetSettings.notificationsButton": "Reset Read Notifications",
-  "settings.aboutKiloCode.settingsTransfer.title": "Prijenos postavki",
-  "settings.aboutKiloCode.settingsTransfer.description":
-    "Izvezite ili uvezite postavke za prijenos između VS Code instanci.",
-  "settings.aboutKiloCode.exportSettings": "Izvezi",
-  "settings.aboutKiloCode.importSettings": "Uvezi",
-  "settings.aboutKiloCode.importSettings.invalidJson": "Nevažeći JSON fajl. Odaberite važeći fajl s postavkama.",
-  "settings.aboutKiloCode.importSettings.invalidConfig": "Fajl ne sadrži važeće Kilo postavke.",
-  "settings.aboutKiloCode.importSettings.tooLarge": "Fajl je prevelik. Fajlovi s postavkama moraju biti manji od 1 MB.",
-  "settings.aboutKiloCode.importSettings.newerVersion":
-    "Ovaj fajl je izvezen iz novije verzije Kilo-a. Neke postavke mogu biti zanemarene.",
-  "settings.aboutKiloCode.importSettings.success":
-    "Postavke su uvezene. Pregledajte promjene iznad, a zatim kliknite Sačuvaj.",
-
   "settings.aboutKiloCode.telemetry.title": "Telemetrija",
   "settings.aboutKiloCode.telemetry.description":
     'Telemetrija je kontrolisana ugrađenom postavkom za telemetriju u VS Code-u. Da biste je onemogućili, idite na Postavke > Telemetrija > Nivo telemetrije i postavite na "off". Ponovo pokrenite VS Code da biste primijenili promjenu.',
@@ -1137,92 +1124,6 @@ export const dict = {
   "question.summary": "{{n}} od {{total}} pitanja",
   "common.review": "Pregled",
 
-  // legacy-migration start
-  "settings.legacyMigration.link": "Migriraj sa prethodne verzije",
-  "settings.aboutKiloCode.legacyMigration.title": "Migracija sa prethodne verzije",
-  "settings.aboutKiloCode.legacyMigration.description":
-    "Migrirajte postavke iz prethodne instalacije Kilo Code, uključujući API ključeve provajdera i podrazumijevani model.",
-  "settings.aboutKiloCode.rooImport.description": "Uvezite historiju razgovora iz instalacije Roo Code.",
-  "settings.aboutKiloCode.rooImport.button": "Uvezi sesije iz Roo Code",
-
-  // Screen 1 — What's New
-  "migration.whatsNew.title": "Šta je novo u Kilo Code",
-  "migration.whatsNew.subtitle": "Ponovo smo izgradili ekstenziju na bržem i efikasnijem temelju.",
-  "migration.whatsNew.features.performance.title": "Brže performanse agenta",
-  "migration.whatsNew.features.performance.detail":
-    "Paralelni pozivi alata i podagenti omogućavaju vašem agentu da radi više odjednom — tako trošite manje vremena čekajući, a više isporučujući.",
-  "migration.whatsNew.features.interface.title": "Pojednostavljeni interfejs",
-  "migration.whatsNew.features.interface.detail": "Manje distrakcija, lakše i brže za čitanje.",
-  "migration.whatsNew.features.agentManager.title": "Upravljač agentima",
-  "migration.whatsNew.features.agentManager.detail":
-    "Jedinstveni interfejs za pokretanje više agenata paralelno, svaki na svom worktree-u — pratite napredak, mijenjajte kontekst i pregledajte promjene na jednom mjestu.",
-  "migration.whatsNew.features.foundation.title": "Zajednički temelj",
-  "migration.whatsNew.features.foundation.detail":
-    "Jedno malo, efikasno jezgro kroz sve Kilo proizvode. Poznato iskustvo bez obzira na to kako odaberete raditi.",
-  "migration.whatsNew.blogLink": "Pročitajte cijeli oglas",
-  "migration.whatsNew.docsLink": "Novosti i često postavljana pitanja",
-  "migration.whatsNew.continue": "Nastavi",
-
-  // Screen 2 — Migrate Settings
-  "migration.migrate.title": "Migrirajte svoje postavke",
-  "migration.migrate.subtitle": "Pronašli smo postavke iz vaše prethodne instalacije. Evo šta možemo prenijeti.",
-  "migration.migrate.selectLabel": "Odaberite šta želite migrirati",
-  "migration.migrate.chatHistory": "Sesije razgovora i historija",
-  "migration.migrate.button": "Migriraj postavke",
-  "migration.migrate.skip": "Preskoči",
-  "migration.migrate.keysDetected": "{{count}} ključeva otkriveno",
-  "migration.migrate.serversConfigured": "{{count}} server(a) konfigurisano",
-  "migration.migrate.modesFound": "{{count}} režim(a) pronađeno",
-  "migration.migrate.nothingToMigrate": "U starim postavkama nije pronađeno ništa za migraciju.",
-
-  // Migrate — item labels (reused from old select keys)
-  "migration.select.providers": "API ključevi provajdera",
-  "migration.select.mcpServers": "MCP serveri",
-  "migration.select.customModes": "Prilagođeni režimi / Agenti",
-  "migration.select.defaultModel": "Podrazumijevani model",
-  "migration.select.autoApproval": "Automatsko odobravanje",
-  "migration.select.language": "Jezik korisničkog interfejsa",
-  "migration.select.autocomplete": "Postavke automatskog dovršavanja",
-
-  // Migrate — completion
-  "migration.complete.summary": "Uspješno migrirano {{success}} od {{total}} stavki.",
-  "migration.complete.cleanup": "Ukloni stare podatke postavki",
-  "migration.complete.cleanupDescription":
-    "Ovo uklanja stare postavke iz VS Code pohrane. Nećete moći ponovo pokrenuti ovu migraciju.",
-  "migration.complete.done": "Završeno",
-  "migration.migrate.sessionsDetected": "Otkrivene {{count}} sesije",
-  "migration.error.continue": "Nastavi",
-
-  "migration.sessionSummary.title": "Sažetak:",
-  "migration.sessionSummary.copy": "Kopiraj izvještaj",
-  "migration.sessionSummary.toast.copied": "Izvještaj kopiran",
-  "migration.sessionSummary.successful": "Uspješne",
-  "migration.sessionSummary.skipped": "Preskočene",
-  "migration.sessionSummary.alreadyMigrated": "Već migrirane",
-  "migration.sessionSummary.errored": "S greškom",
-  "migration.sessionSummary.none": "Nijedna",
-  "migration.forceReimport.title": "Prisilni ponovni uvoz",
-  "migration.forceReimport.description":
-    "Ponovni uvoz {{target}} će ih prepisati i obrisati sve nove poruke koje su već napravljene u tim sesijama.",
-  "migration.forceReimport.target.one": "ovu sesiju",
-  "migration.forceReimport.target.many": "ovih {{count}} sesija",
-  "migration.forceReimport.button": "Prisilni ponovni uvoz",
-  "migration.forceReimport.all": "Ponovo uvezi sve",
-  "migration.forceReimport.proceed": "Nastavi",
-  "migration.forceReimport.toast.started": "Prisilni ponovni uvoz je pokrenut",
-  "migration.running.title": "Migracija je u toku",
-  "migration.running.description.line1": "Upravo ćete završiti dok se neke sesije još uvijek migriraju.",
-  "migration.running.description.line2": "Ako sada izađete, neke sesije mogu ostati nedovršene.",
-  "migration.running.stay": "Ostani",
-  "migration.running.proceed": "Nastavi",
-  "migration.sessionProgress.preparing": "Priprema se sesija",
-  "migration.sessionProgress.storing": "Spremanje sesije",
-  "migration.sessionProgress.skipped": "Sesija je preskočena",
-  "migration.sessionProgress.header": "Migrira se {{current}} od {{total}}",
-  "migration.sessionFormat.unknownDate": "Nepoznat datum",
-  "migration.sessionFormat.unknown": "Nepoznato",
-  "migration.sessionFormat.unknownError": "Nepoznata greška",
-  // legacy-migration end
 
   "error.details.show": "Detalji",
 

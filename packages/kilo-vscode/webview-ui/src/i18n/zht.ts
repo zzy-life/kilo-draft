@@ -697,16 +697,6 @@ export const dict = {
     "此操作僅將 VS Code 擴充功能專屬設定重置為預設值。與 CLI 共享的設定（例如模式和自動核准規則）儲存在 CLI 設定中，不會被重置。",
   "settings.aboutKiloCode.resetSettings.button": "重置所有設定",
   "settings.aboutKiloCode.resetSettings.notificationsButton": "Reset Read Notifications",
-  "settings.aboutKiloCode.settingsTransfer.title": "設定轉移",
-  "settings.aboutKiloCode.settingsTransfer.description": "匯出或匯入設定，以便在 VS Code 實例之間轉移。",
-  "settings.aboutKiloCode.exportSettings": "匯出",
-  "settings.aboutKiloCode.importSettings": "匯入",
-  "settings.aboutKiloCode.importSettings.invalidJson": "無效的 JSON 檔案。請選擇有效的設定檔。",
-  "settings.aboutKiloCode.importSettings.invalidConfig": "檔案不包含有效的 Kilo 設定。",
-  "settings.aboutKiloCode.importSettings.tooLarge": "檔案過大。設定檔必須小於 1 MB。",
-  "settings.aboutKiloCode.importSettings.newerVersion": "此檔案由較新版本的 Kilo 匯出。部分設定可能會被忽略。",
-  "settings.aboutKiloCode.importSettings.success": "設定已匯入。請檢視上方的變更，然後點擊儲存。",
-
   "settings.aboutKiloCode.telemetry.title": "遙測",
   "settings.aboutKiloCode.telemetry.description":
     '遙測由 VS Code 內建的遙測設定控制。若要停用，請前往「設定」>「遙測」>「遙測層級」並將其設為 "off"。重新啟動 VS Code 以套用變更。',
@@ -1073,90 +1063,6 @@ export const dict = {
   "question.summary": "第 {{n}} / {{total}} 個問題",
   "common.review": "審查",
 
-  // legacy-migration start
-  "settings.legacyMigration.link": "從舊版遷移",
-  "settings.aboutKiloCode.legacyMigration.title": "舊版遷移",
-  "settings.aboutKiloCode.legacyMigration.description":
-    "從舊版 Kilo Code 安裝遷移設定，包括供應商 API 金鑰和預設模型。",
-  "settings.aboutKiloCode.rooImport.description": "從 Roo Code 安裝匯入對話歷史記錄。",
-  "settings.aboutKiloCode.rooImport.button": "從 Roo Code 匯入工作階段",
-
-  // Screen 1 — What's New
-  "migration.whatsNew.title": "Kilo Code 新功能",
-  "migration.whatsNew.subtitle": "我們在更快、更高效的基礎上重新建構了擴充功能。",
-  "migration.whatsNew.features.performance.title": "更快的 Agent 效能",
-  "migration.whatsNew.features.performance.detail":
-    "平行工具呼叫和子 Agent 讓你的 Agent 可以同時處理更多任務——減少等待時間，更快交付成果。",
-  "migration.whatsNew.features.interface.title": "簡潔的介面",
-  "migration.whatsNew.features.interface.detail": "更少干擾，更易閱讀，更快上手。",
-  "migration.whatsNew.features.agentManager.title": "代理程式管理員",
-  "migration.whatsNew.features.agentManager.detail":
-    "一個統一的介面，可以平行執行多個 Agent，每個 Agent 各自使用獨立的 worktree——在同一個地方監控進度、切換上下文和審查變更。",
-  "migration.whatsNew.features.foundation.title": "共享基礎",
-  "migration.whatsNew.features.foundation.detail":
-    "所有 Kilo 產品共享一個小巧高效的核心。無論你選擇哪種方式工作，都能獲得熟悉的體驗。",
-  "migration.whatsNew.blogLink": "閱讀完整公告",
-  "migration.whatsNew.docsLink": "新功能與常見問題",
-  "migration.whatsNew.continue": "繼續",
-
-  // Screen 2 — Migrate Settings
-  "migration.migrate.title": "遷移你的設定",
-  "migration.migrate.subtitle": "我們發現了你之前安裝的設定。以下是可以遷移的內容。",
-  "migration.migrate.selectLabel": "選擇要遷移的內容",
-  "migration.migrate.chatHistory": "聊天工作階段與歷史紀錄",
-  "migration.migrate.button": "遷移設定",
-  "migration.migrate.skip": "略過",
-  "migration.migrate.keysDetected": "偵測到 {{count}} 個金鑰",
-  "migration.migrate.serversConfigured": "已設定 {{count}} 個伺服器",
-  "migration.migrate.modesFound": "發現 {{count}} 個模式",
-  "migration.migrate.nothingToMigrate": "在舊版設定中找不到可遷移的項目。",
-
-  // Migrate — item labels (reused from old select keys)
-  "migration.select.providers": "供應商 API 金鑰",
-  "migration.select.mcpServers": "MCP 伺服器",
-  "migration.select.customModes": "自訂模式 / 代理",
-  "migration.select.defaultModel": "預設模型",
-  "migration.select.autoApproval": "自動核准",
-  "migration.select.language": "介面語言",
-  "migration.select.autocomplete": "自動補全設定",
-
-  // Migrate — completion
-  "migration.complete.summary": "成功遷移 {{success}}/{{total}} 項。",
-  "migration.complete.cleanup": "清除舊版設定資料",
-  "migration.complete.cleanupDescription": "此操作將從 VS Code 儲存中刪除舊版設定。您將無法再次執行此遷移。",
-  "migration.complete.done": "完成",
-  "migration.migrate.sessionsDetected": "偵測到 {{count}} 個工作階段",
-  "migration.error.continue": "繼續",
-
-  "migration.sessionSummary.title": "摘要：",
-  "migration.sessionSummary.copy": "複製報告",
-  "migration.sessionSummary.toast.copied": "報告已複製",
-  "migration.sessionSummary.successful": "成功",
-  "migration.sessionSummary.skipped": "已略過",
-  "migration.sessionSummary.alreadyMigrated": "已遷移",
-  "migration.sessionSummary.errored": "發生錯誤",
-  "migration.sessionSummary.none": "無",
-  "migration.forceReimport.title": "強制重新匯入",
-  "migration.forceReimport.description": "重新匯入 {{target}} 將會覆寫它們，並刪除這些工作階段中已建立的所有新訊息。",
-  "migration.forceReimport.target.one": "這個工作階段",
-  "migration.forceReimport.target.many": "這 {{count}} 個工作階段",
-  "migration.forceReimport.button": "強制重新匯入",
-  "migration.forceReimport.all": "全部重新匯入",
-  "migration.forceReimport.proceed": "繼續",
-  "migration.forceReimport.toast.started": "已開始強制重新匯入",
-  "migration.running.title": "遷移進行中",
-  "migration.running.description.line1": "目前仍有工作階段正在遷移，但你即將結束流程。",
-  "migration.running.description.line2": "如果你現在離開，部分工作階段可能會維持未完成狀態。",
-  "migration.running.stay": "留下",
-  "migration.running.proceed": "繼續",
-  "migration.sessionProgress.preparing": "正在準備工作階段",
-  "migration.sessionProgress.storing": "正在儲存工作階段",
-  "migration.sessionProgress.skipped": "已略過工作階段",
-  "migration.sessionProgress.header": "正在遷移第 {{current}} / {{total}} 個",
-  "migration.sessionFormat.unknownDate": "未知日期",
-  "migration.sessionFormat.unknown": "未知",
-  "migration.sessionFormat.unknownError": "未知錯誤",
-  // legacy-migration end
 
   "error.details.show": "詳細資訊",
 
