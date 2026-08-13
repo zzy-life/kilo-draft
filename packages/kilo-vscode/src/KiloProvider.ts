@@ -59,7 +59,6 @@ import { normalizeEnhancePromptErrorMessage } from "./enhance-prompt-error"
 import { retry } from "./services/cli-backend/retry"
 import { normalize, type SSEPayload, type SyncPayload, type WirePayload } from "./services/cli-backend/sdk-sse-adapter"
 import { slimInfo, slimPart, slimParts } from "./kilo-provider/slim-metadata"
-import { handleSidebarWorktreeMessage } from "./kilo-provider/sidebar-worktree"
 import { parseMessageFiles, type MessageFile } from "./kilo-provider/message-files"
 import { renameSession } from "./kilo-provider/rename-session"
 import { handleFileSearch } from "./kilo-provider/file-search"
@@ -450,12 +449,6 @@ export class KiloProvider implements vscode.WebviewViewProvider, TelemetryProper
   private sessionRefreshRevision = 0
 
   private onBeforeMessage: ((msg: Record<string, unknown>) => Promise<Record<string, unknown> | null>) | null = null
-
-  private continueInWorktreeHandler:
-    | ((sessionId: string, progress: (status: string, detail?: string, error?: string) => void) => Promise<void>)
-    | null = null
-
-  private createWorktreeHandler: ((baseBranch?: string, branchName?: string) => Promise<void>) | null = null
 
   private diffVirtualProvider: import("./DiffVirtualProvider").DiffVirtualProvider | undefined
   private remoteService: RemoteStatusService | null = null
@@ -901,10 +894,7 @@ export class KiloProvider implements vscode.WebviewViewProvider, TelemetryProper
     return this.currentSession?.id ?? undefined
   }
 
-  /**
-   * Re-fetch and send the full session list to the webview.
-   * Called by AgentManagerProvider after worktree recovery completes.
-   */
+  /** Re-fetch and send the full session list to the webview. */
   public refreshSessions(): void {
     void this.handleLoadSessions()
   }
@@ -965,16 +955,6 @@ export class KiloProvider implements vscode.WebviewViewProvider, TelemetryProper
     if (!modelID && !agent) return
     this.pendingKiloModel = { ...(modelID && { modelID }), ...(agent && { agent }) }
     this.flushPendingKiloModel()
-  }
-
-  public setContinueInWorktreeHandler(
-    handler: (sessionId: string, progress: (status: string, detail?: string, error?: string) => void) => Promise<void>,
-  ): void {
-    this.continueInWorktreeHandler = handler
-  }
-
-  public setCreateWorktreeHandler(handler: (baseBranch?: string, branchName?: string) => Promise<void>): void {
-    this.createWorktreeHandler = handler
   }
 
   public attachToWebview(
@@ -1039,21 +1019,15 @@ export class KiloProvider implements vscode.WebviewViewProvider, TelemetryProper
         })
       )
         return
-      if (
-        await handleSidebarWorktreeMessage(message, {
-          post: (msg) => this.postMessage(msg),
-          openAgentManager: () => vscode.commands.executeCommand("kilo-code.new.agentManagerOpen"),
-          openAdvancedWorktree: () => vscode.commands.executeCommand("kilo-code.new.agentManager.advancedWorktree"),
-          openChanges: (sessionId?: string, turnId?: string) =>
-            vscode.commands.executeCommand("kilo-code.new.showChanges", { sessionId, turnId }),
-          openProfile: () => vscode.commands.executeCommand("kilo-code.new.profileButtonClicked"),
-          currentSessionId: this.currentSession?.id,
-          createWorktree: async (baseBranch, branchName) => {
-            await this.createWorktreeHandler?.(baseBranch, branchName)
-          },
-          continueInWorktree: this.continueInWorktreeHandler ?? undefined,
+      if (message.type === "openChanges") {
+        await vscode.commands.executeCommand("kilo-code.new.showChanges", {
+          sessionId: this.currentSession?.id,
+          turnId: message.turnId,
         })
-      ) {
+        return
+      }
+      if (message.type === "openProfilePanel") {
+        await vscode.commands.executeCommand("kilo-code.new.profileButtonClicked")
         return
       }
       if (await this.handleModelSelectorExpandedMessage(message)) return
@@ -3411,10 +3385,6 @@ export class KiloProvider implements vscode.WebviewViewProvider, TelemetryProper
     return vscode.workspace.getConfiguration("kilo-code.new").get<string>("languageCommitMessage", "sync")
   }
 
-  private multiProjectSetting(): boolean {
-    return vscode.workspace.getConfiguration("kilo-code.new.experimental").get<boolean>("multiProject", false)
-  }
-
   private async sendIndexingSettings(projectId?: string) {
     if (!this.extensionContext) {
       this.postMessage(buildIndexingSettingsMessage())
@@ -3476,7 +3446,6 @@ export class KiloProvider implements vscode.WebviewViewProvider, TelemetryProper
     return {
       maxCost: this.maxCostSetting(),
       languageCommitMessage: this.commitMessageLanguageSetting(),
-      multiProject: this.multiProjectSetting(),
     }
   }
 

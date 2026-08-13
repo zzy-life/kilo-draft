@@ -1,9 +1,9 @@
 declare module "friendly-words" {
-  const friendlyWords: {
+  const words: {
     objects: string[]
     predicates: string[]
     teams: string[]
     collections: string[]
   }
-  export = friendlyWords
+  export = words
 }

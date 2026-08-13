@@ -1101,8 +1101,6 @@ export const dict = {
 
   "profile.personalAccount": "Особистий акаунт",
 
-  // Agent Manager strings live in webview-ui/agent-manager/i18n/uk.ts
-
   "question.summary": "{{n}} з {{total}} питань",
   "common.review": "Переглянути",
 

@@ -1070,8 +1070,6 @@ export const dict = {
   "settings.indexing.vectorStore.description": "選擇索引嵌入的儲存位置。",
   "settings.indexing.vectorStore.title": "向量儲存",
 
-  // Agent Manager strings live in webview-ui/agent-manager/i18n/zht.ts
-
   "question.summary": "第 {{n}} / {{total}} 個問題",
   "common.review": "審查",
 

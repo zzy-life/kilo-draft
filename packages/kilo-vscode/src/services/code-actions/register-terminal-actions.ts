@@ -1,15 +1,9 @@
 import * as vscode from "vscode"
 import type { KiloProvider } from "../../KiloProvider"
-import type { AgentManagerProvider } from "../../agent-manager/AgentManagerProvider"
 import { createPrompt } from "./support-prompt"
 import { getTerminalContents } from "../terminal/context"
 
-export function registerTerminalActions(
-  context: vscode.ExtensionContext,
-  provider: KiloProvider,
-  agentManager?: AgentManagerProvider,
-): void {
-  const target = () => (agentManager?.isActive() ? agentManager : provider)
+export function registerTerminalActions(context: vscode.ExtensionContext, provider: KiloProvider): void {
   const reveal = async () => {
     await vscode.commands.executeCommand("kilo-code.SidebarProvider.focus")
     await provider.waitForReady()
@@ -29,12 +23,9 @@ export function registerTerminalActions(
         terminalContent: content,
         userInput: "",
       })
-      const view = target()
-      if (view === provider) {
-        await reveal()
-      }
-      view.postMessage({ type: "appendChatBoxMessage", text: prompt })
-      view.postMessage({ type: "action", action: "focusInput" })
+      await reveal()
+      provider.postMessage({ type: "appendChatBoxMessage", text: prompt })
+      provider.postMessage({ type: "action", action: "focusInput" })
     }),
 
     vscode.commands.registerCommand("kilo-code.new.terminalFixCommand", async (args: any) => {
@@ -50,11 +41,8 @@ export function registerTerminalActions(
         terminalContent: content,
         userInput: "",
       })
-      const view = target()
-      if (view === provider) {
-        await reveal()
-      }
-      view.postMessage({ type: "triggerTask", text: prompt })
+      await reveal()
+      provider.postMessage({ type: "triggerTask", text: prompt })
     }),
 
     vscode.commands.registerCommand("kilo-code.new.terminalExplainCommand", async (args: any) => {
@@ -70,11 +58,8 @@ export function registerTerminalActions(
         terminalContent: content,
         userInput: "",
       })
-      const view = target()
-      if (view === provider) {
-        await reveal()
-      }
-      view.postMessage({ type: "triggerTask", text: prompt })
+      await reveal()
+      provider.postMessage({ type: "triggerTask", text: prompt })
     }),
   )
 }

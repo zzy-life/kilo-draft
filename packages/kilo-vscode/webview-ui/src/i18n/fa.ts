@@ -1127,8 +1127,6 @@ export const dict = {
   "profile.personalAccount": "حساب شخصی",
   "profile.switchingAccount": "در حال تغییر حساب…",
 
-  // Agent Manager strings live in webview-ui/agent-manager/i18n/en.ts
-
   "question.summary": "{{n}} از {{total}} سؤال",
   "common.review": "بررسی",
 

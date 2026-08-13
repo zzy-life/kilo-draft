@@ -45,26 +45,40 @@ export interface SectionState {
 }
 
 // ---------------------------------------------------------------------------
-// PR status types — sub-types live in agent-manager/pr/pr-types.ts
+// Pull request status types used by extension/webview messages.
 // ---------------------------------------------------------------------------
 
-import type {
-  PRState,
-  ReviewDecision,
-  AggregateCheckStatus,
-  PRCheck,
-  PRComment,
-  PRReviewer,
-} from "../../../agent-manager/pr/pr-types"
-export type {
-  PRState,
-  ReviewDecision,
-  CheckStatus,
-  AggregateCheckStatus,
-  PRCheck,
-  PRComment,
-  PRReviewer,
-} from "../../../agent-manager/pr/pr-types"
+export type PRState = "open" | "draft" | "merged" | "closed"
+export type ReviewDecision = "approved" | "changes_requested" | "pending"
+export type CheckStatus = "success" | "failure" | "pending" | "skipped" | "cancelled"
+export type AggregateCheckStatus = "success" | "failure" | "pending" | "none"
+
+export interface PRCheck {
+  name: string
+  status: CheckStatus
+  url?: string
+  duration?: string
+}
+
+export interface PRComment {
+  id: string
+  author: string
+  avatar?: string
+  body: string
+  file?: string
+  line?: number
+  url?: string
+  resolved: boolean
+  createdAt?: number
+}
+
+export type ReviewerState = "approved" | "changes_requested" | "pending" | "commented"
+
+export interface PRReviewer {
+  login: string
+  avatar?: string
+  state: ReviewerState
+}
 
 export interface PRStatus {
   number: number

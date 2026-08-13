@@ -1101,8 +1101,6 @@ export const dict = {
 
   "profile.personalAccount": "Kişisel Hesap",
 
-  // Agent Manager strings live in webview-ui/agent-manager/i18n/en.ts
-
   "question.summary": "{{total}} sorudan {{n}} tanesi",
   "common.review": "İncele",
 

@@ -1,10 +1,8 @@
 import { type Component, createSignal, createMemo, createEffect, on, onCleanup, Show, type JSXElement } from "solid-js"
 import type { VirtualizerHandle } from "virtua/solid"
-// Styles are imported by the component so every consumer (sidebar diff viewer,
-// agent manager, storybook) picks them up automatically. Keep these imports here —
-// see tests/unit/diff-viewer-css-arch.test.ts for the invariant.
-import "../agent-manager/agent-manager.css"
-import "../agent-manager/agent-manager-review.css"
+// Styles are imported by the component so every consumer picks them up automatically.
+import "../src/styles/diff-viewer.css"
+import "../src/styles/diff-review.css"
 import { Diff } from "@kilocode/kilo-ui/diff"
 import { Accordion } from "@kilocode/kilo-ui/accordion"
 import { StickyAccordionHeader } from "@kilocode/kilo-ui/sticky-accordion-header"

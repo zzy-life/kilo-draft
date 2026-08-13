@@ -1163,7 +1163,6 @@ export const dict = {
   "dialog.model.notSet": "Non défini",
   "profile.personalAccount": "Compte personnel",
   "profile.switchingAccount": "Changement de compte…",
-  // Agent Manager strings live in webview-ui/agent-manager/i18n/fr.ts
 
   "question.summary": "{{n}} sur {{total}} questions",
   "common.review": "Réviser",

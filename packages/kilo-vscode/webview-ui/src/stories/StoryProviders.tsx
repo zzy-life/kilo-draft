@@ -39,7 +39,6 @@ import { MemoryProvider } from "../context/memory"
 import { TranscriptSearchProvider } from "../context/transcript-search"
 import { dict as uiEn } from "@kilocode/kilo-ui/i18n/en"
 import { dict as appEn } from "../i18n/en"
-import { dict as amEn } from "../../agent-manager/i18n/en"
 import { dict as kiloEn } from "@kilocode/kilo-i18n/en"
 import { hasIndexingPlugin } from "@kilocode/kilo-indexing/detect"
 import { resolveTemplate } from "../context/language-utils"
@@ -58,7 +57,7 @@ import type {
 type PluginSpec = string | [string, Record<string, unknown>]
 
 // Merged English dictionary (same merge order as the real LanguageProvider)
-const dict: Record<string, string> = { ...appEn, ...amEn, ...uiEn, ...kiloEn }
+const dict: Record<string, string> = { ...appEn, ...uiEn, ...kiloEn }
 
 /** Story-local translator. Usable outside the provider tree, unlike useLanguage. */
 export function t(key: string, params?: Record<string, string | number | boolean | undefined>) {

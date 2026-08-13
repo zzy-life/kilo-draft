@@ -1109,7 +1109,6 @@ export const dict = {
   "dialog.model.notSet": "설정되지 않음",
   "profile.personalAccount": "개인 계정",
   "profile.switchingAccount": "계정 전환 중…",
-  // Agent Manager strings live in webview-ui/agent-manager/i18n/ko.ts
 
   "question.summary": "{{total}}개 질문 중 {{n}}번째",
   "common.review": "검토",
