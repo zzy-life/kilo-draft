@@ -10,14 +10,9 @@ import { useProvider } from "../../context/provider"
 import { useServer } from "../../context/server"
 import type { Provider } from "../../types/messages"
 import ProviderConnectDialog from "./ProviderConnectDialog"
-import {
-  CUSTOM_PROVIDER_ID,
-  isPopularProvider,
-  kiloFallbackProvider,
-  popularProviderIndex,
-  providerIcon,
-} from "./provider-catalog"
+import { CUSTOM_PROVIDER_ID, isPopularProvider, popularProviderIndex, providerIcon } from "./provider-catalog"
 import CustomProviderDialog from "./CustomProviderDialog"
+import { providersWithKiloFallback } from "./provider-visibility"
 import { KILO_PROVIDER_ID } from "../../../../src/shared/provider-model"
 
 type ProviderItem = {
@@ -38,9 +33,8 @@ const ProviderSelectDialog = () => {
 
     const disabled = new Set(config().disabled_providers ?? [])
     const connected = new Set(provider.connected())
-    const all = Object.values(provider.providers())
-    const withKilo = all.some((item) => item.id === KILO_PROVIDER_ID) ? all : [kiloFallbackProvider(), ...all]
-    const available = withKilo.filter((item) => !disabled.has(item.id) && !connected.has(item.id))
+    const all = Object.values(providersWithKiloFallback(provider.providers()))
+    const available = all.filter((item) => !disabled.has(item.id) && !connected.has(item.id))
 
     return [
       {
@@ -131,9 +125,6 @@ const ProviderSelectDialog = () => {
               >
                 {item.name}
               </span>
-              <Show when={item.id === KILO_PROVIDER_ID}>
-                <Tag>{language.t("dialog.provider.tag.recommended")}</Tag>
-              </Show>
               <Show when={item.id === CUSTOM_PROVIDER_ID}>
                 <Tag>{language.t("settings.providers.tag.custom")}</Tag>
               </Show>

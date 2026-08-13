@@ -93,8 +93,12 @@ describe("isModelValid", () => {
     expect(isModelValid(providers, [], { providerID: "openai", modelID: "gpt-4o" })).toBe(false)
   })
 
-  it("accepts kilo models when present in the catalog", () => {
-    expect(isModelValid(providers, [], { providerID: "kilo", modelID: "kilo-auto/free" })).toBe(true)
+  it("rejects disconnected kilo provider models", () => {
+    expect(isModelValid(providers, [], { providerID: "kilo", modelID: "kilo-auto/free" })).toBe(false)
+  })
+
+  it("accepts connected kilo provider models", () => {
+    expect(isModelValid(providers, ["kilo"], { providerID: "kilo", modelID: "kilo-auto/free" })).toBe(true)
   })
 
   it("rejects unknown models", () => {

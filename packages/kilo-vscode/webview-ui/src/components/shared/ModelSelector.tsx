@@ -125,6 +125,10 @@ export interface ModelSelectorBaseProps {
   includeAutoSmall?: boolean
   /** Override the provider catalog for constrained selectors. */
   models?: EnrichedModel[]
+  /** Disable specific models while keeping them visible in the list. */
+  disabledModels?: (model: EnrichedModel) => boolean
+  /** Tooltip/title for disabled models. */
+  disabledModelLabel?: string
   /** Show favorites group and favorite buttons — defaults to true. */
   favorites?: boolean
   /** Delay outside dismissal while the popover opens inside a dialog. */
@@ -248,10 +252,13 @@ export const ModelSelectorBase: Component<ModelSelectorBaseProps> = (props) => {
     return new Set(session.favoriteModels().map((f) => modelKey(f.providerID, f.modelID)))
   })
 
+  const isDisabled = (model: EnrichedModel) => props.disabledModels?.(model) ?? false
+  const selectableModels = createMemo(() => visibleModels().filter((model) => !isDisabled(model)))
+
   const favoriteModels = createMemo(() => {
     if (props.favorites === false) return []
     if (!session || hasSearch()) return []
-    const map = new Map(visibleModels().map((m) => [modelKey(m.providerID, m.id), m]))
+    const map = new Map(selectableModels().map((m) => [modelKey(m.providerID, m.id), m]))
     const list = session
       .favoriteModels()
       .map((f) => map.get(modelKey(f.providerID, f.modelID)))
@@ -274,7 +281,7 @@ export const ModelSelectorBase: Component<ModelSelectorBaseProps> = (props) => {
     if (!hasSearch() && session) {
       mostUsed.push(
         ...mostUsedModels(
-          visibleModels().filter((model) => !isAuto(model) && model.recommendedIndex === undefined),
+          selectableModels().filter((model) => !isAuto(model) && model.recommendedIndex === undefined),
           session.modelUsageHistory(),
           favoriteKeys(),
         ),
@@ -584,6 +591,7 @@ export const ModelSelectorBase: Component<ModelSelectorBaseProps> = (props) => {
   })
 
   function pick(model: EnrichedModel) {
+    if (isDisabled(model)) return
     props.onSelect(model.providerID, model.id)
     setOpen(false)
     props.onPick?.()
@@ -687,7 +695,7 @@ export const ModelSelectorBase: Component<ModelSelectorBaseProps> = (props) => {
       pickClear()
       return
     }
-    if (!row.model) return
+    if (!row.model || isDisabled(row.model)) return
     setRow(row.key)
     setPreviewKey(row.key)
     pick(row.model)
@@ -1006,8 +1014,9 @@ export const ModelSelectorBase: Component<ModelSelectorBaseProps> = (props) => {
                           const model = row.model
                           const hovered = () => isSelected(row.key)
                           const preActive = () => isPreActive(row.key)
+                          const disabled = () => isDisabled(model)
                           const starred = () => favoriteKeys().has(modelKey(model.providerID, model.id))
-                          const showSelect = () => expanded() && preActive() && !isActive(model)
+                          const showSelect = () => expanded() && preActive() && !isActive(model) && !disabled()
                           const starLabel = () =>
                             `${starred() ? language.t("model.favorite.remove") : language.t("model.favorite.add")}: ${sanitizeName(model.name)}`
                           return (
@@ -1018,11 +1027,14 @@ export const ModelSelectorBase: Component<ModelSelectorBaseProps> = (props) => {
                               <div
                                 id={optionID(row.key)}
                                 data-key={row.key}
-                                class={`model-selector-item${(hovered() && !pointer()) || preActive() ? " keyboard-focused" : ""}${hovered() || preActive() ? " selected" : ""}${chosen(row) ? " active" : ""}`}
+                                class={`model-selector-item${(hovered() && !pointer()) || preActive() ? " keyboard-focused" : ""}${hovered() || preActive() ? " selected" : ""}${chosen(row) ? " active" : ""}${disabled() ? " model-selector-item--disabled" : ""}`}
                                 role="treeitem"
                                 aria-level={2}
                                 aria-selected={chosen(row)}
+                                aria-disabled={disabled()}
+                                title={disabled() ? props.disabledModelLabel : undefined}
                                 onClick={() => {
+                                  if (disabled()) return
                                   if (!expanded()) {
                                     selectRow(row)
                                     return
@@ -1032,7 +1044,7 @@ export const ModelSelectorBase: Component<ModelSelectorBaseProps> = (props) => {
                                   searchRef?.focus()
                                 }}
                                 onDblClick={() => {
-                                  if (expanded()) selectRow(row)
+                                  if (expanded() && !disabled()) selectRow(row)
                                 }}
                               >
                                 <div class="model-selector-item-left">
@@ -1086,9 +1098,11 @@ export const ModelSelectorBase: Component<ModelSelectorBaseProps> = (props) => {
                                   class={`model-selector-star${starred() ? " model-selector-star--active" : ""}`}
                                   aria-label={starLabel()}
                                   aria-pressed={starred()}
+                                  disabled={disabled()}
                                   onMouseDown={(e) => e.preventDefault()}
                                   onClick={(e) => {
                                     e.stopPropagation()
+                                    if (disabled()) return
                                     toggleFavorite(model, row)
                                     searchRef?.focus()
                                   }}
@@ -1101,7 +1115,9 @@ export const ModelSelectorBase: Component<ModelSelectorBaseProps> = (props) => {
                                   type="button"
                                   class="model-selector-item-select-btn"
                                   aria-label={`${language.t("dialog.model.select")}: ${sanitizeName(model.name)}`}
-                                  onClick={() => selectRow(row)}
+                                  onClick={() => {
+                                    if (!disabled()) selectRow(row)
+                                  }}
                                 >
                                   {language.t("dialog.model.select")}
                                 </button>

@@ -1,11 +1,6 @@
 import { iconNames, type IconName } from "@opencode-ai/ui/icons/provider"
 import type { Provider } from "../../types/messages"
-import {
-  KILO_PROVIDER_ID,
-  PROVIDER_PRIORITY as FALLBACK_PROVIDER_IDS,
-  createKiloFallbackProvider,
-  providerOrderIndex,
-} from "../../../../src/shared/provider-model"
+import { KILO_PROVIDER_ID, PROVIDER_PRIORITY as FALLBACK_PROVIDER_IDS, providerOrderIndex } from "../../../../src/shared/provider-model"
 
 export const CUSTOM_PROVIDER_ID = "_custom"
 
@@ -37,10 +32,6 @@ export function providerIcon(provider: Provider | string): IconName {
   const fallback = validIcon(providerID)
   if (fallback) return fallback
   return "synthetic"
-}
-
-export function kiloFallbackProvider(): Provider {
-  return createKiloFallbackProvider()
 }
 
 export function providerNoteKey(provider: Provider | string) {

@@ -117,8 +117,56 @@
 
 /* Wider inputs inside cards with data-variant="wide-input" (e.g. edit mode config) */
 [data-variant="wide-input"] [data-slot="settings-row-input"] {
-  flex: 1 1 0%;
-  max-width: none;
+  flex: 1 1 320px;
+  max-width: 480px;
+  min-width: 280px;
+}
+
+.settings-model-control {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.settings-model-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 28px;
+  padding: 6px 8px 6px 10px;
+  border-left: 2px solid var(--vscode-inputValidation-warningBorder, var(--vscode-focusBorder));
+  background: var(--vscode-inputValidation-warningBackground, var(--vscode-editorWidget-background));
+  color: var(--vscode-inputValidation-warningForeground, var(--vscode-foreground));
+  font-size: var(--font-size-small);
+}
+
+.settings-model-notice > span {
+  min-width: 0;
+  line-height: 1.4;
+}
+
+.settings-model-notice [data-component="button"] {
+  flex-shrink: 0;
+}
+
+.settings-model-selector,
+.settings-model-selector > * {
+  width: 100%;
+}
+
+.settings-model-selector [data-slot="popover-trigger"] {
+  width: 100%;
+  justify-content: space-between;
+}
+
+@media (max-width: 700px) {
+  [data-variant="wide-input"] [data-slot="settings-row-input"] {
+    flex-basis: 100%;
+    max-width: none;
+    min-width: 0;
+  }
 }
 
 .settings-font-size-control {

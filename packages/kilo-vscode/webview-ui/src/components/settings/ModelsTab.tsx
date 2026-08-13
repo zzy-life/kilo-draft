@@ -49,6 +49,8 @@ const ModelsTab: Component = () => {
   const speechOptions = createMemo(() => speechToTextModelOptions(speechModels.models()))
   const speechOption = createMemo(() => speechOptions().find((item) => item.value === speechModel()))
   const kiloReady = createMemo(() => hasSpeechToTextAccess(config(), provider.authStates()))
+  const connected = createMemo(() => new Set(provider.connected()))
+  const autocompleteConfigured = createMemo(() => AUTOCOMPLETE_SELECTOR_MODELS.some((model) => connected().has(model.providerID)))
   const variantKey = createMemo(() => config().subagent_model ?? undefined)
   const subagentVariants = createMemo(() => Object.keys(provider.findModel(subagentModel())?.variants ?? {}))
   const subagentVariant = createMemo(() => {
@@ -181,17 +183,31 @@ const ModelsTab: Component = () => {
           title={language.t("settings.autocomplete.model.title")}
           description={language.t("settings.autocomplete.model.description")}
         >
-          <ModelSelectorBase
-            value={getAutocompleteSelection(autocompleteProvider(), autocompleteModel())}
-            onSelect={handleAutocompleteModelSelect}
-            placement="bottom-start"
-            models={AUTOCOMPLETE_SELECTOR_MODELS}
-            favorites={false}
-            allowClear
-            clearLabel={language.t("settings.providers.notSet")}
-            label={language.t("settings.autocomplete.model.title")}
-            description={language.t("settings.autocomplete.model.description")}
-          />
+          <div style={{ display: "flex", "flex-direction": "column", "align-items": "flex-end", gap: "8px" }}>
+            <Show when={!autocompleteConfigured()}>
+              <span
+                style={{
+                  "font-size": "var(--kilo-font-size-12)",
+                  color: "var(--vscode-inputValidation-warningForeground, var(--vscode-descriptionForeground))",
+                }}
+              >
+                {language.t("settings.models.providerRequired")}
+              </span>
+            </Show>
+            <ModelSelectorBase
+              value={getAutocompleteSelection(autocompleteProvider(), autocompleteModel())}
+              onSelect={handleAutocompleteModelSelect}
+              placement="bottom-start"
+              models={AUTOCOMPLETE_SELECTOR_MODELS}
+              disabledModels={(model) => !connected().has(model.providerID)}
+              disabledModelLabel={language.t("settings.models.providerNotConfigured")}
+              favorites={false}
+              allowClear
+              clearLabel={language.t("settings.providers.notSet")}
+              label={language.t("settings.autocomplete.model.title")}
+              description={language.t("settings.autocomplete.model.description")}
+            />
+          </div>
         </SettingsRow>
         <SettingsRow
           title={language.t("settings.models.speechToTextModel.title")}

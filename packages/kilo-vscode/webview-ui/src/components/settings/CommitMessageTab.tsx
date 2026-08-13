@@ -1,10 +1,12 @@
 import { Component, Show, createSignal, createMemo } from "solid-js"
 import { Switch } from "@kilocode/kilo-ui/switch"
 import { TextField } from "@kilocode/kilo-ui/text-field"
+import { Button } from "@kilocode/kilo-ui/button"
 import { Card } from "@kilocode/kilo-ui/card"
 import { Select } from "@kilocode/kilo-ui/select"
 import { useConfig } from "../../context/config"
 import { useLanguage, LOCALES, LOCALE_LABELS } from "../../context/language"
+import { useProvider } from "../../context/provider"
 import type { Locale } from "../../context/language"
 import { parseModelString } from "../../../../src/shared/provider-model"
 import { ModelSelectorBase } from "../shared/ModelSelector"
@@ -14,9 +16,14 @@ const SYNC = "sync"
 const opts = [SYNC, ...LOCALES] as const
 type Option = typeof SYNC | Locale
 
-const CommitMessageTab: Component = () => {
+interface CommitMessageTabProps {
+  onProvidersClick?: () => void
+}
+
+const CommitMessageTab: Component<CommitMessageTabProps> = (props) => {
   const { config, updateConfig, settings, updateSetting } = useConfig()
   const language = useLanguage()
+  const provider = useProvider()
 
   const langValue = () => settings().languageCommitMessage ?? SYNC
 
@@ -44,6 +51,8 @@ const CommitMessageTab: Component = () => {
     if (opt !== undefined) updateSetting("languageCommitMessage", opt)
   }
 
+  const connected = createMemo(() => new Set(provider.connected()))
+  const configured = createMemo(() => provider.models().some((model) => connected().has(model.providerID)))
   const currentLabel = createMemo(() => label(langValue() as Option))
 
   return (
@@ -53,16 +62,32 @@ const CommitMessageTab: Component = () => {
           title={language.t("settings.commitMessage.model.title")}
           description={language.t("settings.commitMessage.model.description")}
           last
+          wide
         >
-          <ModelSelectorBase
-            value={parseModelString(config().commit_message?.model ?? undefined)}
-            onSelect={selectModel}
-            placement="bottom-start"
-            allowClear
-            clearLabel={language.t("settings.providers.notSet")}
-            label={language.t("settings.commitMessage.model.title")}
-            description={language.t("settings.commitMessage.model.description")}
-          />
+          <div class="settings-model-control">
+            <Show when={!configured()}>
+              <div class="settings-model-notice">
+                <span>{language.t("settings.models.providerRequired")}</span>
+                <Button size="small" variant="secondary" onClick={props.onProvidersClick}>
+                  {language.t("settings.providers.title")}
+                </Button>
+              </div>
+            </Show>
+            <div class="settings-model-selector">
+              <ModelSelectorBase
+                value={parseModelString(config().commit_message?.model ?? undefined)}
+                onSelect={selectModel}
+                placement="bottom-start"
+                models={provider.models()}
+                disabledModels={(model) => !connected().has(model.providerID)}
+                disabledModelLabel={language.t("settings.models.providerNotConfigured")}
+                allowClear
+                clearLabel={language.t("settings.providers.notSet")}
+                label={language.t("settings.commitMessage.model.title")}
+                description={language.t("settings.commitMessage.model.description")}
+              />
+            </div>
+          </div>
         </SettingsRow>
       </div>
 

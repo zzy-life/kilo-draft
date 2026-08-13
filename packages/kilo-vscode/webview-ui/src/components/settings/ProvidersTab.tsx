@@ -18,7 +18,7 @@ import CustomProviderDialog from "./CustomProviderDialog"
 import ProviderConnectDialog from "./ProviderConnectDialog"
 import ProviderSelectDialog from "./ProviderSelectDialog"
 import { CUSTOM_PROVIDER_ID, isPopularProvider, providerIcon, providerNoteKey, sortProviders } from "./provider-catalog"
-import { disabledProviderOptions, providersWithKiloFallback, visibleConnectedIds } from "./provider-visibility"
+import { disabledProviderOptions, providersWithKiloFallback } from "./provider-visibility"
 import { isCustomProviderPackage, KILO_PROVIDER_ID } from "../../../../src/shared/provider-model"
 import { createProviderAction } from "../../utils/provider-action"
 
@@ -37,13 +37,12 @@ const ProvidersTab: Component = () => {
 
   onCleanup(action.dispose)
 
-  const kiloLoggedIn = createMemo(() => !!provider.authStates()[KILO_PROVIDER_ID])
+  const providers = createMemo(() => providersWithKiloFallback(provider.providers()))
 
   const connectedProviders = createMemo(() => {
-    const ids = visibleConnectedIds(provider.connected(), provider.authStates())
     const all = provider.providers()
-    return ids
-      .filter((id) => id !== KILO_PROVIDER_ID)
+    return provider
+      .connected()
       .map((id) => all[id])
       .filter((item): item is Provider => !!item)
   })
@@ -51,18 +50,11 @@ const ProvidersTab: Component = () => {
   const popularProviders = createMemo(() => {
     const connected = new Set(provider.connected())
     const disabled = new Set(config().disabled_providers ?? [])
-    const all = Object.values(provider.providers())
-    return sortProviders(
-      all.filter(
-        (item) =>
-          item.id !== KILO_PROVIDER_ID && isPopularProvider(item) && !connected.has(item.id) && !disabled.has(item.id),
-      ),
-    )
+    const all = Object.values(providers())
+    return sortProviders(all.filter((item) => isPopularProvider(item) && !connected.has(item.id) && !disabled.has(item.id)))
   })
 
   const disabledProviders = createMemo(() => config().disabled_providers ?? [])
-  const disabledIds = createMemo(() => new Set(disabledProviders()))
-  const providers = createMemo(() => providersWithKiloFallback(provider.providers()))
   const disabledOptions = createMemo(() => disabledProviderOptions(providers(), disabledProviders()))
 
   function source(item: Provider): ProviderSource | undefined {
@@ -140,10 +132,7 @@ const ProvidersTab: Component = () => {
 
   function connectProvider(item: Provider) {
     if (item.id === KILO_PROVIDER_ID) {
-      // Route Kilo Gateway sign-in through the Profile view so the user sees
-      // the full device-auth UI (URL, QR, code, timer, cancel). Triggering
-      // `startLogin()` from here alone would run the flow silently with no
-      // way to recover if the browser is dismissed.
+      // Kilo 登录走 Profile 页的设备授权流程，避免在普通 API Key 对话框里静默失败。
       server.goToLogin()
       return
     }
@@ -162,43 +151,7 @@ const ProvidersTab: Component = () => {
 
   return (
     <div>
-      <Show when={!disabledIds().has(KILO_PROVIDER_ID)}>
-        {/* Kilo Gateway — always at the top, not editable */}
-        <Card>
-          <div
-            style={{
-              display: "flex",
-              "align-items": "center",
-              gap: "12px",
-              "min-height": "56px",
-              padding: "12px 0",
-            }}
-          >
-            <ProviderIcon id={providerIcon(KILO_PROVIDER_ID)} width={20} height={20} />
-            <span
-              style={{
-                "font-size": "var(--kilo-font-size-14)",
-                "font-weight": "500",
-                color: "var(--vscode-foreground)",
-              }}
-            >
-              Kilo Gateway
-            </span>
-            <Show
-              when={kiloLoggedIn()}
-              fallback={
-                <Button size="small" variant="secondary" onClick={() => server.goToLogin()}>
-                  {language.t("common.signIn")}
-                </Button>
-              }
-            >
-              <Tag>{language.t("settings.providers.tag.gateway")}</Tag>
-            </Show>
-          </div>
-        </Card>
-      </Show>
-
-      {/* Connected providers (excluding Kilo) */}
+      {/* Connected providers */}
       <h4 style={{ "margin-top": "16px", "margin-bottom": "8px" }}>
         {language.t("settings.providers.section.connected")}
       </h4>

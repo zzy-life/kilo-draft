@@ -1,28 +1,22 @@
 import { describe, expect, it } from "bun:test"
 
-import {
-  disabledProviderOptions,
-  providersWithKiloFallback,
-  visibleConnectedIds,
-} from "../../webview-ui/src/components/settings/provider-visibility"
+import { disabledProviderOptions, providersWithKiloFallback } from "../../webview-ui/src/components/settings/provider-visibility"
+describe("providersWithKiloFallback", () => {
+  it("adds Kilo when backend providers omit it", () => {
+    const providers = providersWithKiloFallback({
+      anthropic: { id: "anthropic", name: "Anthropic", env: [], models: {} },
+    })
 
-describe("visibleConnectedIds", () => {
-  it("hides Kilo from the connected list when auth is missing", () => {
-    const ids = visibleConnectedIds(["kilo", "openrouter"], { openrouter: "api" })
-
-    expect(ids).toEqual(["openrouter"])
+    expect(providers.kilo?.name).toBe("Kilo Gateway")
+    expect(providers.anthropic?.name).toBe("Anthropic")
   })
 
-  it("keeps Kilo in the connected list when auth exists", () => {
-    const ids = visibleConnectedIds(["kilo", "openrouter"], { kilo: "oauth", openrouter: "api" })
+  it("keeps the backend Kilo provider when present", () => {
+    const providers = providersWithKiloFallback({
+      kilo: { id: "kilo", name: "Custom Kilo Name", env: [], models: {} },
+    })
 
-    expect(ids).toEqual(["kilo", "openrouter"])
-  })
-
-  it("leaves non-Kilo providers untouched", () => {
-    const ids = visibleConnectedIds(["anthropic"], {})
-
-    expect(ids).toEqual(["anthropic"])
+    expect(providers.kilo?.name).toBe("Custom Kilo Name")
   })
 })
 
@@ -59,21 +53,3 @@ describe("disabledProviderOptions", () => {
   })
 })
 
-describe("providersWithKiloFallback", () => {
-  it("adds Kilo when backend providers omit it", () => {
-    const providers = providersWithKiloFallback({
-      anthropic: { id: "anthropic", name: "Anthropic", env: [], models: {} },
-    })
-
-    expect(providers.kilo?.name).toBe("Kilo Gateway")
-    expect(providers.anthropic?.name).toBe("Anthropic")
-  })
-
-  it("keeps the backend Kilo provider when present", () => {
-    const providers = providersWithKiloFallback({
-      kilo: { id: "kilo", name: "Custom Kilo Name", env: [], models: {} },
-    })
-
-    expect(providers.kilo?.name).toBe("Custom Kilo Name")
-  })
-})

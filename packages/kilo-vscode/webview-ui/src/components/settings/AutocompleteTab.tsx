@@ -1,5 +1,6 @@
-import { Component, createMemo } from "solid-js"
+import { Component, Show, createMemo } from "solid-js"
 import { Switch } from "@kilocode/kilo-ui/switch"
+import { Button } from "@kilocode/kilo-ui/button"
 import { Card } from "@kilocode/kilo-ui/card"
 import { useConfig } from "../../context/config"
 import { useLanguage } from "../../context/language"
@@ -8,14 +9,16 @@ import { ModelSelectorBase } from "../shared/ModelSelector"
 import SettingsRow from "./SettingsRow"
 import { AUTOCOMPLETE_SELECTOR_MODELS, getAutocompleteSelection } from "./autocomplete-model-selector"
 
-const AutocompleteTab: Component = () => {
+interface AutocompleteTabProps {
+  onProvidersClick?: () => void
+}
+
+const AutocompleteTab: Component<AutocompleteTabProps> = (props) => {
   const { settings, updateSetting } = useConfig()
   const language = useLanguage()
   const provider = useProvider()
-  const models = createMemo(() => {
-    const connected = new Set(provider.connected())
-    return AUTOCOMPLETE_SELECTOR_MODELS.filter((model) => connected.has(model.providerID))
-  })
+  const connected = createMemo(() => new Set(provider.connected()))
+  const configured = createMemo(() => AUTOCOMPLETE_SELECTOR_MODELS.some((model) => connected().has(model.providerID)))
 
   const enabled = (key: string, fallback: boolean) => Boolean(settings()[key] ?? fallback)
   const autocompleteProvider = () => {
@@ -45,18 +48,33 @@ const AutocompleteTab: Component = () => {
         <SettingsRow
           title={language.t("settings.autocomplete.model.title")}
           description={language.t("settings.autocomplete.model.description")}
+          wide
         >
-          <ModelSelectorBase
-            value={getAutocompleteSelection(autocompleteProvider(), autocompleteModel())}
-            onSelect={selectModel}
-            placement="bottom-start"
-            models={models()}
-            favorites={false}
-            allowClear
-            clearLabel={language.t("settings.providers.notSet")}
-            label={language.t("settings.autocomplete.model.title")}
-            description={language.t("settings.autocomplete.model.description")}
-          />
+          <div class="settings-model-control">
+            <Show when={!configured()}>
+              <div class="settings-model-notice">
+                <span>{language.t("settings.models.providerRequired")}</span>
+                <Button size="small" variant="secondary" onClick={props.onProvidersClick}>
+                  {language.t("settings.providers.title")}
+                </Button>
+              </div>
+            </Show>
+            <div class="settings-model-selector">
+              <ModelSelectorBase
+                value={getAutocompleteSelection(autocompleteProvider(), autocompleteModel())}
+                onSelect={selectModel}
+                placement="bottom-start"
+                models={AUTOCOMPLETE_SELECTOR_MODELS}
+                disabledModels={(model) => !connected().has(model.providerID)}
+                disabledModelLabel={language.t("settings.models.providerNotConfigured")}
+                favorites={false}
+                allowClear
+                clearLabel={language.t("settings.providers.notSet")}
+                label={language.t("settings.autocomplete.model.title")}
+                description={language.t("settings.autocomplete.model.description")}
+              />
+            </div>
+          </div>
         </SettingsRow>
 
         <SettingsRow

@@ -10,7 +10,7 @@ import { useVSCode } from "./vscode"
 import type { Provider, ProviderModel, ModelSelection, ExtensionMessage, ProviderAuthState } from "../types/messages"
 import type { ProviderAuthMethod } from "@kilocode/sdk/v2/client"
 import { flattenModels, findModel as _findModel, isModelValid as isValid } from "./provider-utils"
-import { KILO_AUTO } from "../../../src/shared/provider-model"
+import { KILO_AUTO, KILO_PROVIDER_ID } from "../../../src/shared/provider-model"
 
 export type EnrichedModel = ProviderModel & { providerID: string; providerName: string }
 
@@ -38,6 +38,17 @@ export const ProviderProvider: ParentComponent = (props) => {
   const [authMethods, setAuthMethods] = createSignal<Record<string, ProviderAuthMethod[]>>({})
   const [authStates, setAuthStates] = createSignal<Record<string, ProviderAuthState>>({})
 
+  const visible = createMemo(() => {
+    const next = { ...providers() }
+    if (!authStates()[KILO_PROVIDER_ID]) delete next[KILO_PROVIDER_ID]
+    return next
+  })
+
+  const available = createMemo(() => {
+    if (authStates()[KILO_PROVIDER_ID]) return connected()
+    return connected().filter((id) => id !== KILO_PROVIDER_ID)
+  })
+
   const models = createMemo<EnrichedModel[]>(() => flattenModels(providers()))
 
   function findModel(selection: ModelSelection | null): EnrichedModel | undefined {
@@ -45,7 +56,7 @@ export const ProviderProvider: ParentComponent = (props) => {
   }
 
   function isModelValid(selection: ModelSelection | null): boolean {
-    return isValid(providers(), connected(), selection)
+    return isValid(visible(), available(), selection)
   }
 
   // Register handler immediately (not in onMount) so we never miss
@@ -90,8 +101,8 @@ export const ProviderProvider: ParentComponent = (props) => {
   })
 
   const value: ProviderContextValue = {
-    providers,
-    connected,
+    providers: visible,
+    connected: available,
     defaults,
     defaultSelection,
     models,

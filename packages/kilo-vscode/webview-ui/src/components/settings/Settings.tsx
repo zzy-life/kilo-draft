@@ -74,6 +74,8 @@ const Settings: Component<SettingsProps> = (props) => {
     vscode.postMessage({ type: "settingsTabChanged", tab })
   }
 
+  const showProviders = () => onTabChange("providers")
+
   return (
     <div style={{ display: "flex", "flex-direction": "column", height: "100%", "min-height": 0 }}>
       {/* Header */}
@@ -141,11 +143,11 @@ const Settings: Component<SettingsProps> = (props) => {
         </Tabs.Content>
         <Tabs.Content value="autocomplete">
           <h3>{language.t("settings.autocomplete.title")}</h3>
-          <AutocompleteTab />
+          <AutocompleteTab onProvidersClick={showProviders} />
         </Tabs.Content>
         <Tabs.Content value="commitMessage">
           <h3>{language.t("settings.commitMessage.title")}</h3>
-          <CommitMessageTab />
+          <CommitMessageTab onProvidersClick={showProviders} />
         </Tabs.Content>
         <Tabs.Content value="language">
           <h3>{language.t("settings.language.title")}</h3>
