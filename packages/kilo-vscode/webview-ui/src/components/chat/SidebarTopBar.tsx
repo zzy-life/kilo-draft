@@ -1,5 +1,5 @@
 /**
- * Renders New Task, History, Profile, and Settings inside the
+ * Renders New Task, History, and Settings inside the
  * webview, as a fallback for Cursor only (see isCursorHost()
  * in src/utils.ts). Cursor's Secondary Side Bar support is unreliable for
  * extension-contributed `view/title` toolbars, which render outside the webview
@@ -22,7 +22,7 @@ export interface SidebarTopBarProps {
 }
 
 /** Codicon names used below. */
-type Codicon = "add" | "history" | "account" | "settings-gear"
+type Codicon = "add" | "history" | "settings-gear"
 
 interface Action {
   key: string
@@ -43,13 +43,10 @@ export const SidebarTopBar: Component<SidebarTopBarProps> = (props) => {
       properties: { button, surface: props.surface },
     })
 
-  const open = (type: "openProfilePanel" | "openSettingsPanel") => vscode.postMessage({ type })
-
   const actions: Action[] = [
     { key: "newTask", codicon: "add", button: "new_task", run: () => props.onNewTask() },
     { key: "history", codicon: "history", button: "history", run: () => props.onHistory() },
-    { key: "profile", codicon: "account", button: "profile", run: () => open("openProfilePanel") },
-    { key: "settings", codicon: "settings-gear", button: "settings", run: () => open("openSettingsPanel") },
+    { key: "settings", codicon: "settings-gear", button: "settings", run: () => vscode.postMessage({ type: "openSettingsPanel" }) },
   ]
 
   return (
