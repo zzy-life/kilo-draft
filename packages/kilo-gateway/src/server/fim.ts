@@ -1,6 +1,6 @@
 import { HEADER_FEATURE } from "../api/constants.js"
 import type { DirectAutocompleteProviderID } from "../autocomplete.js"
-import { DIRECT_FIM_ENV, requestMistralFim, resolveFimTarget, type FimTarget } from "../fim.js"
+import { buildFimPayload, DIRECT_FIM_ENV, requestMistralFim, resolveFimTarget, type FimTarget } from "../fim.js"
 import { buildKiloHeaders } from "../headers.js"
 import type { AuthStore } from "./handlers.js"
 
@@ -49,14 +49,7 @@ async function fetchFim(
         ...(target.provider === "kilo" ? { [HEADER_FEATURE]: "autocomplete" } : {}),
       },
       signal: input.signal,
-      body: JSON.stringify({
-        model: target.model,
-        prompt: input.prefix,
-        suffix: input.suffix,
-        max_tokens: input.maxTokens,
-        temperature: input.temperature,
-        stream: true,
-      }),
+      body: JSON.stringify(buildFimPayload(target, input)),
     })
   }
 

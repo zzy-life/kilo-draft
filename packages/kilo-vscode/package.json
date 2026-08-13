@@ -594,7 +594,8 @@
             "mercury-edit-2",
             "mercury-next-edit",
             "deepseek-v4-flash",
-            "deepseek-v4-pro"
+            "deepseek-v4-pro",
+            "qwen-coder-turbo"
           ],
           "enumDescriptions": [
             "Codestral via Kilo Gateway",
@@ -604,7 +605,8 @@
             "Mercury Edit 2 (FIM) via your connected Inception provider API key",
             "Mercury Edit 2 (Next Edit), multi-line edit predictions with jump-to-edit UX, via your connected Inception provider API key",
             "DeepSeek V4 Flash via your connected DeepSeek provider API key",
-            "DeepSeek V4 Pro via your connected DeepSeek provider API key"
+            "DeepSeek V4 Pro via your connected DeepSeek provider API key",
+            "Qwen Coder Turbo via your connected Alibaba (China) provider API key"
           ],
           "description": "Model to use for inline autocomplete suggestions. If unset, the recommended default is used."
         },
@@ -614,13 +616,15 @@
             "kilo",
             "mistral",
             "inception",
-            "deepseek"
+            "deepseek",
+            "alibaba-cn"
           ],
           "enumDescriptions": [
             "Use autocomplete models through Kilo Gateway",
             "Use autocomplete models through your connected Mistral provider API key",
             "Use autocomplete models through your connected Inception provider API key",
-            "Use autocomplete models through your connected DeepSeek provider API key"
+            "Use autocomplete models through your connected DeepSeek provider API key",
+            "Use autocomplete models through your connected Alibaba (China) provider API key"
           ],
           "description": "Provider to use for inline autocomplete suggestions. If unset, Kilo Gateway is used."
         },

@@ -7,17 +7,20 @@ export const DIRECT_FIM_ENV: Record<DirectAutocompleteProviderID, string[]> = {
   mistral: ["MISTRAL_API_KEY"],
   inception: ["INCEPTION_API_KEY"],
   deepseek: ["DEEPSEEK_API_KEY"],
+  "alibaba-cn": ["DASHSCOPE_API_KEY"],
 }
 
 export type FimTarget =
   | { provider: "kilo"; model: string; url: string }
   | { provider: "inception"; model: string; url: string }
   | { provider: "deepseek"; model: string; url: string }
+  | { provider: "alibaba-cn"; model: string; url: string }
   | { provider: "mistral"; model: string }
 
 const KILO_FIM_URL = KILO_API_BASE + "/api/fim/completions"
 const INCEPTION_FIM_URL = "https://api.inceptionlabs.ai/v1/fim/completions"
 const DEEPSEEK_FIM_URL = "https://api.deepseek.com/beta/completions"
+const ALIBABA_CN_FIM_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1/completions"
 
 function kiloTarget(model?: string): FimTarget {
   return { provider: "kilo", model: model ?? "mistralai/codestral-2501", url: KILO_FIM_URL }
@@ -36,5 +39,25 @@ export function resolveFimTarget(provider?: string, model?: string): FimTarget {
   if (info.directProvider === "deepseek") {
     return { provider: "deepseek", model: info.requestModel, url: DEEPSEEK_FIM_URL }
   }
+  if (info.directProvider === "alibaba-cn") {
+    return { provider: "alibaba-cn", model: info.requestModel, url: ALIBABA_CN_FIM_URL }
+  }
   return kiloTarget(model)
+}
+
+export function buildFimPayload(
+  target: FimTarget,
+  input: { prefix: string; suffix: string; maxTokens: number; temperature: number },
+) {
+  return {
+    model: target.model,
+    prompt:
+      target.provider === "alibaba-cn"
+        ? `<|fim_prefix|>${input.prefix}<|fim_suffix|>${input.suffix}<|fim_middle|>`
+        : input.prefix,
+    ...(target.provider === "alibaba-cn" ? {} : { suffix: input.suffix }),
+    max_tokens: input.maxTokens,
+    temperature: input.temperature,
+    stream: true,
+  }
 }

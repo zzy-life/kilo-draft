@@ -40,6 +40,18 @@ describe("DeepSeek FIM models", () => {
   })
 })
 
+describe("Qwen FIM model", () => {
+  test("resolves and validates the connected Alibaba China provider model", () => {
+    const qwen = getAutocompleteModel("alibaba-cn", "qwen-coder-turbo")
+    expect(qwen.id).toBe("alibaba-cn/qwen-coder-turbo")
+    expect(qwen.kind).not.toBe("edit")
+    expect(qwen.requestModel).toBe("qwen-coder-turbo")
+
+    expect(validAutocompleteProvider("alibaba-cn")).toBe(true)
+    expect(validAutocompleteModel("qwen-coder-turbo")).toBe(true)
+  })
+})
+
 describe("Next Edit FIM models", () => {
   test("reference a FIM model from the same provider", () => {
     for (const model of AUTOCOMPLETE_MODELS) {

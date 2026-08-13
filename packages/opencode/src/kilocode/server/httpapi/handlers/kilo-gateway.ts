@@ -25,7 +25,7 @@ import {
   fetchOrganizationModes,
   fetchProfile,
 } from "@kilocode/kilo-gateway"
-import { DIRECT_FIM_ENV, requestMistralFim, resolveFimTarget } from "@kilocode/kilo-gateway/fim"
+import { buildFimPayload, DIRECT_FIM_ENV, requestMistralFim, resolveFimTarget } from "@kilocode/kilo-gateway/fim"
 import { DIRECT_EDIT_ENV, extractFencedBody, resolveEditTarget } from "@kilocode/kilo-gateway/edit"
 import { buildMercuryEditPrompt } from "@kilocode/kilo-gateway/edit-prompt"
 import { buildKiloHeaders } from "@kilocode/kilo-gateway"
@@ -151,14 +151,14 @@ export const kiloGatewayHandlers = HttpApiBuilder.group(InstanceHttpApi, "kilo",
                 ...(target.provider === "kilo" ? { [HEADER_FEATURE]: "autocomplete" } : {}),
               },
               signal,
-              body: JSON.stringify({
-                model: target.model,
-                prompt: ctx.payload.prefix,
-                suffix: ctx.payload.suffix,
-                max_tokens: ctx.payload.maxTokens ?? 256,
-                temperature: ctx.payload.temperature ?? 0.2,
-                stream: true,
-              }),
+              body: JSON.stringify(
+                buildFimPayload(target, {
+                  prefix: ctx.payload.prefix,
+                  suffix: ctx.payload.suffix,
+                  maxTokens: ctx.payload.maxTokens ?? 256,
+                  temperature: ctx.payload.temperature ?? 0.2,
+                }),
+              ),
             })
           }
           if (target.provider === "mistral") return requestMistralFim(run)

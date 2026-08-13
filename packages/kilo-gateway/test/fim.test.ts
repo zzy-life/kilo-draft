@@ -1,9 +1,10 @@
 import { describe, expect, test } from "bun:test"
-import { DIRECT_FIM_ENV, resolveFimTarget } from "../src/fim"
+import { buildFimPayload, DIRECT_FIM_ENV, resolveFimTarget } from "../src/fim"
 
 describe("FIM target resolution", () => {
-  test("uses the connected DeepSeek provider API key", () => {
+  test("uses connected provider API keys", () => {
     expect(DIRECT_FIM_ENV.deepseek).toEqual(["DEEPSEEK_API_KEY"])
+    expect(DIRECT_FIM_ENV["alibaba-cn"]).toEqual(["DASHSCOPE_API_KEY"])
   })
 
   test("keeps gateway autocomplete models on Kilo Gateway", () => {
@@ -38,6 +39,29 @@ describe("FIM target resolution", () => {
       provider: "deepseek",
       model: "deepseek-v4-pro",
       url: "https://api.deepseek.com/beta/completions",
+    })
+    expect(resolveFimTarget("alibaba-cn", "qwen-coder-turbo")).toEqual({
+      provider: "alibaba-cn",
+      model: "qwen-coder-turbo",
+      url: "https://dashscope.aliyuncs.com/compatible-mode/v1/completions",
+    })
+  })
+
+  test("encodes Qwen prefix and suffix with FIM tokens", () => {
+    const target = resolveFimTarget("alibaba-cn", "qwen-coder-turbo")
+    expect(
+      buildFimPayload(target, {
+        prefix: "def reverse_words(s):\n",
+        suffix: "return result",
+        maxTokens: 256,
+        temperature: 0.2,
+      }),
+    ).toEqual({
+      model: "qwen-coder-turbo",
+      prompt: "<|fim_prefix|>def reverse_words(s):\n<|fim_suffix|>return result<|fim_middle|>",
+      max_tokens: 256,
+      temperature: 0.2,
+      stream: true,
     })
   })
 

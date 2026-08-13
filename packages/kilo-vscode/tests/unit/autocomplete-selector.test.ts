@@ -16,5 +16,6 @@ describe("autocomplete document selector", () => {
     expect(notebookModel("kilo", "mistralai/codestral-2508").id).toBe("kilo/mistralai/codestral-2508")
     expect(notebookModel("deepseek", "deepseek-v4-flash").id).toBe("deepseek/deepseek-v4-flash")
     expect(notebookModel("deepseek", "deepseek-v4-pro").id).toBe("deepseek/deepseek-v4-pro")
+    expect(notebookModel("alibaba-cn", "qwen-coder-turbo").id).toBe("alibaba-cn/qwen-coder-turbo")
   })
 })

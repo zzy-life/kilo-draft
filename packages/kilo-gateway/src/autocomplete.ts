@@ -1,4 +1,4 @@
-export type AutocompleteProviderID = "kilo" | "mistral" | "inception" | "deepseek"
+export type AutocompleteProviderID = "kilo" | "mistral" | "inception" | "deepseek" | "alibaba-cn"
 export type DirectAutocompleteProviderID = Exclude<AutocompleteProviderID, "kilo">
 export type DirectEditProviderID = Extract<DirectAutocompleteProviderID, "inception">
 
@@ -122,6 +122,16 @@ const models: AutocompleteModelDef[] = [
     provider: "DeepSeek",
     requestModel: "deepseek-v4-pro",
     directProvider: "deepseek",
+    temperature: 0.2,
+  },
+  {
+    id: "alibaba-cn/qwen-coder-turbo",
+    modelID: "qwen-coder-turbo",
+    label: "Qwen Coder Turbo",
+    providerID: "alibaba-cn",
+    provider: "Alibaba (China)",
+    requestModel: "qwen-coder-turbo",
+    directProvider: "alibaba-cn",
     temperature: 0.2,
   },
 ]

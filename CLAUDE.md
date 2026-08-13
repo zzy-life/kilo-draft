@@ -26,6 +26,17 @@ Kilo CLI is an open source AI coding agent that generates code from natural lang
 - **Backend/SDK programmatic testing**: see [TESTING.md](./TESTING.md) for spawning the local main-branch backend (`bun dev serve`) and driving it via `curl` — use this instead of `kilo serve` (prod binary) when testing backend fixes.
 - **F5 extension debugging**: inspect the effective workspace config first (for example `.kilo/kilo.jsonc`), especially the full `provider/model` value. `VSCode - Compile` bundles `packages/kilo-vscode/bin/kilo.exe`, and the Extension Development Host spawns it as `kilo serve`. CLI logs resolve from `Global.Path.log` to `%USERPROFILE%\\.local\\share\\kilo\\log` on Windows; child stdout/stderr is also forwarded by `server-manager.ts` to the Extension Host debug console. Check config before tracing a generic HTTP 500 through logs.
 
+## Autocomplete Model Maintenance
+
+When adding or updating an inline autocomplete model:
+
+1. Add its provider/model metadata to `packages/kilo-gateway/src/autocomplete.ts`; direct BYOK providers also need an environment-key fallback and FIM target in `packages/kilo-gateway/src/fim.ts`.
+2. Keep provider-specific request formatting in the gateway FIM request path. Confirm the official endpoint, authentication, FIM prefix/suffix format, streaming response, model ID, and region restrictions instead of assuming OpenAI-compatible APIs behave identically.
+3. Add the provider/model values and matching descriptions to `packages/kilo-vscode/package.json` so users can select them in VS Code settings.
+4. Keep both FIM handlers aligned: `packages/kilo-gateway/src/server/fim.ts` and `packages/opencode/src/kilocode/server/httpapi/handlers/kilo-gateway.ts` must use the shared payload builder.
+5. Cover model validation, target resolution, provider-specific payload formatting, and notebook fallback in the existing gateway and VS Code autocomplete tests.
+6. Add a user-facing changeset for new models. When removing or renaming a model, update all entries above together and preserve an alias only when existing stored settings require migration.
+
 ## Quality Checks
 
 Before saying an implementation is ready, run the smallest relevant checks that can catch lint, typecheck, and test failures for the touched package. Do not rely on manual extension launch to discover build problems. Fix failures you introduced before the final response, or state exactly which check is still failing or could not be run.
