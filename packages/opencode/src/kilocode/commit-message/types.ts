@@ -11,6 +11,8 @@ export interface CommitMessageRequest {
   prompt?: string
   /** Target language for the generated commit message (e.g. "zh", "en"). Falls back to English. */
   language?: string
+  /** Cancels generation when the requesting client disconnects. */
+  signal?: AbortSignal
 }
 
 export interface CommitMessageResponse {

@@ -191,6 +191,12 @@
         }
       },
       {
+        "command": "kilo-code.new.pauseCommitMessageGeneration",
+        "title": "Pause Commit Message Generation",
+        "category": "Kilo Code",
+        "icon": "$(debug-pause)"
+      },
+      {
         "command": "kilo-code.new.explainCode",
         "title": "Explain Code",
         "category": "Kilo Code"
@@ -316,14 +322,24 @@
         {
           "command": "kilo-code.new.generateCommitMessage",
           "group": "navigation",
-          "when": "scmProvider == git"
+          "when": "scmProvider == git && !kilo-code.new.commitMessageGenerating"
+        },
+        {
+          "command": "kilo-code.new.pauseCommitMessageGeneration",
+          "group": "navigation",
+          "when": "scmProvider == git && kilo-code.new.commitMessageGenerating"
         }
       ],
       "scm/input": [
         {
           "command": "kilo-code.new.generateCommitMessage",
           "group": "navigation",
-          "when": "scmProvider == git"
+          "when": "scmProvider == git && !kilo-code.new.commitMessageGenerating"
+        },
+        {
+          "command": "kilo-code.new.pauseCommitMessageGeneration",
+          "group": "navigation",
+          "when": "scmProvider == git && kilo-code.new.commitMessageGenerating"
         }
       ],
       "editor/title": [

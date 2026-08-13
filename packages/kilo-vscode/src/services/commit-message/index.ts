@@ -33,9 +33,13 @@ export function registerCommitMessageService(
   context: vscode.ExtensionContext,
   connectionService: KiloConnectionService,
 ): vscode.Disposable[] {
+  let active: { controller: AbortController; cancelled: boolean } | undefined
+
   const command = vscode.commands.registerCommand(
     "kilo-code.new.generateCommitMessage",
     async (arg?: vscode.SourceControl) => {
+      if (active) return
+
       const extension = vscode.extensions.getExtension<GitExtensionExports>("vscode.git")
       if (!extension) {
         vscode.window.showErrorMessage("Git extension not found")
@@ -54,77 +58,90 @@ export function registerCommitMessageService(
       }
 
       const path = repository.rootUri.fsPath
+      const state = { controller: new AbortController(), cancelled: false }
+      active = state
+      await vscode.commands.executeCommand("setContext", "kilo-code.new.commitMessageGenerating", true)
 
-      let client
       try {
-        client = await connectionService.getClientAsync(path)
-      } catch (err) {
-        console.error("[Kilo New] Failed to connect to Kilo backend:", err)
-        vscode.window.showErrorMessage("Failed to connect to Kilo backend. Please try again.")
-        return
-      }
+        let client
+        try {
+          client = await connectionService.getClientAsync(path)
+        } catch (err) {
+          if (state.cancelled) return
+          console.error("[Kilo New] Failed to connect to Kilo backend:", err)
+          vscode.window.showErrorMessage("Failed to connect to Kilo backend. Please try again.")
+          return
+        }
+        if (state.cancelled) return
 
-      const previousMessage = lastWorkspacePath === path ? lastGeneratedMessage : undefined
+        const previousMessage = lastWorkspacePath === path ? lastGeneratedMessage : undefined
+        let timedOut = false
 
-      let userCancelled = false
-      let timedOut = false
-      const controller = new AbortController()
+        await vscode.window
+          .withProgress(
+            {
+              location: vscode.ProgressLocation.SourceControl,
+              title: "Generating commit message...",
+              cancellable: true,
+            },
+            async (_progress, token) => {
+              // Wire VS Code cancellation to abort the HTTP request
+              token.onCancellationRequested(() => {
+                state.cancelled = true
+                state.controller.abort()
+              })
 
-      await vscode.window
-        .withProgress(
-          {
-            location: vscode.ProgressLocation.SourceControl,
-            title: "Generating commit message...",
-            cancellable: true,
-          },
-          async (_progress, token) => {
-            // Wire VS Code cancellation to abort the HTTP request
-            token.onCancellationRequested(() => {
-              userCancelled = true
-              controller.abort()
-            })
+              // Client-side safety timeout (35s) — slightly longer than the
+              // server-side 30s timeout so the server can respond with a proper
+              // error first, but still ensures the spinner never hangs forever.
+              const timeout = 35_000
+              const timer = setTimeout(() => {
+                timedOut = true
+                state.controller.abort()
+              }, timeout)
 
-            // Client-side safety timeout (35s) — slightly longer than the
-            // server-side 30s timeout so the server can respond with a proper
-            // error first, but still ensures the spinner never hangs forever.
-            const timeout = 35_000
-            const timer = setTimeout(() => {
-              timedOut = true
-              controller.abort()
-            }, timeout)
-
-            try {
-              const { data } = await client.commitMessage.generate(
-                { path, selectedFiles: undefined, previousMessage, language: getCommitMessageLanguage(vscode) },
-                { throwOnError: true, signal: controller.signal },
-              )
-              const message = data.message
-              repository.inputBox.value = message
-              lastGeneratedMessage = message
-              lastWorkspacePath = path
-              console.log("[Kilo New] Commit message generated successfully")
-            } finally {
-              clearTimeout(timer)
+              try {
+                const { data } = await client.commitMessage.generate(
+                  { path, selectedFiles: undefined, previousMessage, language: getCommitMessageLanguage(vscode) },
+                  { throwOnError: true, signal: state.controller.signal },
+                )
+                const message = data.message
+                repository.inputBox.value = message
+                lastGeneratedMessage = message
+                lastWorkspacePath = path
+                console.log("[Kilo New] Commit message generated successfully")
+              } finally {
+                clearTimeout(timer)
+              }
+            },
+          )
+          .then(undefined, (error: unknown) => {
+            if (state.cancelled) {
+              console.log("[Kilo New] Commit message generation was cancelled by user")
+              return
             }
-          },
-        )
-        .then(undefined, (error: unknown) => {
-          if (userCancelled) {
-            console.log("[Kilo New] Commit message generation was cancelled by user")
-            return
-          }
-          if (timedOut) {
-            console.log("[Kilo New] Commit message generation timed out")
-            vscode.window.showErrorMessage("Commit message generation timed out. Please try again.")
-            return
-          }
-          const msg = getErrorMessage(error)
-          console.error("[Kilo New] Failed to generate commit message:", msg)
-          vscode.window.showErrorMessage(msg || "Failed to generate commit message. Please try again.")
-        })
+            if (timedOut) {
+              console.log("[Kilo New] Commit message generation timed out")
+              vscode.window.showErrorMessage("Commit message generation timed out. Please try again.")
+              return
+            }
+            const msg = getErrorMessage(error)
+            console.error("[Kilo New] Failed to generate commit message:", msg)
+            vscode.window.showErrorMessage(msg || "Failed to generate commit message. Please try again.")
+          })
+      } finally {
+        if (active === state) active = undefined
+        await vscode.commands.executeCommand("setContext", "kilo-code.new.commitMessageGenerating", false)
+      }
     },
   )
 
-  context.subscriptions.push(command)
-  return [command]
+  const pause = vscode.commands.registerCommand("kilo-code.new.pauseCommitMessageGeneration", () => {
+    if (!active) return
+    active.cancelled = true
+    active.controller.abort()
+  })
+
+  context.subscriptions.push(command, pause)
+  return [command, pause]
 }

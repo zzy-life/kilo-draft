@@ -48,7 +48,11 @@ mock.module("@opencode-ai/core/util/log", () => ({
   }),
 }))
 
-import { CommitMessageRuntime, generateCommitMessage, NoChangesError } from "../../../src/kilocode/commit-message/generate"
+import {
+  CommitMessageRuntime,
+  generateCommitMessage,
+  NoChangesError,
+} from "../../../src/kilocode/commit-message/generate"
 
 const context = spyOn(CommitMessageRuntime, "context").mockImplementation(async (repoPath, selectedFiles) => {
   captured = { path: repoPath, selected: selectedFiles }
@@ -184,6 +188,26 @@ describe("commit-message.generate", () => {
       const result = await generateCommitMessage({ path: "/repo", prompt: "Write a haiku commit message." })
       expect(result.message).toBeTruthy()
       expect(lastPrompt()).toContain("Write a haiku commit message.")
+    })
+  })
+
+  describe("cancellation", () => {
+    test("passes the request signal to generation", async () => {
+      const controller = new AbortController()
+      let signal: AbortSignal | undefined
+      stream.mockImplementation(async (_input, abort) => {
+        signal = abort
+        if (abort.aborted) throw abort.reason
+        return await new Promise<string>((_resolve, reject) => {
+          abort.addEventListener("abort", () => reject(abort.reason))
+        })
+      })
+
+      const result = generateCommitMessage({ path: "/repo", signal: controller.signal })
+      controller.abort()
+
+      expect(await result.catch((err) => err.message)).toBe("Commit message generation cancelled")
+      expect(signal?.aborted).toBe(true)
     })
   })
 

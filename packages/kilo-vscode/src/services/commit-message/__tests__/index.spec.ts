@@ -7,12 +7,14 @@ vi.mock("vscode", () => {
   return {
     commands: {
       registerCommand: vi.fn((_command: string, _callback: (...args: any[]) => any) => disposable),
+      executeCommand: vi.fn().mockResolvedValue(undefined),
     },
     window: {
       showErrorMessage: vi.fn(),
       withProgress: vi.fn(),
     },
     workspace: {
+      getConfiguration: vi.fn(() => ({ get: vi.fn(() => undefined) })),
       workspaceFolders: [
         {
           uri: { fsPath: "/test/workspace" },
@@ -21,6 +23,9 @@ vi.mock("vscode", () => {
     },
     extensions: {
       getExtension: vi.fn(),
+    },
+    env: {
+      language: "en",
     },
     ProgressLocation: {
       SourceControl: 1,
@@ -63,7 +68,7 @@ describe("commit-message service", () => {
       const disposables = registerCommitMessageService(mockContext, mockConnectionService)
 
       expect(Array.isArray(disposables)).toBe(true)
-      expect(disposables.length).toBeGreaterThan(0)
+      expect(disposables).toHaveLength(2)
     })
 
     it("registers the kilo-code.new.generateCommitMessage command", () => {
@@ -75,10 +80,19 @@ describe("commit-message service", () => {
       )
     })
 
-    it("pushes the command disposable to context.subscriptions", () => {
+    it("registers the pause command", () => {
       registerCommitMessageService(mockContext, mockConnectionService)
 
-      expect(mockContext.subscriptions.length).toBe(1)
+      expect(vscode.commands.registerCommand).toHaveBeenCalledWith(
+        "kilo-code.new.pauseCommitMessageGeneration",
+        expect.any(Function),
+      )
+    })
+
+    it("pushes both command disposables to context.subscriptions", () => {
+      registerCommitMessageService(mockContext, mockConnectionService)
+
+      expect(mockContext.subscriptions).toHaveLength(2)
     })
   })
 
@@ -177,7 +191,7 @@ describe("commit-message service", () => {
       await commandCallback()
 
       expect(mockClient.commitMessage.generate).toHaveBeenCalledWith(
-        { path: "/repo", selectedFiles: undefined, previousMessage: undefined },
+        { path: "/repo", selectedFiles: undefined, previousMessage: undefined, language: "en" },
         expect.objectContaining({ throwOnError: true }),
       )
     })
@@ -231,6 +245,51 @@ describe("commit-message service", () => {
         }),
         expect.any(Function),
       )
+    })
+
+    it("switches context while generating and aborts from the pause command", async () => {
+      const input = { value: "existing message" }
+      vi.mocked(vscode.extensions.getExtension).mockReturnValue({
+        isActive: true,
+        activate: vi.fn().mockResolvedValue(undefined),
+        exports: {
+          getAPI: () => ({ repositories: [{ inputBox: input, rootUri: { fsPath: "/repo" } }] }),
+        },
+      } as any)
+
+      const started = Promise.withResolvers<void>()
+      mockClient.commitMessage.generate.mockImplementation((_payload, options) => {
+        return new Promise((_resolve, reject) => {
+          options.signal.addEventListener("abort", () => reject(new Error("aborted")))
+          started.resolve()
+        })
+      })
+      vi.mocked(vscode.window.withProgress).mockImplementation(async (_options, task) => {
+        await task({} as any, { onCancellationRequested: vi.fn() } as any)
+      })
+
+      const run = commandCallback()
+      await started.promise
+      const call = (vscode.commands.registerCommand as Mock).mock.calls.find(
+        ([name]) => name === "kilo-code.new.pauseCommitMessageGeneration",
+      )
+      const pause = call?.[1] as () => void
+      pause()
+      await run
+
+      expect(vscode.commands.executeCommand).toHaveBeenNthCalledWith(
+        1,
+        "setContext",
+        "kilo-code.new.commitMessageGenerating",
+        true,
+      )
+      expect(vscode.commands.executeCommand).toHaveBeenLastCalledWith(
+        "setContext",
+        "kilo-code.new.commitMessageGenerating",
+        false,
+      )
+      expect(input.value).toBe("existing message")
+      expect(vscode.window.showErrorMessage).not.toHaveBeenCalled()
     })
 
     it("uses the matching repository when SourceControl arg is provided", async () => {

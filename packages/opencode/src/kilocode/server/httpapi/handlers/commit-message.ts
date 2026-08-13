@@ -1,4 +1,5 @@
 import { Effect } from "effect"
+import { HttpServerRequest } from "effect/unstable/http"
 import { HttpApiBuilder } from "effect/unstable/httpapi"
 import { EffectBridge } from "@/effect/bridge"
 import { InstanceHttpApi } from "@/server/routes/instance/httpapi/api"
@@ -15,6 +16,8 @@ export const commitMessageHandlers = HttpApiBuilder.group(InstanceHttpApi, "comm
     }) {
       const cfg = yield* config.get()
       const prompt = cfg.commit_message?.prompt || undefined
+      const request = yield* HttpServerRequest.HttpServerRequest
+      const signal = request.source instanceof Request ? request.source.signal : undefined
       const result = yield* EffectBridge.fromPromise(() =>
         generateCommitMessage({
           path: ctx.payload.path,
@@ -23,6 +26,7 @@ export const commitMessageHandlers = HttpApiBuilder.group(InstanceHttpApi, "comm
           model: cfg.commit_message?.model,
           prompt,
           language: ctx.payload.language,
+          signal,
         }),
       ).pipe(
         Effect.catchDefect((defect) => {

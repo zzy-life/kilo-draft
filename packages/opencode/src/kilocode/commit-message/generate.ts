@@ -187,8 +187,8 @@ export async function generateCommitMessage(request: CommitMessageRequest): Prom
     userMessage = `IMPORTANT: Generate a COMPLETELY DIFFERENT commit message from the previous one. The previous message was: "${request.previousMessage}". Use a different type, scope, or description approach.\n\n${userMessage}`
   }
 
-  const controller = new AbortController()
-  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS)
+  const timeout = AbortSignal.timeout(TIMEOUT_MS)
+  const signal = request.signal ? AbortSignal.any([request.signal, timeout]) : timeout
 
   try {
     const result = await CommitMessageRuntime.generate(
@@ -220,19 +220,20 @@ export async function generateCommitMessage(request: CommitMessageRequest): Prom
         system: [],
         retries: 3,
       },
-      controller.signal,
+      signal,
     )
 
     log.info("generated", { message: result })
     return { message: clean(result) }
   } catch (err) {
-    if (controller.signal.aborted) {
+    if (request.signal?.aborted) {
+      throw new Error("Commit message generation cancelled")
+    }
+    if (timeout.aborted) {
       throw new Error("Commit message generation timed out after 30 seconds")
     }
     const msg = err instanceof Error ? err.message : String(err)
     log.error("generation failed", { error: msg })
     throw new Error(`Failed to generate commit message: ${msg}`)
-  } finally {
-    clearTimeout(timer)
   }
 }
