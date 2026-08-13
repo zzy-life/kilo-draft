@@ -1,12 +1,11 @@
 import { KILO_API_BASE } from "./api/constants.js"
-import { getAutocompleteModel, type DirectAutocompleteProviderID } from "./autocomplete.js"
+import { getAutocompleteModel, type DirectEditProviderID } from "./autocomplete.js"
 
 /**
  * Env var(s) consulted as a fallback for BYOK keys when the provider hasn't
  * been authenticated via the gateway's Auth store. Mirrors `DIRECT_FIM_ENV`.
  */
-export const DIRECT_EDIT_ENV: Record<DirectAutocompleteProviderID, string[]> = {
-  mistral: ["MISTRAL_API_KEY"],
+export const DIRECT_EDIT_ENV: Record<DirectEditProviderID, string[]> = {
   inception: ["INCEPTION_API_KEY"],
 }
 

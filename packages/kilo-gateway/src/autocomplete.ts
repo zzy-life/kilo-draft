@@ -1,5 +1,6 @@
-export type AutocompleteProviderID = "kilo" | "mistral" | "inception"
+export type AutocompleteProviderID = "kilo" | "mistral" | "inception" | "deepseek"
 export type DirectAutocompleteProviderID = Exclude<AutocompleteProviderID, "kilo">
+export type DirectEditProviderID = Extract<DirectAutocompleteProviderID, "inception">
 
 interface AutocompleteModelBase {
   /** Stable combined value for internal comparisons. */
@@ -102,6 +103,26 @@ const models: AutocompleteModelDef[] = [
     temperature: 0,
     kind: "edit",
     fimModelID: "inception/mercury-edit-2",
+  },
+  {
+    id: "deepseek/deepseek-v4-flash",
+    modelID: "deepseek-v4-flash",
+    label: "DeepSeek V4 Flash",
+    providerID: "deepseek",
+    provider: "DeepSeek",
+    requestModel: "deepseek-v4-flash",
+    directProvider: "deepseek",
+    temperature: 0.2,
+  },
+  {
+    id: "deepseek/deepseek-v4-pro",
+    modelID: "deepseek-v4-pro",
+    label: "DeepSeek V4 Pro",
+    providerID: "deepseek",
+    provider: "DeepSeek",
+    requestModel: "deepseek-v4-pro",
+    directProvider: "deepseek",
+    temperature: 0.2,
   },
 ]
 

@@ -4,6 +4,9 @@ import {
   DEFAULT_AUTOCOMPLETE_MODEL,
   DEFAULT_AUTOCOMPLETE_MODEL_ID,
   DEFAULT_AUTOCOMPLETE_PROVIDER_ID,
+  getAutocompleteModel,
+  validAutocompleteModel,
+  validAutocompleteProvider,
 } from "../src/autocomplete"
 
 describe("DEFAULT_AUTOCOMPLETE_MODEL", () => {
@@ -16,6 +19,24 @@ describe("DEFAULT_AUTOCOMPLETE_MODEL", () => {
     expect(match).toBeDefined()
     expect(DEFAULT_AUTOCOMPLETE_MODEL).toBe(match!)
     expect(DEFAULT_AUTOCOMPLETE_MODEL.kind).toBe("edit")
+  })
+})
+
+describe("DeepSeek FIM models", () => {
+  test("resolve and validate the connected DeepSeek provider models", () => {
+    const flash = getAutocompleteModel("deepseek", "deepseek-v4-flash")
+    expect(flash.id).toBe("deepseek/deepseek-v4-flash")
+    expect(flash.kind).not.toBe("edit")
+    expect(flash.requestModel).toBe("deepseek-v4-flash")
+
+    const pro = getAutocompleteModel("deepseek", "deepseek-v4-pro")
+    expect(pro.id).toBe("deepseek/deepseek-v4-pro")
+    expect(pro.kind).not.toBe("edit")
+    expect(pro.requestModel).toBe("deepseek-v4-pro")
+
+    expect(validAutocompleteProvider("deepseek")).toBe(true)
+    expect(validAutocompleteModel("deepseek-v4-flash")).toBe(true)
+    expect(validAutocompleteModel("deepseek-v4-pro")).toBe(true)
   })
 })
 

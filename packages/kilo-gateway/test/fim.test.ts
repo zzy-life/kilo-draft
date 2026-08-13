@@ -1,7 +1,11 @@
 import { describe, expect, test } from "bun:test"
-import { resolveFimTarget } from "../src/fim"
+import { DIRECT_FIM_ENV, resolveFimTarget } from "../src/fim"
 
 describe("FIM target resolution", () => {
+  test("uses the connected DeepSeek provider API key", () => {
+    expect(DIRECT_FIM_ENV.deepseek).toEqual(["DEEPSEEK_API_KEY"])
+  })
+
   test("keeps gateway autocomplete models on Kilo Gateway", () => {
     expect(resolveFimTarget("kilo", "mistralai/codestral-2508")).toEqual({
       provider: "kilo",
@@ -24,6 +28,16 @@ describe("FIM target resolution", () => {
       provider: "inception",
       model: "mercury-edit-2",
       url: "https://api.inceptionlabs.ai/v1/fim/completions",
+    })
+    expect(resolveFimTarget("deepseek", "deepseek-v4-flash")).toEqual({
+      provider: "deepseek",
+      model: "deepseek-v4-flash",
+      url: "https://api.deepseek.com/beta/completions",
+    })
+    expect(resolveFimTarget("deepseek", "deepseek-v4-pro")).toEqual({
+      provider: "deepseek",
+      model: "deepseek-v4-pro",
+      url: "https://api.deepseek.com/beta/completions",
     })
   })
 
