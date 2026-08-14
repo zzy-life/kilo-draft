@@ -1,6 +1,6 @@
 {
-  "name": "codedraft",
-  "displayName": "CodeDraft",
+  "name": "kilo-draft",
+  "displayName": "Kilo Draft",
   "description": "AI-powered code completion and Git commit message generation for VS Code.",
   "version": "0.0.1",
   "icon": "assets/icons/logo-outline-black.png",
