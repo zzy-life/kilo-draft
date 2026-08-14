@@ -57,8 +57,6 @@ export const dict = {
   "command.provider.connect": "Poveži provajdera",
 
   "command.session.new": "Nova sesija",
-  "command.session.show.changes": "Prikaži promjene",
-  "command.review.toggle": "Prikaži/sakrij pregled",
   "revert.banner.count_one": "{{count}} poruka poništena",
   "revert.banner.count_other": "{{count}} poruka poništeno",
   "revert.banner.redo": "Ponovi",
@@ -201,12 +199,6 @@ export const dict = {
   "prompt.action.send.recording": "Transkribuj i pošalji",
   "prompt.action.stop": "Zaustavi",
   "prompt.action.enhance": "Poboljšaj prompt",
-  "prompt.action.autoApprove.enable": "Uključi automatsko odobravanje",
-  "prompt.action.autoApprove.disable": "Isključi automatsko odobravanje",
-  "prompt.action.autoApprove.enabled":
-    "Automatsko odobravanje je uključeno. Zahtjevi za dozvole bit će automatski odobreni.",
-  "prompt.action.autoApprove.disabled":
-    "Automatsko odobravanje je isključeno. Kliknite za automatsko odobravanje zahtjeva za dozvole.",
   "prompt.action.resetModel": "Resetuj model na zadani",
   "prompt.action.enhanceDescription":
     "Dugme 'Poboljšaj prompt' pomaže poboljšati vaš zahtjev pružajući dodatni kontekst, pojašnjenje ili preformulaciju. Pokušajte upisati zahtjev ovdje i ponovo kliknite na dugme da vidite kako funkcioniše.",
@@ -294,22 +286,7 @@ export const dict = {
   "ui.permission.toolLabel.todoWrite": "Ažuriranje liste zadataka",
   "ui.permission.toolLabel.codeSearch": "Pretraga koda",
   "ui.permission.copyCommand": "Kopiraj",
-  "ui.approval.auto": "Automatski odobreno",
-  "ui.approval.manual": "Odobrili ste vi",
-  "ui.approval.rule": "odgovara pravilu `{{permission}}` `{{pattern}}`",
-  "ui.approval.source.agent": "od strane agenta {{agent}}",
-  "ui.approval.source.agent.default": "od strane agenta",
-  "ui.approval.source.global": "globalnom konfiguracijom",
-  "ui.approval.source.project": "konfiguracijom projekta",
-  "ui.approval.source.yolo": "režimom automatskog odobravanja (YOLO)",
-  "ui.approval.source.session": "pravilom automatskog odobravanja sesije",
-  "ui.approval.source.default": "podrazumevano",
-  "ui.approval.outsideWorkspace": "(izvan vašeg radnog prostora: {{file}})",
 
-  "session.tab.review": "Pregled",
-  "session.review.filesChanged": "Izmijenjeno {{count}} datoteka",
-  "session.review.loadingChanges": "Učitavanje izmjena...",
-  "session.review.noChanges": "Nema izmjena",
 
   "session.messages.loadingEarlier": "Učitavanje ranijih poruka...",
   "session.messages.loadEarlier": "Učitaj ranije poruke",
@@ -337,7 +314,6 @@ export const dict = {
     "Premjesti ovaj razgovor i 1 izmijenjen fajl u namjenski worktree za izolovani naknadni rad.",
   "sidebar.session.moveToWorktree.tooltip.other":
     "Premjesti ovaj razgovor i {{files}} izmijenjenih fajlova u namjenski worktree za izolovani naknadni rad.",
-  "sidebar.session.showChanges.tooltip.empty": "Otvorite prikaz izmjena da pregledate trenutno radno stablo.",
   "sidebar.session.progress.capturing": "Snimanje izmjena...",
   "sidebar.session.progress.creating": "Kreiranje worktree-a...",
   "sidebar.session.progress.setup": "Pokretanje podešavanja...",
@@ -357,51 +333,6 @@ export const dict = {
 
   "sidebar.settings": "Postavke",
 
-  "sound.option.alert01": "Upozorenje 01",
-  "sound.option.alert02": "Upozorenje 02",
-  "sound.option.alert03": "Upozorenje 03",
-  "sound.option.alert04": "Upozorenje 04",
-  "sound.option.alert05": "Upozorenje 05",
-  "sound.option.alert06": "Upozorenje 06",
-  "sound.option.alert07": "Upozorenje 07",
-  "sound.option.alert08": "Upozorenje 08",
-  "sound.option.alert09": "Upozorenje 09",
-  "sound.option.alert10": "Upozorenje 10",
-  "sound.option.bipbop01": "Bip-bop 01",
-  "sound.option.bipbop02": "Bip-bop 02",
-  "sound.option.bipbop03": "Bip-bop 03",
-  "sound.option.bipbop04": "Bip-bop 04",
-  "sound.option.bipbop05": "Bip-bop 05",
-  "sound.option.bipbop06": "Bip-bop 06",
-  "sound.option.bipbop07": "Bip-bop 07",
-  "sound.option.bipbop08": "Bip-bop 08",
-  "sound.option.bipbop09": "Bip-bop 09",
-  "sound.option.bipbop10": "Bip-bop 10",
-  "sound.option.staplebops01": "Staplebops 01",
-  "sound.option.staplebops02": "Staplebops 02",
-  "sound.option.staplebops03": "Staplebops 03",
-  "sound.option.staplebops04": "Staplebops 04",
-  "sound.option.staplebops05": "Staplebops 05",
-  "sound.option.staplebops06": "Staplebops 06",
-  "sound.option.staplebops07": "Staplebops 07",
-  "sound.option.nope01": "Ne 01",
-  "sound.option.nope02": "Ne 02",
-  "sound.option.nope03": "Ne 03",
-  "sound.option.nope04": "Ne 04",
-  "sound.option.nope05": "Ne 05",
-  "sound.option.nope06": "Ne 06",
-  "sound.option.nope07": "Ne 07",
-  "sound.option.nope08": "Ne 08",
-  "sound.option.nope09": "Ne 09",
-  "sound.option.nope10": "Ne 10",
-  "sound.option.nope11": "Ne 11",
-  "sound.option.nope12": "Ne 12",
-  "sound.option.yup01": "Da 01",
-  "sound.option.yup02": "Da 02",
-  "sound.option.yup03": "Da 03",
-  "sound.option.yup04": "Da 04",
-  "sound.option.yup05": "Da 05",
-  "sound.option.yup06": "Da 06",
 
   "prompt.action.indexing": "Postavke indeksiranja",
   "settings.indexing.dimension.description":
@@ -677,11 +608,9 @@ export const dict = {
   "profile.action.logout": "Odjava",
 
   "settings.agentBehaviour.title": "Ponašanje agenta",
-  "settings.autoApprove.title": "Automatsko odobravanje",
   "settings.webTools.title": "Web alati",
   "settings.webTools.description": "Konfigurišite web pretragu i automatizaciju preglednika.",
   "settings.webTools.webSearch.enable": "Omogući za sve pružaoce",
-  "settings.webTools.browserAutomation": "Automatizacija preglednika",
   "settings.webTools.webSearch.title": "Web pretraga",
   "settings.webTools.webSearch.description": "Omogućite web pretragu modelima svih pružalaca.",
   "settings.checkpoints.title": "Kontrolne tačke",
@@ -689,7 +618,6 @@ export const dict = {
   "settings.autocomplete.title": "Automatsko dovršavanje",
   "settings.autocomplete.model.title": "Model za automatsko dovršavanje",
   "settings.autocomplete.model.description": "Odaberite model koji se koristi za inline dovršavanje koda",
-  "settings.notifications.title": "Obavještenja",
   "settings.context.title": "Kontekst",
 
   "settings.experimental.title": "Eksperimentalno",
@@ -777,15 +705,6 @@ export const dict = {
   "settings.agentBehaviour.subtab.workflows": "Tokovi rada",
   "settings.agentBehaviour.subtab.skills": "Vještine",
 
-  "settings.browser.description":
-    "Kada je omogućeno, AI agent može komunicirati s web stranicama — navigirati, klikati, tipkati i snimati ekran. Chrome prozor će se otvoriti kako biste mogli pratiti rad agenta.",
-  "settings.browser.enable.title": "Omogući automatizaciju preglednika",
-  "settings.browser.enable.description": "Registriraj Playwright MCP server s CLI pozadinom.",
-  "settings.browser.systemChrome.title": "Koristi sistemski Chrome",
-  "settings.browser.systemChrome.description":
-    "Koristite instalirani Chrome preglednik umjesto zasebne Chromium instance.",
-  "settings.browser.headless.title": "Headless način",
-  "settings.browser.headless.description": "Pokreni u headless načinu (bez vidljivog prozora preglednika).",
 
   "settings.language.description": 'Odaberite jezik za Kilo Code sučelje. "Auto" koristi jezik prikaza VS Code-a.',
   "settings.language.auto": "Auto (VS Code jezik)",
@@ -801,15 +720,6 @@ export const dict = {
   "settings.autocomplete.chatAutocomplete.description": "Prikaži prijedloge automatskog dovršavanja u polju chata",
   "settings.autocomplete.modelsHint":
     "Da odaberete koji se model koristi za automatsko dovršavanje, pogledajte postavke Modela.",
-  "settings.notifications.sounds": "Zvukovi",
-  "settings.notifications.enable.title": "Omogući zvučne obavijesti",
-  "settings.notifications.enable.description":
-    "Reproduciraj zvukove kada se sesije završe, naiđu na grešku ili trebaju vaš unos",
-  "settings.notifications.testSound": "Testiraj",
-  "settings.notifications.sound.default": "Zadano",
-  "settings.notifications.sound.system": "Sistem",
-  "settings.notifications.sound.description":
-    "Zadana opcija koristi različite zvukove za završetak, unos i greške. Ostale opcije koriste jedan zvuk za sve događaje.",
   "settings.experimental.share.title": "Način dijeljenja",
   "settings.experimental.share.description": "Ponašanje dijeljenja sesije",
   "settings.experimental.share.manual": "Ručno",
@@ -833,9 +743,6 @@ export const dict = {
     "Omogućite i prijavite se na Kilo provajder da biste koristili Speech to Text. Speech to Text je trenutno podržan samo uz Kilo Gateway.",
   "settings.models.speechToTextModel.title": "Model govora u tekst",
   "settings.models.speechToTextModel.description": "Odaberite Kilo Gateway model za transkripciju za glasovni unos.",
-  "settings.experimental.nativeNotebookTools.title": "Izvorni alati za bilježnice",
-  "settings.experimental.nativeNotebookTools.description":
-    "Omogući eksperimentalne alate za čitanje, uređivanje i izvršavanje VS Code bilježnica",
   "settings.experimental.continueOnDeny.title": "Nastavi pri odbijanju",
   "settings.experimental.continueOnDeny.description": "Nastavi petlju agenta kada je dozvola odbijena",
   "settings.sandboxing.title": "Rad u izoliranom okruženju",
@@ -860,14 +767,6 @@ export const dict = {
     "Omogući upravljanje sesijama i worktree-ima kroz više repozitorija u Agent Manager-u. Trenutni workspace repozitorij je uvijek zadani projekat.",
   "settings.experimental.mcpTimeout.title": "MCP istek vremena (ms)",
   "settings.experimental.mcpTimeout.description": "Istek vremena za MCP server zahtjeve u milisekundama",
-  "settings.experimental.remote.title": "Remote kontrola",
-  "settings.experimental.remote.description":
-    "Omogućite Remote kontrolu sesija putem Kilo Cloud. Ovo će također utjecati na CLI-jeve na ovoj mašini.",
-  "settings.experimental.remote.current": "Trenutno stanje:",
-  "settings.experimental.remote.startup": "Automatsko uključivanje pri pokretanju:",
-  "settings.experimental.remote.active": "Aktivno",
-  "settings.experimental.remote.inactive": "Neaktivno",
-  "settings.experimental.remote.hint": "Koristite /remote u chatu za prebacivanje",
   "settings.experimental.toolToggles": "Prekidači alata",
   "settings.agentBehaviour.defaultAgent.title": "Zadani agent",
   "settings.agentBehaviour.defaultAgent.description": "Agent koji se koristi kada nijedan nije naveden",
@@ -991,11 +890,6 @@ export const dict = {
   "settings.sandboxing.enabled.description":
     "Pokrenite shell komande agenta unutar sandboxa na nivou operativnog sistema koji ograničava pisanje na direktorije stanja projekta i Kilo",
 
-  "settings.autoApprove.description":
-    "Definišite kako je dozvoljeno pokretanje alata. Većina alata je podrazumijevano na Dozvoli. doom_loop i external_directory su podrazumijevano na Pitaj.",
-  "settings.autoApprove.maxCost.title": "Upozorenje o trošku sesije",
-  "settings.autoApprove.maxCost.description":
-    "Upozori prije nastavka sesije nakon što potrošnja premaši ovaj iznos u USD. Koristite cijele dolare; ostavite prazno za isključivanje.",
   "settings.autoApprove.level.allow": "Dozvoli",
   "settings.autoApprove.level.ask": "Pitaj",
   "settings.autoApprove.level.deny": "Odbij",
@@ -1142,30 +1036,7 @@ export const dict = {
   "notifications.action.close": "Zatvori",
   "notifications.action.tryModel": "Probaj {{model}}",
   "notifications.action.tryModelGeneric": "Probaj model",
-  "diffViewer.source.workspace.label": "Grana",
-  "diffViewer.source.workspace.tooltip":
-    "Sve promjene na ovoj grani u poređenju s osnovnom granom. Uključuje nekomitovane datoteke (staged, unstaged, nepraćene) i lokalne commitove koji još nisu u osnovi.",
-  "diffViewer.source.staged.label": "Pripremljeno",
-  "diffViewer.source.staged.tooltip":
-    "Datoteke s promjenama koje ste dodali u git pripremno područje (`git add`), kako će se pojaviti u sljedećem commitu.",
-  "diffViewer.source.unstaged.label": "Nepripremljeno",
-  "diffViewer.source.unstaged.tooltip":
-    "Datoteke izmijenjene u radnom stablu ali još nisu pripremljene, plus nepraćene (nove) datoteke.",
-  "diffViewer.source.session.label": "Sesija",
-  "diffViewer.source.session.tooltip":
-    "Datoteke koje je Kilo promijenio tokom trenutne sesije, na osnovu snapshota po koraku. Resetuje se kada pokrenete novu sesiju.",
-  "diffViewer.group.session": "Sesija",
-  "diffViewer.group.git": "Git",
-  "diffViewer.notice.snapshotsDisabled":
-    "Snapshotovi su onemogućeni za ovaj repozitorij. Uredite konfiguracijske datoteke da biste prikazali promjene sesije.",
 
-  "diffViewer.baseBranch.auto": "Default",
-  "diffViewer.baseBranch.default": "Default",
-  "diffViewer.baseBranch.remote": "Remote",
-  "diffViewer.baseBranch.search": "Search branches",
-  "diffViewer.baseBranch.empty": "No matching branches",
-  "diffViewer.baseBranch.loading": "Loading branches…",
-  "diffViewer.baseBranch.none": "—",
   "plan.exit.ready": "Plan je spreman:",
   "chat.search.placeholder": "Pretraži chat…",
   "chat.search.toggle": "Pretraži chat",

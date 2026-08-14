@@ -15,7 +15,6 @@ type Ctx = {
   connection: KiloConnectionService
   dir: string
   post: (msg: unknown) => void
-  browserSettings: () => void
   exportTranscript: (sessionID: string) => Promise<void>
   copy: (text: string) => PromiseLike<void>
   openSessions: (ids: string[]) => void
@@ -78,10 +77,6 @@ export async function routeEarlyMessage(
   }
   if (message.type === "requestSpeechToTextModels") {
     await ctx.speechToTextModels()
-    return true
-  }
-  if (message.type === "requestBrowserSettings") {
-    ctx.browserSettings()
     return true
   }
   return await routeInputToolMessage(message, { connection: ctx.connection, dir: ctx.dir, post: ctx.post })

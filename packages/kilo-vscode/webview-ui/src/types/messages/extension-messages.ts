@@ -1,5 +1,4 @@
 import type { ProviderAuthAuthorization, ProviderAuthMethod } from "@kilocode/sdk/v2/client"
-import type { DiffSourceCapabilities, DiffSourceDescriptor } from "../../../../src/diff/sources/types"
 import type { PartBatch, PartRemove, PartUpdate } from "../../../../src/shared/stream-messages"
 import type { ConnectionState, ServerInfo, SessionStatus } from "./connection"
 import type { FileAttachment, Part } from "./parts"
@@ -21,7 +20,6 @@ import type { ModelSelection, ModelUsageMap, Provider, ProviderAuthState } from 
 import type { SpeechToTextModelDef } from "../../../../src/speech-to-text/models"
 import type { AgentInfo, AgentRequirementResult, SkillInfo, SlashCommandInfo } from "./agents"
 import type {
-  BrowserSettings,
   Config,
   ConfigCollections,
   FeatureFlags,
@@ -340,7 +338,7 @@ export interface DeviceAuthCancelledMessage {
 
 export interface NavigateMessage {
   type: "navigate"
-  view: "newTask" | "history" | "profile" | "settings" | "subAgentViewer"
+  view: "newTask" | "history" | "profile" | "settings"
   tab?: string
 }
 
@@ -562,11 +560,6 @@ export interface SuggestionErrorMessage {
   requestID: string
 }
 
-export interface BrowserSettingsLoadedMessage {
-  type: "browserSettingsLoaded"
-  settings: BrowserSettings
-}
-
 export interface ClaudeCompatSettingLoadedMessage {
   type: "claudeCompatSettingLoaded"
   enabled: boolean
@@ -633,14 +626,6 @@ export interface ConfigBindingExpiredMessage {
 export interface GlobalConfigLoadedMessage {
   type: "globalConfigLoaded"
   config: Config
-}
-
-export interface NotificationSettingsLoadedMessage {
-  type: "notificationSettingsLoaded"
-  settings: {
-    attentionEnabled: boolean
-    attentionSound: string
-  }
 }
 
 export interface TimelineSettingLoadedMessage {
@@ -860,11 +845,6 @@ export interface AgentManagerKeybindingsMessage {
   bindings: Record<string, string>
 }
 
-export interface AutoApproveStateMessage {
-  type: "autoApproveState"
-  active: boolean
-}
-
 export interface SandboxStatusMessage {
   type: "sandboxStatus"
   sessionID: string
@@ -981,7 +961,7 @@ export interface AgentManagerWorktreeDiffLoadingMessage {
 export interface AgentManagerWorktreeDiffNoticeMessage {
   type: "agentManager.worktreeDiffNotice"
   sessionId: string
-  notice?: DiffViewerNotice
+  notice?: "snapshots-disabled"
 }
 
 export interface AgentManagerApplyWorktreeDiffResultMessage {
@@ -1091,78 +1071,6 @@ export interface EnhancePromptErrorMessage {
   requestId: string
 }
 
-// Sub-agent viewer: open a child session in read-only mode (extension → webview)
-export interface ViewSubAgentSessionMessage {
-  type: "viewSubAgentSession"
-  sessionID: string
-}
-
-export interface DiffViewerDiffsMessage {
-  type: "diffViewer.diffs"
-  diffs: WorktreeFileDiff[]
-}
-
-export interface DiffViewerLoadingMessage {
-  type: "diffViewer.loading"
-  loading: boolean
-}
-
-export interface DiffViewerRevertFileResultMessage {
-  type: "diffViewer.revertFileResult"
-  file: string
-  status: "success" | "error"
-  message: string
-}
-
-export interface DiffViewerDiffFileMessage {
-  type: "diffViewer.diffFile"
-  file: string
-  diff: WorktreeFileDiff | null
-}
-
-export interface DiffViewerMarkdownRenderMessage {
-  type: "diffViewer.markdownRender"
-  render: boolean
-}
-
-export interface SetAvailableSourcesMessage {
-  type: "setAvailableSources"
-  descriptors: DiffSourceDescriptor[]
-  currentId: string
-}
-
-export interface DiffViewerCapabilitiesMessage {
-  type: "diffViewer.capabilities"
-  capabilities: DiffSourceCapabilities
-}
-
-/**
- * Well-known notice kinds surfaced by a diff source. The webview maps these
- * to translated user-facing messages. `undefined` clears any active notice.
- */
-export type DiffViewerNotice = "snapshots-disabled"
-
-export interface DiffViewerNoticeMessage {
-  type: "diffViewer.notice"
-  notice: DiffViewerNotice | undefined
-}
-
-/**
- * Branch list and current base state for the workspace source's base picker.
- * Sent in response to `diffViewer.requestBranches`. `currentBase` is the
- * active base (override when set, otherwise `autoBase`); `isAuto` is true
- * when no override is active.
- */
-export interface DiffViewerBranchesLoadedMessage {
-  type: "diffViewer.branches"
-  branches: BranchInfo[]
-  defaultBranch: string
-  autoBase: string | undefined
-  currentBase: string | undefined
-  isAuto: boolean
-  currentBranch: string | undefined
-}
-
 export interface ClearPendingPromptsMessage {
   type: "clearPendingPrompts"
 }
@@ -1228,12 +1136,6 @@ export interface ContinueInWorktreeProgressMessage {
   status: ContinueInWorktreeStatus
   detail?: string
   error?: string
-}
-
-export interface RemoteStatusMessage {
-  type: "remoteStatus"
-  enabled: boolean
-  connected: boolean
 }
 
 export interface ValidateFilesResultMessage {
@@ -1320,14 +1222,12 @@ export type ExtensionMessage =
   | SuggestionRequestMessage
   | SuggestionResolvedMessage
   | SuggestionErrorMessage
-  | BrowserSettingsLoadedMessage
   | ClaudeCompatSettingLoadedMessage
   | ConfigLoadedMessage
   | ConfigUpdatedMessage
   | ConfigUpdateFailedMessage
   | ConfigBindingExpiredMessage
   | GlobalConfigLoadedMessage
-  | NotificationSettingsLoadedMessage
   | TimelineSettingLoadedMessage
   | ThroughputSettingLoadedMessage
   | AutoApprovalReasonSettingLoadedMessage
@@ -1346,7 +1246,6 @@ export type ExtensionMessage =
   | AgentManagerProjectSessionsMessage
   | AgentManagerRunStatusMessage
   | AgentManagerKeybindingsMessage
-  | AutoApproveStateMessage
   | SandboxStatusMessage
   | SandboxDefaultStatusMessage
   | SandboxStatusErrorMessage
@@ -1387,16 +1286,6 @@ export type ExtensionMessage =
   | AgentManagerScriptTerminalsMessage
   | EnhancePromptResultMessage
   | EnhancePromptErrorMessage
-  | ViewSubAgentSessionMessage
-  | DiffViewerDiffsMessage
-  | DiffViewerLoadingMessage
-  | DiffViewerRevertFileResultMessage
-  | DiffViewerDiffFileMessage
-  | DiffViewerMarkdownRenderMessage
-  | SetAvailableSourcesMessage
-  | DiffViewerCapabilitiesMessage
-  | DiffViewerNoticeMessage
-  | DiffViewerBranchesLoadedMessage
   | ProviderOAuthReadyMessage
   | ProviderConnectedMessage
   | ProviderDisconnectedMessage
@@ -1414,7 +1303,6 @@ export type ExtensionMessage =
   | ClearPendingPromptsMessage
   | ExtensionDataReadyMessage
   | TelemetryStateMessage
-  | RemoteStatusMessage
   | ValidateFilesResultMessage
   | ClipboardWriteResultMessage
   | MemoryLoadedMessage

@@ -10,8 +10,6 @@ import { InstanceState } from "@/effect/instance-state"
 import { HeapSnapshot } from "@/kilocode/cli/heap-snapshot"
 import type { RequestID as AgentManagerRequestID } from "@/kilocode/agent-manager/protocol"
 import { AgentManager } from "@/kilocode/agent-manager/service"
-import type { RequestID as NotebookRequestID } from "@/kilocode/notebook/protocol"
-import { Notebook } from "@/kilocode/notebook/service"
 import { ModelUsage } from "@/kilocode/session/model-usage"
 import { InstanceStore } from "@/project/instance-store"
 import { InstanceHttpApi } from "@/server/routes/instance/httpapi/api"
@@ -20,8 +18,6 @@ import type { SessionID } from "@/session/schema"
 import {
   AgentManagerRejectPayload,
   AgentManagerReplyPayload,
-  NotebookRejectPayload,
-  NotebookReplyPayload,
   RemoveAgentPayload,
   RemoveCommandPayload,
   RemoveSkillPayload,
@@ -35,7 +31,6 @@ export const kilocodeHandlers = HttpApiBuilder.group(InstanceHttpApi, "kilocode"
     const config = yield* Config.Service
     const store = yield* InstanceStore.Service
     const manager = yield* AgentManager.Service
-    const notebook = yield* Notebook.Service
 
     const heapSnapshot = Effect.fn("KilocodeHttpApi.heapSnapshot")(function* () {
       return yield* Effect.sync(() => HeapSnapshot.write())
@@ -107,31 +102,6 @@ export const kilocodeHandlers = HttpApiBuilder.group(InstanceHttpApi, "kilocode"
       return true
     })
 
-    const notebookList = Effect.fn("KilocodeHttpApi.notebookList")(function* () {
-      return yield* notebook.list()
-    })
-
-    const notebookReply = Effect.fn("KilocodeHttpApi.notebookReply")(function* (ctx: {
-      params: { requestID: NotebookRequestID }
-      payload: typeof NotebookReplyPayload.Type
-    }) {
-      yield* notebook.reply({ requestID: ctx.params.requestID, result: ctx.payload.result }).pipe(
-        Effect.catchTag("Notebook.NotFoundError", () => Effect.fail(new HttpApiError.NotFound({}))),
-        Effect.catchTag("Notebook.InvalidReplyError", () => Effect.fail(new HttpApiError.BadRequest({}))),
-      )
-      return true
-    })
-
-    const notebookReject = Effect.fn("KilocodeHttpApi.notebookReject")(function* (ctx: {
-      params: { requestID: NotebookRequestID }
-      payload: typeof NotebookRejectPayload.Type
-    }) {
-      yield* notebook
-        .reject({ requestID: ctx.params.requestID, error: ctx.payload.error })
-        .pipe(Effect.catchTag("Notebook.NotFoundError", () => Effect.fail(new HttpApiError.NotFound({}))))
-      return true
-    })
-
     const agentManagerList = Effect.fn("KilocodeHttpApi.agentManagerList")(function* () {
       return yield* manager.list()
     })
@@ -172,9 +142,6 @@ export const kilocodeHandlers = HttpApiBuilder.group(InstanceHttpApi, "kilocode"
       .handle("removeCommand", removeCommand)
       .handle("removeSkill", removeSkill)
       .handle("removeAgent", removeAgent)
-      .handle("notebookList", notebookList)
-      .handle("notebookReply", notebookReply)
-      .handle("notebookReject", notebookReject)
       .handle("agentManagerList", agentManagerList)
       .handle("agentManagerReply", agentManagerReply)
       .handle("agentManagerReject", agentManagerReject)

@@ -24,7 +24,6 @@ import { Git } from "../../src/git"
 import { Image } from "../../src/image/image"
 import { KiloSession } from "../../src/kilocode/session"
 import { KiloSessionPrompt } from "../../src/kilocode/session/prompt"
-import { KiloSessions } from "../../src/kilo-sessions/kilo-sessions"
 import { LSP } from "../../src/lsp/lsp"
 import { MCP } from "../../src/mcp"
 import { Permission } from "../../src/permission"
@@ -179,7 +178,6 @@ function makeHttp() {
     [LSP.node, lsp],
     [MCP.node, mcp],
     [RuntimeFlags.node, RuntimeFlags.layer()],
-    [KiloSessions.node, KiloSessions.testLayer],
   ])
 }
 

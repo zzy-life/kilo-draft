@@ -56,8 +56,6 @@ export const dict = {
   "command.provider.connect": "Connect provider",
 
   "command.session.new": "New session",
-  "command.session.show.changes": "Show Changes",
-  "command.review.toggle": "Toggle review",
   "revert.banner.count_one": "{{count}} message reverted",
   "revert.banner.count_other": "{{count}} messages reverted",
   "revert.banner.redo": "Redo",
@@ -201,10 +199,6 @@ export const dict = {
   "prompt.action.stop": "Stop",
   "prompt.action.enhance": "Enhance prompt",
   "prompt.action.indexing": "Indexing settings",
-  "prompt.action.autoApprove.enable": "Enable auto-approve",
-  "prompt.action.autoApprove.disable": "Disable auto-approve",
-  "prompt.action.autoApprove.enabled": "Auto-approve is enabled. Permission prompts will be approved automatically.",
-  "prompt.action.autoApprove.disabled": "Auto-approve is disabled. Click to approve permission prompts automatically.",
   "prompt.action.sandbox.enable": "Enable sandbox",
   "prompt.action.sandbox.disable": "Disable sandbox",
   "prompt.action.sandbox.enabled":
@@ -291,22 +285,7 @@ export const dict = {
   "ui.permission.toolLabel.todoWrite": "Todo Write",
   "ui.permission.toolLabel.codeSearch": "Code Search",
   "ui.permission.copyCommand": "Copy",
-  "ui.approval.auto": "Auto-approved",
-  "ui.approval.manual": "Approved by you",
-  "ui.approval.rule": "matched `{{permission}}` rule `{{pattern}}`",
-  "ui.approval.source.agent": "by the {{agent}} agent",
-  "ui.approval.source.agent.default": "by the agent",
-  "ui.approval.source.global": "by your global config",
-  "ui.approval.source.project": "by the project config",
-  "ui.approval.source.yolo": "by auto-approve (YOLO) mode",
-  "ui.approval.source.session": "by a session auto-approve rule",
-  "ui.approval.source.default": "by default",
-  "ui.approval.outsideWorkspace": "(outside your workspace: {{file}})",
 
-  "session.tab.review": "Review",
-  "session.review.filesChanged": "{{count}} Files Changed",
-  "session.review.loadingChanges": "Loading changes...",
-  "session.review.noChanges": "No changes",
 
   "session.messages.loadingEarlier": "Loading earlier messages...",
   "session.messages.loadEarlier": "Load earlier messages",
@@ -324,51 +303,6 @@ export const dict = {
 
   "sidebar.settings": "Settings",
 
-  "sound.option.alert01": "Alert 01",
-  "sound.option.alert02": "Alert 02",
-  "sound.option.alert03": "Alert 03",
-  "sound.option.alert04": "Alert 04",
-  "sound.option.alert05": "Alert 05",
-  "sound.option.alert06": "Alert 06",
-  "sound.option.alert07": "Alert 07",
-  "sound.option.alert08": "Alert 08",
-  "sound.option.alert09": "Alert 09",
-  "sound.option.alert10": "Alert 10",
-  "sound.option.bipbop01": "Bip-bop 01",
-  "sound.option.bipbop02": "Bip-bop 02",
-  "sound.option.bipbop03": "Bip-bop 03",
-  "sound.option.bipbop04": "Bip-bop 04",
-  "sound.option.bipbop05": "Bip-bop 05",
-  "sound.option.bipbop06": "Bip-bop 06",
-  "sound.option.bipbop07": "Bip-bop 07",
-  "sound.option.bipbop08": "Bip-bop 08",
-  "sound.option.bipbop09": "Bip-bop 09",
-  "sound.option.bipbop10": "Bip-bop 10",
-  "sound.option.staplebops01": "Staplebops 01",
-  "sound.option.staplebops02": "Staplebops 02",
-  "sound.option.staplebops03": "Staplebops 03",
-  "sound.option.staplebops04": "Staplebops 04",
-  "sound.option.staplebops05": "Staplebops 05",
-  "sound.option.staplebops06": "Staplebops 06",
-  "sound.option.staplebops07": "Staplebops 07",
-  "sound.option.nope01": "Nope 01",
-  "sound.option.nope02": "Nope 02",
-  "sound.option.nope03": "Nope 03",
-  "sound.option.nope04": "Nope 04",
-  "sound.option.nope05": "Nope 05",
-  "sound.option.nope06": "Nope 06",
-  "sound.option.nope07": "Nope 07",
-  "sound.option.nope08": "Nope 08",
-  "sound.option.nope09": "Nope 09",
-  "sound.option.nope10": "Nope 10",
-  "sound.option.nope11": "Nope 11",
-  "sound.option.nope12": "Nope 12",
-  "sound.option.yup01": "Yup 01",
-  "sound.option.yup02": "Yup 02",
-  "sound.option.yup03": "Yup 03",
-  "sound.option.yup04": "Yup 04",
-  "sound.option.yup05": "Yup 05",
-  "sound.option.yup06": "Yup 06",
 
   "settings.providers.title": "Providers",
   "settings.providers.section.connected": "Connected providers",
@@ -588,17 +522,14 @@ export const dict = {
   "profile.action.logout": "Log Out",
 
   "settings.agentBehaviour.title": "Agent Behaviour",
-  "settings.autoApprove.title": "Auto-Approve",
   "settings.webTools.title": "Web Tools",
   "settings.webTools.description": "Configure web search and browser automation.",
   "settings.webTools.webSearch.enable": "Enable for All Providers",
-  "settings.webTools.browserAutomation": "Browser Automation",
   "settings.webTools.webSearch.title": "Web Search",
   "settings.webTools.webSearch.description": "Make web search available to models from all providers.",
   "settings.checkpoints.title": "Checkpoints",
   "settings.display.title": "Display",
   "settings.autocomplete.title": "Autocomplete",
-  "settings.notifications.title": "Notifications",
   "settings.context.title": "Context",
   "settings.indexing.title": "Indexing",
   "settings.indexing.status.title": "Status",
@@ -694,7 +625,6 @@ export const dict = {
     "Move this conversation and 1 changed file into a dedicated worktree for isolated follow-up work.",
   "sidebar.session.moveToWorktree.tooltip.other":
     "Move this conversation and {{files}} changed files into a dedicated worktree for isolated follow-up work.",
-  "sidebar.session.showChanges.tooltip.empty": "Open the changes view to inspect the current working tree.",
   "sidebar.session.progress.capturing": "Capturing changes...",
   "sidebar.session.progress.creating": "Creating worktree...",
   "sidebar.session.progress.setup": "Running setup...",
@@ -751,15 +681,6 @@ export const dict = {
   "settings.agentBehaviour.subtab.workflows": "Workflows",
   "settings.agentBehaviour.subtab.skills": "Skills",
 
-  "settings.browser.description":
-    "When enabled, the AI agent can interact with web pages — navigating, clicking, typing, and taking screenshots. A Chrome window will open so you can watch the agent work.",
-  "settings.browser.enable.title": "Enable Browser Automation",
-  "settings.browser.enable.description": "Register the Playwright MCP server with the CLI backend.",
-  "settings.browser.systemChrome.title": "Use System Chrome",
-  "settings.browser.systemChrome.description":
-    "Use your installed Chrome browser instead of a separate Chromium instance.",
-  "settings.browser.headless.title": "Headless Mode",
-  "settings.browser.headless.description": "Run in headless mode (no visible browser window).",
 
   "settings.language.description":
     'Choose the language for the Kilo Code UI. "Auto" uses your VS Code display language.',
@@ -778,15 +699,6 @@ export const dict = {
   "settings.autocomplete.chatAutocomplete.description": "Show autocomplete suggestions in the chat textarea",
   "settings.autocomplete.modelsHint": "To choose which model is used for autocompletions, see the Models settings.",
 
-  "settings.notifications.sounds": "Sounds",
-  "settings.notifications.enable.title": "Enable Sound Notifications",
-  "settings.notifications.enable.description":
-    "Play sounds when sessions complete, encounter an error, or need your input",
-  "settings.notifications.testSound": "Test",
-  "settings.notifications.sound.default": "Default",
-  "settings.notifications.sound.system": "System",
-  "settings.notifications.sound.description":
-    "Default uses different sounds for completion, input, and errors. Other choices use one sound for every event.",
 
   "settings.experimental.share.title": "Share Mode",
   "settings.experimental.share.description": "How session sharing behaves",
@@ -813,9 +725,6 @@ export const dict = {
   "settings.models.speechToTextModel.description": "Choose the Kilo Gateway transcription model for voice input.",
   "settings.models.providerRequired": "Connect a provider in Provider settings before choosing a model.",
   "settings.models.providerNotConfigured": "Connect this provider in Provider settings before choosing this model.",
-  "settings.experimental.nativeNotebookTools.title": "Native Notebook Tools",
-  "settings.experimental.nativeNotebookTools.description":
-    "Enable experimental tools for reading, editing, and executing VS Code notebooks",
   "settings.experimental.continueOnDeny.title": "Continue on Deny",
   "settings.experimental.continueOnDeny.description": "Continue the agent loop when a permission is denied",
   "settings.sandboxing.enabled.title": "Sandbox",
@@ -842,14 +751,6 @@ export const dict = {
     "Enable managing sessions and worktrees across multiple repositories in Agent Manager. The current workspace repository is always the default project.",
   "settings.experimental.mcpTimeout.title": "MCP Timeout (ms)",
   "settings.experimental.mcpTimeout.description": "Timeout for MCP server requests in milliseconds",
-  "settings.experimental.remote.title": "Remote Control",
-  "settings.experimental.remote.description":
-    "Enable remote control of sessions via Kilo Cloud. This will also affect CLIs on this machine.",
-  "settings.experimental.remote.current": "Current state:",
-  "settings.experimental.remote.startup": "Auto-enable on startup:",
-  "settings.experimental.remote.active": "Active",
-  "settings.experimental.remote.inactive": "Inactive",
-  "settings.experimental.remote.hint": "Use /remote in chat to toggle",
   "settings.experimental.toolToggles": "Tool Toggles",
 
   "settings.agentBehaviour.defaultAgent.title": "Default Agent",
@@ -971,11 +872,6 @@ export const dict = {
   "settings.agentBehaviour.permissions.hint":
     "Rules are evaluated in order — last matching rule wins. This is the resolved ruleset from the CLI backend.",
 
-  "settings.autoApprove.description":
-    "Define how tools are allowed to run. Most tools default to Allow. doom_loop and external_directory default to Ask.",
-  "settings.autoApprove.maxCost.title": "Session Cost Alert",
-  "settings.autoApprove.maxCost.description":
-    "Show a non-blocking alert when a session exceeds this USD amount. Use whole dollars; leave empty to disable.",
   "settings.autoApprove.level.allow": "Allow",
   "settings.autoApprove.level.ask": "Ask",
   "settings.autoApprove.level.deny": "Deny",
@@ -1131,30 +1027,7 @@ export const dict = {
   "notifications.action.tryModel": "Try {{model}}",
   "notifications.action.tryModelGeneric": "Try Model",
 
-  "diffViewer.source.workspace.label": "Branch",
-  "diffViewer.source.workspace.tooltip":
-    "All changes on this branch compared to the base branch. Includes uncommitted files (staged, unstaged, untracked) and local commits not yet in the base.",
-  "diffViewer.source.staged.label": "Staged",
-  "diffViewer.source.staged.tooltip":
-    "Files with changes you've added to git's staging area (`git add`), as they will appear in the next commit.",
-  "diffViewer.source.unstaged.label": "Unstaged",
-  "diffViewer.source.unstaged.tooltip":
-    "Files modified in your working tree but not yet staged, plus untracked (new) files.",
-  "diffViewer.source.session.label": "Session",
-  "diffViewer.source.session.tooltip":
-    "Files changed by Kilo during the current session, based on per-turn snapshots. Resets when you start a new session.",
-  "diffViewer.group.session": "Session",
-  "diffViewer.group.git": "Git",
-  "diffViewer.notice.snapshotsDisabled":
-    "Snapshots are disabled for this repository. Please edit your configuration files in order to display session changes.",
 
-  "diffViewer.baseBranch.auto": "Default",
-  "diffViewer.baseBranch.default": "Default",
-  "diffViewer.baseBranch.remote": "Remote",
-  "diffViewer.baseBranch.search": "Search branches",
-  "diffViewer.baseBranch.empty": "No matching branches",
-  "diffViewer.baseBranch.loading": "Loading branches…",
-  "diffViewer.baseBranch.none": "—",
 
   "plan.exit.ready": "Plan is ready:",
   "chat.search.placeholder": "Search chat…",

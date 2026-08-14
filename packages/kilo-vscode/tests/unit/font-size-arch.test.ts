@@ -14,18 +14,9 @@ import path from "node:path"
 const ROOT = path.resolve(import.meta.dir, "../..")
 const REPO = path.resolve(ROOT, "../..")
 
-const TARGETS = [
-  path.join(ROOT, "webview-ui/src"),
-  path.join(ROOT, "webview-ui/diff-viewer"),
-  path.join(ROOT, "webview-ui/diff-virtual"),
-  path.join(REPO, "packages/kilo-ui/src/components"),
-]
+const TARGETS = [path.join(ROOT, "webview-ui/src"), path.join(REPO, "packages/kilo-ui/src/components")]
 
-const WATCHED_PROVIDERS = [
-  path.join(ROOT, "src/KiloProvider.ts"),
-  path.join(ROOT, "src/diff/DiffViewerProvider.ts"),
-  path.join(ROOT, "src/DiffVirtualProvider.ts"),
-]
+const WATCHED_PROVIDERS = [path.join(ROOT, "src/KiloProvider.ts")]
 
 const ALLOWED_DIRS = new Set(["stories"])
 const EXTENSIONS = new Set([".css", ".ts", ".tsx"])

@@ -9,10 +9,7 @@ import { EOL } from "os"
 import path from "path"
 import { FSUtil } from "@opencode-ai/core/fs-util"
 import { Effect, Schema } from "effect"
-import * as Log from "@opencode-ai/core/util/log" // kilocode_change
 import type { InstanceContext } from "@/project/instance-context"
-
-const log = Log.create({ service: "import" }) // kilocode_change
 
 const decodeMessageInfo = Schema.decodeUnknownSync(SessionV1.Info)
 const decodePart = Schema.decodeUnknownSync(SessionV1.Part)
@@ -91,44 +88,6 @@ export function transformShareData(shareData: ShareData[]): {
     })),
   }
 }
-
-// kilocode_change start
-export function ingestBootstrapWarning(sessionId: string, error: unknown) {
-  const details = error instanceof Error ? error.message : String(error)
-  return `Warning: imported session ${sessionId} locally, but ingest bootstrap failed: ${details}`
-}
-
-async function ingestBootstrap(sessionId: string) {
-  const { KiloSessions } = await import("../../kilo-sessions/kilo-sessions")
-  return KiloSessions.bootstrap(sessionId)
-}
-
-export async function bootstrapImportedSessionIngest(
-  sessionId: string,
-  input?: {
-    bootstrap?: (sessionId: string) => Promise<unknown>
-    warn?: (message: string) => void
-  },
-) {
-  const run = input?.bootstrap ?? ingestBootstrap
-  const warn =
-    input?.warn ??
-    ((message: string) => {
-      process.stderr.write(message)
-      process.stderr.write(EOL)
-    })
-
-  log.info("ingest bootstrap started", { sessionId })
-  await run(sessionId)
-    .then(() => {
-      log.info("ingest bootstrap completed", { sessionId })
-    })
-    .catch((error) => {
-      log.error("ingest bootstrap failed", { sessionId, error })
-      warn(ingestBootstrapWarning(sessionId, error))
-    })
-}
-// kilocode_change end
 
 type ExportData = { info: SDKSession; messages: Array<{ info: Message; parts: Part[] }> }
 
@@ -253,10 +212,6 @@ const runImport = Effect.fn("Cli.import.body")(function* (file: string, ctx: Ins
         .pipe(Effect.orDie)
     }
   }
-
-  // kilocode_change start
-  yield* Effect.promise(() => bootstrapImportedSessionIngest(exportData!.info.id))
-  // kilocode_change end
 
   process.stdout.write(`Imported session: ${exportData.info.id}`)
   process.stdout.write(EOL)

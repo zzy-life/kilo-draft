@@ -1,5 +1,5 @@
 // kilocode_change - new file
-import { afterEach, beforeEach, describe, expect, mock, spyOn, test } from "bun:test"
+import { afterEach, describe, expect, mock, test } from "bun:test"
 import { $ } from "bun"
 import { Effect } from "effect"
 import { Session } from "../../src/session/session"
@@ -10,13 +10,8 @@ import { resetDatabase } from "../fixture/db"
 import { provideTestInstance, tmpdir } from "../fixture/fixture"
 import type { Tool } from "../../src/tool/tool"
 import { SessionID, MessageID, PartID } from "../../src/session/schema"
-import { RemoteSender } from "../../src/kilo-sessions/remote-sender"
 import { ProviderV2 } from "@opencode-ai/core/provider"
 import { ModelV2 } from "@opencode-ai/core/model"
-beforeEach(() => {
-  spyOn(RemoteSender, "create").mockReturnValue({ handle() {}, dispose() {} })
-})
-
 const ctx: Tool.Context = {
   sessionID: SessionID.make("ses_test"),
   messageID: MessageID.make("msg_test"),

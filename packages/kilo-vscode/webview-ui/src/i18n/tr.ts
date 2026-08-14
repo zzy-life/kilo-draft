@@ -57,8 +57,6 @@ export const dict = {
   "command.provider.connect": "Sağlayıcı bağla",
 
   "command.session.new": "Yeni oturum",
-  "command.session.show.changes": "Değişiklikleri Göster",
-  "command.review.toggle": "İncelemeyi aç/kapat",
   "revert.banner.count_one": "{{count}} mesaj geri alındı",
   "revert.banner.count_other": "{{count}} mesaj geri alındı",
   "revert.banner.redo": "Yinele",
@@ -201,10 +199,6 @@ export const dict = {
   "prompt.action.stop": "Durdur",
   "prompt.action.enhance": "Komutu geliştir",
   "prompt.action.indexing": "İndeksleme ayarları",
-  "prompt.action.autoApprove.enable": "Otomatik onayı etkinleştir",
-  "prompt.action.autoApprove.disable": "Otomatik onayı devre dışı bırak",
-  "prompt.action.autoApprove.enabled": "Otomatik onay etkin. İzin istekleri otomatik olarak onaylanacak.",
-  "prompt.action.autoApprove.disabled": "Otomatik onay devre dışı. İzin isteklerini otomatik onaylamak için tıklayın.",
   "prompt.action.resetModel": "Modeli varsayılana sıfırla",
   "prompt.action.enhanceDescription":
     "'Komutu Geliştir' düğmesi, ek bağlam, açıklama veya yeniden ifadelendirme sağlayarak komutunuzu iyileştirmeye yardımcı olur. Buraya bir komut yazıp düğmeye tekrar tıklayarak nasıl çalıştığını görebilirsiniz.",
@@ -292,22 +286,7 @@ export const dict = {
   "ui.permission.toolLabel.todoWrite": "Görev Yaz",
   "ui.permission.toolLabel.codeSearch": "Kod Araması",
   "ui.permission.copyCommand": "Kopyala",
-  "ui.approval.auto": "Otomatik onaylandı",
-  "ui.approval.manual": "Sizin tarafınızdan onaylandı",
-  "ui.approval.rule": "`{{permission}}` kuralı `{{pattern}}` ile eşleşti",
-  "ui.approval.source.agent": "{{agent}} aracısı tarafından",
-  "ui.approval.source.agent.default": "aracı tarafından",
-  "ui.approval.source.global": "genel yapılandırmanız tarafından",
-  "ui.approval.source.project": "proje yapılandırması tarafından",
-  "ui.approval.source.yolo": "otomatik onay (YOLO) modu tarafından",
-  "ui.approval.source.session": "bir oturum otomatik onay kuralı tarafından",
-  "ui.approval.source.default": "varsayılan olarak",
-  "ui.approval.outsideWorkspace": "(çalışma alanınızın dışında: {{file}})",
 
-  "session.tab.review": "İnceleme",
-  "session.review.filesChanged": "{{count}} Dosya Değişti",
-  "session.review.loadingChanges": "Değişiklikler yükleniyor...",
-  "session.review.noChanges": "Değişiklik yok",
 
   "session.messages.loadingEarlier": "Önceki mesajlar yükleniyor...",
   "session.messages.loadEarlier": "Önceki mesajları yükle",
@@ -335,7 +314,6 @@ export const dict = {
     "Bu konuşmayı ve değiştirilen 1 dosyayı, izole edilmiş takip çalışmaları için özel bir worktree'ye taşıyın.",
   "sidebar.session.moveToWorktree.tooltip.other":
     "Bu konuşmayı ve değiştirilen {{files}} dosyayı, izole edilmiş takip çalışmaları için özel bir worktree'ye taşıyın.",
-  "sidebar.session.showChanges.tooltip.empty": "Mevcut çalışma ağacını incelemek için değişiklikler görünümünü açın.",
   "sidebar.session.progress.capturing": "Değişiklikler yakalanıyor...",
   "sidebar.session.progress.creating": "Worktree oluşturuluyor...",
   "sidebar.session.progress.setup": "Kurulum çalıştırılıyor...",
@@ -355,51 +333,6 @@ export const dict = {
 
   "sidebar.settings": "Ayarlar",
 
-  "sound.option.alert01": "Uyarı 01",
-  "sound.option.alert02": "Uyarı 02",
-  "sound.option.alert03": "Uyarı 03",
-  "sound.option.alert04": "Uyarı 04",
-  "sound.option.alert05": "Uyarı 05",
-  "sound.option.alert06": "Uyarı 06",
-  "sound.option.alert07": "Uyarı 07",
-  "sound.option.alert08": "Uyarı 08",
-  "sound.option.alert09": "Uyarı 09",
-  "sound.option.alert10": "Uyarı 10",
-  "sound.option.bipbop01": "Bip-bop 01",
-  "sound.option.bipbop02": "Bip-bop 02",
-  "sound.option.bipbop03": "Bip-bop 03",
-  "sound.option.bipbop04": "Bip-bop 04",
-  "sound.option.bipbop05": "Bip-bop 05",
-  "sound.option.bipbop06": "Bip-bop 06",
-  "sound.option.bipbop07": "Bip-bop 07",
-  "sound.option.bipbop08": "Bip-bop 08",
-  "sound.option.bipbop09": "Bip-bop 09",
-  "sound.option.bipbop10": "Bip-bop 10",
-  "sound.option.staplebops01": "Staplebops 01",
-  "sound.option.staplebops02": "Staplebops 02",
-  "sound.option.staplebops03": "Staplebops 03",
-  "sound.option.staplebops04": "Staplebops 04",
-  "sound.option.staplebops05": "Staplebops 05",
-  "sound.option.staplebops06": "Staplebops 06",
-  "sound.option.staplebops07": "Staplebops 07",
-  "sound.option.nope01": "Hayır 01",
-  "sound.option.nope02": "Hayır 02",
-  "sound.option.nope03": "Hayır 03",
-  "sound.option.nope04": "Hayır 04",
-  "sound.option.nope05": "Hayır 05",
-  "sound.option.nope06": "Hayır 06",
-  "sound.option.nope07": "Hayır 07",
-  "sound.option.nope08": "Hayır 08",
-  "sound.option.nope09": "Hayır 09",
-  "sound.option.nope10": "Hayır 10",
-  "sound.option.nope11": "Hayır 11",
-  "sound.option.nope12": "Hayır 12",
-  "sound.option.yup01": "Evet 01",
-  "sound.option.yup02": "Evet 02",
-  "sound.option.yup03": "Evet 03",
-  "sound.option.yup04": "Evet 04",
-  "sound.option.yup05": "Evet 05",
-  "sound.option.yup06": "Evet 06",
 
   "settings.providers.title": "Sağlayıcılar",
   "settings.providers.section.connected": "Bağlı sağlayıcılar",
@@ -625,11 +558,9 @@ export const dict = {
   "profile.action.logout": "Çıkış Yap",
 
   "settings.agentBehaviour.title": "Ajan Davranışı",
-  "settings.autoApprove.title": "Otomatik Onay",
   "settings.webTools.title": "Web Araçları",
   "settings.webTools.description": "Web aramasını ve tarayıcı otomasyonunu yapılandırın.",
   "settings.webTools.webSearch.enable": "Tüm Sağlayıcılar İçin Etkinleştir",
-  "settings.webTools.browserAutomation": "Tarayıcı Otomasyonu",
   "settings.webTools.webSearch.title": "Web Araması",
   "settings.webTools.webSearch.description":
     "Web aramasını tüm sağlayıcıların modelleri için kullanılabilir hale getirin.",
@@ -638,7 +569,6 @@ export const dict = {
   "settings.autocomplete.title": "Otomatik Tamamlama",
   "settings.autocomplete.model.title": "Otomatik tamamlama modeli",
   "settings.autocomplete.model.description": "Satır içi (inline) kod tamamlamaları için kullanılacak modeli seçin",
-  "settings.notifications.title": "Bildirimler",
   "settings.context.title": "Bağlam",
   "settings.indexing.title": "İndeksleme",
   "settings.indexing.status.title": "Durum",
@@ -763,14 +693,6 @@ export const dict = {
   "settings.agentBehaviour.subtab.workflows": "İş Akışları",
   "settings.agentBehaviour.subtab.skills": "Beceriler",
 
-  "settings.browser.description":
-    "Etkinleştirildiğinde, yapay zeka ajanı web sayfalarıyla etkileşime girebilir — gezinme, tıklama, yazma ve ekran görüntüsü alma. Ajanın çalışmasını izleyebilmeniz için bir Chrome penceresi açılacak.",
-  "settings.browser.enable.title": "Tarayıcı Otomasyonunu Etkinleştir",
-  "settings.browser.enable.description": "Playwright MCP sunucusunu CLI arka ucuyla kaydet.",
-  "settings.browser.systemChrome.title": "Sistem Chrome'unu Kullan",
-  "settings.browser.systemChrome.description": "Ayrı bir Chromium örneği yerine yüklü Chrome tarayıcınızı kullanın.",
-  "settings.browser.headless.title": "Başsız Mod",
-  "settings.browser.headless.description": "Başsız modda çalıştır (görünür tarayıcı penceresi yok).",
 
   "settings.language.description":
     '"Otomatik" VS Code görüntüleme dilinizi kullanır. Kilo Code arayüzü için dil seçin.',
@@ -788,15 +710,6 @@ export const dict = {
   "settings.autocomplete.modelsHint":
     "Otomatik tamamlama için kullanılacak modeli seçmek için Modeller ayarlarına bakın.",
 
-  "settings.notifications.sounds": "Sesler",
-  "settings.notifications.enable.title": "Sesli bildirimleri etkinleştir",
-  "settings.notifications.enable.description":
-    "Oturumlar tamamlandığında, bir hatayla karşılaşıldığında veya sizden giriş beklendiğinde ses çal",
-  "settings.notifications.testSound": "Test et",
-  "settings.notifications.sound.default": "Varsayılan",
-  "settings.notifications.sound.system": "Sistem",
-  "settings.notifications.sound.description":
-    "Varsayılan seçenekte tamamlanma, giriş ve hatalar için farklı sesler kullanılır. Diğer seçeneklerde tüm etkinlikler için tek bir ses kullanılır.",
 
   "settings.experimental.share.title": "Paylaşım Modu",
   "settings.experimental.share.description": "Oturum paylaşımının nasıl davranacağı",
@@ -822,9 +735,6 @@ export const dict = {
     "Speech to Text kullanmak için Kilo sağlayıcısını etkinleştirin ve giriş yapın. Speech to Text şu anda yalnızca Kilo Gateway ile desteklenmektedir.",
   "settings.models.speechToTextModel.title": "Sesten metne modeli",
   "settings.models.speechToTextModel.description": "Sesli giriş için Kilo Gateway transkripsiyon modelini seçin.",
-  "settings.experimental.nativeNotebookTools.title": "Yerel Not Defteri Araçları",
-  "settings.experimental.nativeNotebookTools.description":
-    "VS Code not defterlerini okumak, düzenlemek ve çalıştırmak için deneysel araçları etkinleştir",
   "settings.experimental.continueOnDeny.title": "Reddetme Durumunda Devam Et",
   "settings.experimental.continueOnDeny.description": "Bir izin reddedildiğinde ajan döngüsüne devam et",
   "settings.sandboxing.title": "Sandbox",
@@ -849,14 +759,6 @@ export const dict = {
     "Agent Manager'da birden fazla depo genelinde oturum ve worktree yönetimini etkinleştirin. Mevcut çalışma alanı deposu her zaman varsayılan projedir.",
   "settings.experimental.mcpTimeout.title": "MCP Zaman Aşımı (ms)",
   "settings.experimental.mcpTimeout.description": "MCP sunucu istekleri için milisaniye cinsinden zaman aşımı",
-  "settings.experimental.remote.title": "Remote Kontrolü",
-  "settings.experimental.remote.description":
-    "Kilo Cloud üzerinden oturumların Remote kontrolünü etkinleştirin. Bu, bu makinedeki CLI'leri de etkileyecektir.",
-  "settings.experimental.remote.current": "Mevcut durum:",
-  "settings.experimental.remote.startup": "Başlangıçta otomatik etkinleştir:",
-  "settings.experimental.remote.active": "Aktif",
-  "settings.experimental.remote.inactive": "Pasif",
-  "settings.experimental.remote.hint": "Geçiş yapmak için sohbette /remote kullanın",
   "settings.experimental.toolToggles": "Araç Açma/Kapatma",
   "settings.sandboxing.enabled.title": "Sandbox",
   "settings.sandboxing.enabled.description":
@@ -947,11 +849,6 @@ export const dict = {
   "settings.agentBehaviour.workflows.variant": "varyant",
   "settings.agentBehaviour.workflows.modelDescription": "Global model geçersiz kılması",
 
-  "settings.autoApprove.description":
-    "Araçların nasıl çalıştırılacağını tanımlayın. Çoğu araç varsayılan olarak İzin Ver'dir. doom_loop ve external_directory varsayılan olarak Sor'dur.",
-  "settings.autoApprove.maxCost.title": "Oturum Maliyeti Uyarısı",
-  "settings.autoApprove.maxCost.description":
-    "Bir oturumun harcaması bu USD tutarını aştıktan sonra devam etmeden önce uyar. Tam dolar kullanın; devre dışı bırakmak için boş bırakın.",
   "settings.autoApprove.level.allow": "İzin Ver",
   "settings.autoApprove.level.ask": "Sor",
   "settings.autoApprove.level.deny": "Reddet",
@@ -1152,30 +1049,7 @@ export const dict = {
   "settings.agentBehaviour.permissions.hint":
     "Kurallar sırayla değerlendirilir — son eşleşen kural kazanır. Bu, CLI arka ucundan çözümlenen kural kümesidir.",
   "settings.agentBehaviour.editMode.save": "Tamam",
-  "diffViewer.source.workspace.label": "Dal",
-  "diffViewer.source.workspace.tooltip":
-    "Bu daldaki tüm değişiklikler, temel dal ile karşılaştırıldığında. Commitlenmemiş dosyaları (staged, unstaged, izlenmeyen) ve temelde henüz bulunmayan yerel commitleri içerir.",
-  "diffViewer.source.staged.label": "Staged",
-  "diffViewer.source.staged.tooltip":
-    "git'in hazırlama alanına eklediğin (`git add`) değişiklikleri içeren dosyalar. Bir sonraki commit'te görüneceği gibi.",
-  "diffViewer.source.unstaged.label": "Unstaged",
-  "diffViewer.source.unstaged.tooltip":
-    "Çalışma ağacında değiştirilmiş ancak henüz staged edilmemiş dosyalar, artı takip edilmeyen (yeni) dosyalar.",
-  "diffViewer.source.session.label": "Oturum",
-  "diffViewer.source.session.tooltip":
-    "Geçerli oturum sırasında Kilo tarafından değiştirilen dosyalar, tur başı anlık görüntülere dayanır. Yeni bir oturum başlatıldığında sıfırlanır.",
-  "diffViewer.group.session": "Oturum",
-  "diffViewer.group.git": "Git",
-  "diffViewer.notice.snapshotsDisabled":
-    "Bu depoda anlık görüntüler devre dışı bırakılmıştır. Oturum değişikliklerini görüntülemek için yapılandırma dosyalarınızı düzenleyin.",
 
-  "diffViewer.baseBranch.auto": "Default",
-  "diffViewer.baseBranch.default": "Default",
-  "diffViewer.baseBranch.remote": "Remote",
-  "diffViewer.baseBranch.search": "Search branches",
-  "diffViewer.baseBranch.empty": "No matching branches",
-  "diffViewer.baseBranch.loading": "Loading branches…",
-  "diffViewer.baseBranch.none": "—",
   "plan.exit.ready": "Plan hazır:",
   "chat.search.placeholder": "Sohbette ara…",
   "chat.search.toggle": "Sohbette ara",

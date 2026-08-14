@@ -49,7 +49,6 @@ import { KiloSession } from "../../src/kilocode/session"
 import { KiloSessionPrompt } from "../../src/kilocode/session/prompt"
 import { KiloSessionPromptQueue } from "../../src/kilocode/session/prompt-queue"
 // kilocode_change end
-import { KiloSessions } from "../../src/kilo-sessions/kilo-sessions"
 import { Suggestion } from "../../src/kilocode/suggestion"
 import { MessageID, PartID, SessionID } from "../../src/session/schema"
 import { SessionStatus } from "../../src/session/status"
@@ -175,7 +174,7 @@ const lsp = Layer.succeed(
 // kilocode_change start - one compiled graph per env. Effect v4 does not memoize nested layers, so
 // LayerNode.compile's cache is the only dedupe; building services with separate AppNodeBuilder.build
 // calls gave this file three Database instances and every prompt died with "Session not found".
-// Mirrors upstream's harness, with Kilo's KiloSessions/MemoryService/fastAgents deltas.
+// Mirrors upstream's harness with Kilo's MemoryService and fast-agent deltas.
 const agent: AgentSvc.Info = {
   name: "build",
   mode: "primary",
@@ -257,7 +256,6 @@ function makePrompt(input?: { processor?: "blocking" }) {
     [LSP.node, lsp],
     [MCP.node, makeMcp()],
     [RuntimeFlags.node, runtimeFlags],
-    [KiloSessions.node, KiloSessions.testLayer],
   ] as const
   if (input?.processor === "blocking") {
     return LayerNode.compile(promptRoot, [
@@ -276,7 +274,6 @@ function makeHttp(input?: { processor?: "blocking" }) {
     [LSP.node, lsp],
     [MCP.node, makeMcp()],
     [RuntimeFlags.node, runtimeFlags],
-    [KiloSessions.node, KiloSessions.testLayer],
   ] as const
   if (input?.processor === "blocking") {
     return LayerNode.compile(root, [

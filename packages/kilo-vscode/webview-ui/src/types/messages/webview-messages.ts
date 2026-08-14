@@ -466,10 +466,6 @@ export interface StreamSessionVisibleMessage {
   visible: boolean
 }
 
-export interface RequestBrowserSettingsMessage {
-  type: "requestBrowserSettings"
-}
-
 export interface RequestClaudeCompatSettingMessage {
   type: "requestClaudeCompatSetting"
 }
@@ -528,15 +524,6 @@ export interface UpdateConfigMessage {
   projectUnset?: string[][]
   globalBindingId?: string
   projectBindingId?: string
-}
-
-export interface RequestNotificationSettingsMessage {
-  type: "requestNotificationSettings"
-}
-
-export interface TestNotificationMessage {
-  type: "testNotification"
-  sound: string
 }
 
 export interface ResetAllSettingsRequest {
@@ -1007,85 +994,12 @@ export interface EnhancePromptRequest {
   requestId: string
 }
 
-// Open the standalone changes viewer tab from the sidebar
-export interface OpenChangesRequest {
-  type: "openChanges"
-  /**
-   * When set, opens the viewer scoped to a single turn (identified by the
-   * user message ID). The source picker is hidden and polling is disabled
-   * for this mode.
-   */
-  turnId?: string
-}
-
-// Open diff virtual (permission diff) in the lightweight diff virtual panel
-export interface OpenDiffVirtualRequest {
-  type: "openDiffVirtual"
-  diff: PermissionFileDiff
-  initialDiffStyle: "unified" | "split"
-}
-
-export interface DiffViewerSendCommentsRequest {
-  type: "diffViewer.sendComments"
-  comments: ReviewComment[]
-  autoSend: boolean
-}
-
-export interface DiffViewerSetDiffStyleRequest {
-  type: "diffViewer.setDiffStyle"
-  style: "unified" | "split"
-}
-
-export interface DiffViewerSetMarkdownRenderRequest {
-  type: "diffViewer.setMarkdownRender"
-  render: boolean
-}
-
-export interface DiffViewerRevertFileRequest {
-  type: "diffViewer.revertFile"
-  file: string
-}
-
-export interface DiffViewerRequestFileRequest {
-  type: "diffViewer.requestFile"
-  file: string
-}
-
-export interface DiffViewerCloseRequest {
-  type: "diffViewer.close"
-}
-
-export interface DiffViewerRequestBranchesRequest {
-  type: "diffViewer.requestBranches"
-}
-
-/**
- * Override the workspace source's base branch. Pass `branch: undefined` to
- * clear the override and fall back to the auto-resolved base.
- */
-export interface DiffViewerSetBaseBranchRequest {
-  type: "diffViewer.setBaseBranch"
-  branch: string | undefined
-}
-
-export interface DiffVirtualSetMarkdownRenderRequest {
-  type: "diffVirtual.setMarkdownRender"
-  render: boolean
-}
-
 export interface RetryConnectionRequest {
   type: "retryConnection"
 }
 
 export interface ReloadRequest {
   type: "reload"
-}
-
-// Open a sub-agent session in a read-only editor panel
-export interface OpenSubAgentViewerRequest {
-  type: "openSubAgentViewer"
-  sessionID: string
-  title?: string
 }
 
 // Preview an image attachment in VS Code's built-in image viewer
@@ -1125,14 +1039,6 @@ export interface AgentManagerVisibleSessionMessage {
   sessionID: string | null
 }
 
-export interface RequestAutoApproveStateMessage {
-  type: "requestAutoApproveState"
-}
-
-export interface ToggleAutoApproveMessage {
-  type: "toggleAutoApprove"
-}
-
 export interface RequestSandboxStatusMessage {
   type: "requestSandboxStatus"
   sessionID: string
@@ -1159,19 +1065,6 @@ export interface ToggleSandboxMessage {
   requestID: string
   agentManagerContext?: string
   contextDirectory?: string
-}
-
-export interface ToggleRemoteMessage {
-  type: "toggleRemote"
-}
-
-export interface SetRemoteEnabledMessage {
-  type: "setRemoteEnabled"
-  enabled: boolean
-}
-
-export interface RequestRemoteStatusMessage {
-  type: "requestRemoteStatus"
 }
 
 export interface ConnectProviderMessage {
@@ -1416,7 +1309,6 @@ export type WebviewMessage =
   | SetWorkStyleMessage
   | ApplyWorkStyleMessage
   | StreamSessionVisibleMessage
-  | RequestBrowserSettingsMessage
   | RequestClaudeCompatSettingMessage
   | RequestConfigMessage
   | RequestGlobalConfigMessage
@@ -1427,8 +1319,6 @@ export type WebviewMessage =
   | RequestKiloEmbeddingModelsMessage
   | UpdateConfigMessage
   | OpenSettingsTabRequest
-  | RequestNotificationSettingsMessage
-  | TestNotificationMessage
   | ResetAllSettingsRequest
   | ResetReadNotificationsRequest
   | SettingsTabChangedMessage
@@ -1495,28 +1385,14 @@ export type WebviewMessage =
   | ApplyWorktreeDiffMessage
   | RevertWorktreeFileMessage
   | EnhancePromptRequest
-  | OpenChangesRequest
-  | OpenDiffVirtualRequest
-  | DiffViewerSendCommentsRequest
-  | DiffViewerSetDiffStyleRequest
-  | DiffViewerSetMarkdownRenderRequest
-  | DiffViewerRevertFileRequest
-  | DiffViewerRequestFileRequest
-  | DiffViewerCloseRequest
-  | DiffViewerRequestBranchesRequest
-  | DiffViewerSetBaseBranchRequest
-  | DiffVirtualSetMarkdownRenderRequest
   | RetryConnectionRequest
   | ReloadRequest
-  | OpenSubAgentViewerRequest
   | PreviewImageRequest
   | SaveImageRequest
   | SetDefaultBaseBranchRequest
   | AgentManagerOpenSessionsMessage
   | SidebarOpenSessionsMessage
   | AgentManagerVisibleSessionMessage
-  | RequestAutoApproveStateMessage
-  | ToggleAutoApproveMessage
   | RequestSandboxStatusMessage
   | RequestSandboxDefaultMessage
   | SetSandboxDefaultMessage
@@ -1540,9 +1416,6 @@ export type WebviewMessage =
   | PersistModelSelectionRequest
   | ClearModelSelectionRequest
   | RequestModelSelectionsMessage
-  | ToggleRemoteMessage
-  | SetRemoteEnabledMessage
-  | RequestRemoteStatusMessage
   | ContinueInWorktreeRequest
   | RequestMemoryMessage
   | MemoryShowMessage

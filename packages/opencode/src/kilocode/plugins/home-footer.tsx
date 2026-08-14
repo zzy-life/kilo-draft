@@ -2,14 +2,11 @@
 /**
  * Kilo-specific home footer plugin.
  *
- * Replaces the upstream `home_footer` slot (order 101 > upstream 100)
- * to inject the RemoteIndicator alongside the standard directory, MCP,
- * and version information.
+ * Replaces the upstream `home_footer` slot to keep the Kilo footer layout.
  */
 import type { TuiPlugin, TuiPluginApi, TuiPluginModule } from "@kilocode/plugin/tui"
 import { createMemo, Match, Show, Switch } from "solid-js"
 import { Global } from "@opencode-ai/core/global"
-import { RemoteIndicator } from "@/kilocode/remote-tui"
 
 const id = "internal:kilo-home-footer"
 
@@ -72,9 +69,6 @@ function Version(props: { api: TuiPluginApi }) {
 // ---------------------------------------------------------------------------
 
 function View(props: { api: TuiPluginApi }) {
-  const kilo = createMemo(() => props.api.state.provider.some((p) => p.id === "kilo"))
-  const sdk = { client: props.api.client }
-
   return (
     <box
       width="100%"
@@ -87,15 +81,7 @@ function View(props: { api: TuiPluginApi }) {
       gap={2}
     >
       <Directory api={props.api} />
-      <box gap={1} flexDirection="row" flexShrink={0}>
-        <RemoteIndicator
-          sdk={sdk}
-          theme={props.api.theme.current}
-          kilo={kilo()}
-          event={props.api.event}
-        />
-        <Mcp api={props.api} />
-      </box>
+      <Mcp api={props.api} />
       <box flexGrow={1} />
       <Version api={props.api} />
     </box>

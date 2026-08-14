@@ -92,7 +92,7 @@ interface MessageListProps {
   questions?: () => QuestionRequest[]
   /** Non-tool suggestion requests to render inline at the bottom of the message list */
   suggestions?: () => SuggestionRequest[]
-  /** When true (subagent viewer), replace the welcome screen with an initializing indicator */
+  /** When true, replace the welcome screen with an initializing indicator */
   readonly?: boolean
   /** Optionally replace the standard welcome content while the conversation is empty. */
   emptyState?: () => JSX.Element

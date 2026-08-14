@@ -12,15 +12,15 @@ description: "Complete reference for all Kilo CLI commands and subcommands"
 ```
 start ACP (Agent Client Protocol) server
 
-Options:
-  --help         Show help  [boolean]
-  --version      Show version number  [boolean]
-  --port         port to listen on  [number] [default: 0]
-  --hostname     hostname to listen on  [string] [default: "127.0.0.1"]
-  --mdns         enable mDNS service discovery (defaults hostname to 0.0.0.0)  [boolean] [default: false]
-  --mdns-domain  custom domain name for mDNS service (default: kilo.local)  [string] [default: "kilo.local"]
-  --cors         additional domains to allow for CORS  [array] [default: []]
-  --cwd          working directory  [string] [default: "."]
+选项：
+  --help         显示帮助信息  [布尔]
+  --version      显示版本号  [布尔]
+  --port         port to listen on  [数字] [默认值: 0]
+  --hostname     hostname to listen on  [字符串] [默认值: "127.0.0.1"]
+  --mdns         enable mDNS service discovery (defaults hostname to 0.0.0.0)  [布尔] [默认值: false]
+  --mdns-domain  custom domain name for mDNS service (default: kilo.local)  [字符串] [默认值: "kilo.local"]
+  --cors         additional domains to allow for CORS  [数组] [默认值: []]
+  --cwd          working directory  [字符串] [默认值: "."]
 ```
 
 ## kilo mcp
@@ -28,16 +28,16 @@ Options:
 ```
 manage MCP (Model Context Protocol) servers
 
-Commands:
+命令：
   kilo mcp add [name]     add an MCP server
   kilo mcp list           list MCP servers and their status  [aliases: ls]
   kilo mcp auth [name]    authenticate with an OAuth-enabled MCP server
   kilo mcp logout [name]  remove OAuth credentials for an MCP server
   kilo mcp debug <name>   debug OAuth connection for an MCP server
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo mcp add
@@ -46,14 +46,14 @@ Options:
 add an MCP server
 
 Positionals:
-  name  name of the MCP server  [string]
+  --name  name of the MCP server  [字符串]
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
-  --url      URL for a remote MCP server  [string]
-  --env      environment variable for a local MCP server (KEY=VALUE)  [array]
-  --header   HTTP header for a remote MCP server (KEY=VALUE)  [array]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
+  --url      URL for a remote MCP server  [字符串]
+  --env      environment variable for a local MCP server (KEY=VALUE)  [数组]
+  --header   HTTP header for a remote MCP server (KEY=VALUE)  [数组]
 ```
 
 ### kilo mcp list
@@ -61,9 +61,9 @@ Options:
 ```
 list MCP servers and their status
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo mcp auth
@@ -71,15 +71,15 @@ Options:
 ```
 authenticate with an OAuth-enabled MCP server
 
-Commands:
+命令：
   kilo mcp auth list  list OAuth-capable MCP servers and their auth status  [aliases: ls]
 
 Positionals:
-  name  name of the MCP server  [string]
+  --name  name of the MCP server  [字符串]
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo mcp auth list
@@ -87,9 +87,9 @@ Options:
 ```
 list OAuth-capable MCP servers and their auth status
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo mcp logout
@@ -98,11 +98,11 @@ Options:
 remove OAuth credentials for an MCP server
 
 Positionals:
-  name  name of the MCP server  [string]
+  --name  name of the MCP server  [字符串]
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo mcp debug
@@ -111,11 +111,11 @@ Options:
 debug OAuth connection for an MCP server
 
 Positionals:
-  name  name of the MCP server  [string]
+  --name  name of the MCP server  [字符串]
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ## kilo [project]
@@ -124,27 +124,27 @@ Options:
 start kilo tui
 
 Positionals:
-  project  path to start kilo in  [string]
+      --project  path to start kilo in  [字符串]
 
-Options:
-      --help          Show help  [boolean]
-      --version       Show version number  [boolean]
-      --port          port to listen on  [number] [default: 0]
-      --hostname      hostname to listen on  [string] [default: "127.0.0.1"]
-      --mdns          enable mDNS service discovery (defaults hostname to 0.0.0.0)  [boolean] [default: false]
-      --mdns-domain   custom domain name for mDNS service (default: kilo.local)  [string] [default: "kilo.local"]
-      --cors          additional domains to allow for CORS  [array] [default: []]
-  -m, --model         model to use in the format of provider/model  [string]
-  -c, --continue      continue the last session  [boolean]
-  -s, --session       session id to continue  [string]
-      --fork          fork the session when continuing (use with --continue or --session)  [boolean]
-      --cloud-fork    fetch session from cloud and continue locally (use with --session)  [boolean]
-      --prompt        prompt to use  [string]
-      --agent         agent to use  [string]
-      --auto          auto-approve permissions that are not explicitly denied (dangerous!)  [boolean] [default: false]
-      --mini          start the minimal interactive interface  [boolean] [default: false]
-      --no-replay     disable mini session history replay on resume and after resize  [boolean]
-      --replay-limit  cap visible mini replay to the newest N messages  [number]
+选项：
+      --help          显示帮助信息  [布尔]
+      --version       显示版本号  [布尔]
+      --port          port to listen on  [数字] [默认值: 0]
+      --hostname      hostname to listen on  [字符串] [默认值: "127.0.0.1"]
+      --mdns          enable mDNS service discovery (defaults hostname to 0.0.0.0)  [布尔] [默认值: false]
+      --mdns-domain   custom domain name for mDNS service (default: kilo.local)  [字符串] [默认值: "kilo.local"]
+      --cors          additional domains to allow for CORS  [数组] [默认值: []]
+  -m, --model         model to use in the format of provider/model  [字符串]
+  -c, --continue      continue the last session  [布尔]
+  -s, --session       session id to continue  [字符串]
+      --fork          fork the session when continuing (use with --continue or --session)  [布尔]
+      --cloud-fork    fetch session from cloud and continue locally (use with --session)  [布尔]
+      --prompt        prompt to use  [字符串]
+      --agent         agent to use  [字符串]
+      --auto          auto-approve permissions that are not explicitly denied (dangerous!)  [布尔] [默认值: false]
+      --mini          start the minimal interactive interface  [布尔] [默认值: false]
+      --no-replay     disable mini session history replay on resume and after resize  [布尔]
+      --replay-limit  cap visible mini replay to the newest N messages  [数字]
 ```
 
 ## kilo attach
@@ -153,21 +153,21 @@ Options:
 attach to a running kilo server
 
 Positionals:
-  url  http://localhost:4096  [string]
+      --url  http://localhost:4096  [字符串]
 
-Options:
-      --help          Show help  [boolean]
-      --version       Show version number  [boolean]
-      --dir           directory to run in  [string]
-  -c, --continue      continue the last session  [boolean]
-  -s, --session       session id to continue  [string]
-      --fork          fork the session when continuing (use with --continue or --session)  [boolean]
-      --cloud-fork    fetch session from cloud and continue locally (use with --session)  [boolean]
-  -p, --password      basic auth password (defaults to KILO_SERVER_PASSWORD)  [string]
-  -u, --username      basic auth username (defaults to KILO_SERVER_USERNAME or 'kilo')  [string]
-      --mini          start the minimal interactive interface  [boolean] [default: false]
-      --no-replay     disable mini session history replay on resume and after resize  [boolean]
-      --replay-limit  cap visible mini replay to the newest N messages  [number]
+选项：
+      --help          显示帮助信息  [布尔]
+      --version       显示版本号  [布尔]
+      --dir           directory to run in  [字符串]
+  -c, --continue      continue the last session  [布尔]
+  -s, --session       session id to continue  [字符串]
+      --fork          fork the session when continuing (use with --continue or --session)  [布尔]
+      --cloud-fork    fetch session from cloud and continue locally (use with --session)  [布尔]
+  -p, --password      basic auth password (defaults to KILO_SERVER_PASSWORD)  [字符串]
+  -u, --username      basic auth username (defaults to KILO_SERVER_USERNAME or 'kilo')  [字符串]
+      --mini          start the minimal interactive interface  [布尔] [默认值: false]
+      --no-replay     disable mini session history replay on resume and after resize  [布尔]
+      --replay-limit  cap visible mini replay to the newest N messages  [数字]
 ```
 
 ## kilo run
@@ -176,31 +176,31 @@ Options:
 run kilo with a message
 
 Positionals:
-  message  message to send  [string] [default: []]
+      --message  message to send  [字符串] [默认值: []]
 
-Options:
-      --help         Show help  [boolean]
-      --version      Show version number  [boolean]
-      --command      the command to run, use message for args  [string]
-  -c, --continue     continue the last session  [boolean]
-  -s, --session      session id to continue  [string]
-      --fork         fork the session before continuing (requires --continue or --session)  [boolean]
-      --cloud-fork   fetch session from cloud and continue locally (use with --session)  [boolean]
-      --share        share the session  [boolean]
-  -m, --model        model to use in the format of provider/model  [string]
-      --agent        agent to use  [string]
-      --format       format: default (formatted) or json (raw JSON events)  [string] [choices: "default", "json"] [default: "default"]
-  -f, --file         file(s) to attach to message  [array]
-      --title        title for the session (uses truncated prompt if no value provided)  [string]
-      --attach       attach to a running kilo server (e.g., http://localhost:4096)  [string]
-  -p, --password     basic auth password (defaults to KILO_SERVER_PASSWORD)  [string]
-  -u, --username     basic auth username (defaults to KILO_SERVER_USERNAME or 'kilo')  [string]
-      --dir          directory to run in, path on remote server if attaching  [string]
-      --port         port for the local server (defaults to random port if no value provided)  [number]
-      --variant      model variant (provider-specific reasoning effort, e.g., high, max, minimal)  [string]
-      --thinking     show thinking blocks  [boolean]
-  -i, --interactive  run in direct interactive split-footer mode  [boolean] [default: false]
-      --auto         auto-approve permissions that are not explicitly denied (dangerous!)  [boolean] [default: false]
+选项：
+      --help         显示帮助信息  [布尔]
+      --version      显示版本号  [布尔]
+      --command      the command to run, use message for args  [字符串]
+  -c, --continue     continue the last session  [布尔]
+  -s, --session      session id to continue  [字符串]
+      --fork         fork the session before continuing (requires --continue or --session)  [布尔]
+      --cloud-fork   fetch session from cloud and continue locally (use with --session)  [布尔]
+      --share        share the session  [布尔]
+  -m, --model        model to use in the format of provider/model  [字符串]
+      --agent        agent to use  [字符串]
+      --format       format: default (formatted) or json (raw JSON events)  [字符串] [可选值: "default", "json"] [默认值: "default"]
+  -f, --file         file(s) to attach to message  [数组]
+      --title        title for the session (uses truncated prompt if no value provided)  [字符串]
+      --attach       attach to a running kilo server (e.g., http://localhost:4096)  [字符串]
+  -p, --password     basic auth password (defaults to KILO_SERVER_PASSWORD)  [字符串]
+  -u, --username     basic auth username (defaults to KILO_SERVER_USERNAME or 'kilo')  [字符串]
+      --dir          directory to run in, path on remote server if attaching  [字符串]
+      --port         port for the local server (defaults to random port if no value provided)  [数字]
+      --variant      model variant (provider-specific reasoning effort, e.g., high, max, minimal)  [字符串]
+      --thinking     show thinking blocks  [布尔]
+  -i, --interactive  run in direct interactive split-footer mode  [布尔] [默认值: false]
+      --auto         auto-approve permissions that are not explicitly denied (dangerous!)  [布尔] [默认值: false]
 ```
 
 ## kilo debug
@@ -208,7 +208,7 @@ Options:
 ```
 debugging and troubleshooting tools
 
-Commands:
+命令：
   kilo debug config        show resolved configuration
   kilo debug lsp           LSP debugging utilities
   kilo debug rg            ripgrep debugging utilities
@@ -223,9 +223,9 @@ Commands:
   kilo debug paths         show global paths (data, config, cache, state)
   kilo debug wait          wait indefinitely (for debugging)
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo debug config
@@ -233,9 +233,9 @@ Options:
 ```
 show resolved configuration
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo debug lsp
@@ -243,14 +243,14 @@ Options:
 ```
 LSP debugging utilities
 
-Commands:
+命令：
   kilo debug lsp diagnostics <file>      get diagnostics for a file
   kilo debug lsp symbols <query>         search workspace symbols
   kilo debug lsp document-symbols <uri>  get symbols from a document
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo debug lsp diagnostics
@@ -259,11 +259,11 @@ Options:
 get diagnostics for a file
 
 Positionals:
-  file  [string]
+  --file  [字符串]
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo debug lsp symbols
@@ -272,11 +272,11 @@ Options:
 search workspace symbols
 
 Positionals:
-  query  [string]
+  --query  [字符串]
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo debug lsp document-symbols
@@ -285,11 +285,11 @@ Options:
 get symbols from a document
 
 Positionals:
-  uri  [string]
+  --uri  [字符串]
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo debug rg
@@ -297,13 +297,13 @@ Options:
 ```
 ripgrep debugging utilities
 
-Commands:
+命令：
   kilo debug rg files             list files using ripgrep
   kilo debug rg search <pattern>  search file contents using ripgrep
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo debug rg files
@@ -311,12 +311,12 @@ Options:
 ```
 list files using ripgrep
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
-  --query    Filter files by query  [string]
-  --glob     Glob pattern to match files  [string]
-  --limit    Limit number of results  [number]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
+  --query    Filter files by query  [字符串]
+  --glob     Glob pattern to match files  [字符串]
+  --limit    Limit number of results  [数字]
 ```
 
 ### kilo debug rg search
@@ -325,13 +325,13 @@ Options:
 search file contents using ripgrep
 
 Positionals:
-  pattern  Search pattern  [string]
+  --pattern  Search pattern  [字符串]
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
-  --glob     File glob patterns  [array]
-  --limit    Limit number of results  [number]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
+  --glob     File glob patterns  [数组]
+  --limit    Limit number of results  [数字]
 ```
 
 ### kilo debug file
@@ -339,14 +339,14 @@ Options:
 ```
 file system debugging utilities
 
-Commands:
+命令：
   kilo debug file read <path>     read file contents as JSON
   kilo debug file list <path>     list files in a directory
   kilo debug file search <query>  search files by query
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo debug file read
@@ -355,11 +355,11 @@ Options:
 read file contents as JSON
 
 Positionals:
-  path  File path to read  [string]
+  --path  File path to read  [字符串]
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo debug file list
@@ -368,11 +368,11 @@ Options:
 list files in a directory
 
 Positionals:
-  path  File path to list  [string]
+  --path  File path to list  [字符串]
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo debug file search
@@ -381,11 +381,11 @@ Options:
 search files by query
 
 Positionals:
-  query  Search query  [string]
+  --query  Search query  [字符串]
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo debug scrap
@@ -393,9 +393,9 @@ Options:
 ```
 list all known projects
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo debug skill
@@ -403,9 +403,9 @@ Options:
 ```
 list all available skills
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo debug snapshot
@@ -413,14 +413,14 @@ Options:
 ```
 snapshot debugging utilities
 
-Commands:
+命令：
   kilo debug snapshot track         track current snapshot state
   kilo debug snapshot patch <hash>  show patch for a snapshot hash
   kilo debug snapshot diff <hash>   show diff for a snapshot hash
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo debug snapshot track
@@ -428,9 +428,9 @@ Options:
 ```
 track current snapshot state
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo debug snapshot patch
@@ -439,11 +439,11 @@ Options:
 show patch for a snapshot hash
 
 Positionals:
-  hash  hash  [string]
+  --hash  hash  [字符串]
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo debug snapshot diff
@@ -452,11 +452,11 @@ Options:
 show diff for a snapshot hash
 
 Positionals:
-  hash  hash  [string]
+  --hash  hash  [字符串]
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo debug startup
@@ -464,9 +464,9 @@ Options:
 ```
 print startup timing
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo debug agent
@@ -475,13 +475,13 @@ Options:
 show agent configuration details
 
 Positionals:
-  name  Agent name  [string]
+  --name  Agent name  [字符串]
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
-  --tool     Tool id to execute  [string]
-  --params   Tool params as JSON or a JS object literal  [string]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
+  --tool     Tool id to execute  [字符串]
+  --params   Tool params as JSON or a JS object literal  [字符串]
 ```
 
 ### kilo debug v2
@@ -489,9 +489,9 @@ Options:
 ```
 debug v2 catalog and built-in plugins
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo debug info
@@ -499,9 +499,9 @@ Options:
 ```
 show debug information
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo debug paths
@@ -509,9 +509,9 @@ Options:
 ```
 show global paths (data, config, cache, state)
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo debug wait
@@ -519,9 +519,9 @@ Options:
 ```
 wait indefinitely (for debugging)
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ## kilo auth
@@ -529,14 +529,14 @@ Options:
 ```
 manage AI providers and credentials
 
-Commands:
+命令：
   kilo auth list               list providers and credentials  [aliases: ls]
   kilo auth login [url]        log in to a provider
   kilo auth logout [provider]  log out from a configured provider
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo auth list
@@ -544,9 +544,9 @@ Options:
 ```
 list providers and credentials
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo auth login
@@ -555,13 +555,13 @@ Options:
 log in to a provider
 
 Positionals:
-  url  kilo auth provider  [string]
+      --url  kilo auth provider  [字符串]
 
-Options:
-      --help      Show help  [boolean]
-      --version   Show version number  [boolean]
-  -p, --provider  provider id or name to log in to (skips provider selection)  [string]
-  -m, --method    login method label (skips method selection)  [string]
+选项：
+      --help      显示帮助信息  [布尔]
+      --version   显示版本号  [布尔]
+  -p, --provider  provider id or name to log in to (skips provider selection)  [字符串]
+  -m, --method    login method label (skips method selection)  [字符串]
 ```
 
 ### kilo auth logout
@@ -570,11 +570,11 @@ Options:
 log out from a configured provider
 
 Positionals:
-  provider  provider id or name to log out from  [string]
+  --provider  provider id or name to log out from  [字符串]
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ## kilo agent
@@ -582,13 +582,13 @@ Options:
 ```
 manage agents
 
-Commands:
+命令：
   kilo agent create  create a new agent
   kilo agent list    list all available agents
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo agent create
@@ -596,14 +596,14 @@ Options:
 ```
 create a new agent
 
-Options:
-      --help                  Show help  [boolean]
-      --version               Show version number  [boolean]
-      --path                  directory path to generate the agent file  [string]
-      --description           what the agent should do  [string]
-      --mode                  agent mode  [string] [choices: "all", "primary", "subagent"]
-      --permissions, --tools  comma-separated list of permissions to allow (default: all). Available: "bash, read, edit, glob, grep, webfetch, task, todowrite, websearch, lsp, skill"  [string]
-  -m, --model                 model to use in the format of provider/model  [string]
+选项：
+      --help                  显示帮助信息  [布尔]
+      --version               显示版本号  [布尔]
+      --path                  directory path to generate the agent file  [字符串]
+      --description           what the agent should do  [字符串]
+      --mode                  agent mode  [字符串] [可选值: "all", "primary", "subagent"]
+      --permissions, --tools  comma-separated list of permissions to allow (default: all). Available: "bash, read, edit, glob, grep, webfetch, task, todowrite, websearch, lsp, skill"  [字符串]
+  -m, --model                 model to use in the format of provider/model  [字符串]
 ```
 
 ### kilo agent list
@@ -611,9 +611,9 @@ Options:
 ```
 list all available agents
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ## kilo upgrade
@@ -622,12 +622,12 @@ Options:
 upgrade kilo to the latest or a specific version
 
 Positionals:
-  target  version to upgrade to, for ex '0.1.48' or 'v0.1.48'  [string]
+      --target  version to upgrade to, for ex '0.1.48' or 'v0.1.48'  [字符串]
 
-Options:
-      --help     Show help  [boolean]
-      --version  Show version number  [boolean]
-  -m, --method   installation method to use  [string] [choices: "curl", "npm", "yarn", "pnpm", "bun", "brew", "choco", "scoop"]
+选项：
+      --help     显示帮助信息  [布尔]
+      --version  显示版本号  [布尔]
+  -m, --method   installation method to use  [字符串] [可选值: "curl", "npm", "yarn", "pnpm", "bun", "brew", "choco", "scoop"]
 ```
 
 ## kilo uninstall
@@ -635,13 +635,13 @@ Options:
 ```
 uninstall kilo and remove all related files
 
-Options:
-      --help         Show help  [boolean]
-      --version      Show version number  [boolean]
-  -c, --keep-config  keep configuration files  [boolean] [default: false]
-  -d, --keep-data    keep session data and snapshots  [boolean] [default: false]
-      --dry-run      show what would be removed without removing  [boolean] [default: false]
-  -f, --force        skip confirmation prompts  [boolean] [default: false]
+选项：
+      --help         显示帮助信息  [布尔]
+      --version      显示版本号  [布尔]
+  -c, --keep-config  keep configuration files  [布尔] [默认值: false]
+  -d, --keep-data    keep session data and snapshots  [布尔] [默认值: false]
+      --dry-run      show what would be removed without removing  [布尔] [默认值: false]
+  -f, --force        skip confirmation prompts  [布尔] [默认值: false]
 ```
 
 ## kilo serve
@@ -649,14 +649,14 @@ Options:
 ```
 starts a headless kilo server
 
-Options:
-  --help         Show help  [boolean]
-  --version      Show version number  [boolean]
-  --port         port to listen on  [number] [default: 0]
-  --hostname     hostname to listen on  [string] [default: "127.0.0.1"]
-  --mdns         enable mDNS service discovery (defaults hostname to 0.0.0.0)  [boolean] [default: false]
-  --mdns-domain  custom domain name for mDNS service (default: kilo.local)  [string] [default: "kilo.local"]
-  --cors         additional domains to allow for CORS  [array] [default: []]
+选项：
+  --help         显示帮助信息  [布尔]
+  --version      显示版本号  [布尔]
+  --port         port to listen on  [数字] [默认值: 0]
+  --hostname     hostname to listen on  [字符串] [默认值: "127.0.0.1"]
+  --mdns         enable mDNS service discovery (defaults hostname to 0.0.0.0)  [布尔] [默认值: false]
+  --mdns-domain  custom domain name for mDNS service (default: kilo.local)  [字符串] [默认值: "kilo.local"]
+  --cors         additional domains to allow for CORS  [数组] [默认值: []]
 ```
 
 ## kilo models
@@ -665,13 +665,13 @@ Options:
 list all available models
 
 Positionals:
-  provider  provider ID to filter models by  [string]
+  --provider  provider ID to filter models by  [字符串]
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
-  --verbose  use more verbose model output (includes metadata like costs)  [boolean]
-  --refresh  refresh the models cache from models.dev  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
+  --verbose  use more verbose model output (includes metadata like costs)  [布尔]
+  --refresh  refresh the models cache from models.dev  [布尔]
 ```
 
 ## kilo roll-call
@@ -680,17 +680,17 @@ Options:
 batch-test text models matching a filter for connectivity and latency
 
 Positionals:
-  filter  regex to filter models by provider/modelID (required)  [string]
+  --filter  regex to filter models by provider/modelID (required)  [字符串]
 
-Options:
-  --help      Show help  [boolean]
-  --version   Show version number  [boolean]
-  --prompt    Prompt to send to each model  [string] [default: "Hello"]
-  --timeout   Timeout for each model call in milliseconds  [number] [default: 25000]
-  --parallel  Number of parallel model calls  [number] [default: 5]
-  --verbose   Show verbose output  [boolean] [default: false]
-  --quiet     Suppress progress and decoration  [boolean] [default: false]
-  --output    Output format (table, json, or md)  [string] [choices: "table", "json", "md"] [default: "table"]
+选项：
+  --help      显示帮助信息  [布尔]
+  --version   显示版本号  [布尔]
+  --prompt    Prompt to send to each model  [字符串] [默认值: "Hello"]
+  --timeout   Timeout for each model call in milliseconds  [数字] [默认值: 25000]
+  --parallel  Number of parallel model calls  [数字] [默认值: 5]
+  --verbose   Show verbose output  [布尔] [默认值: false]
+  --quiet     Suppress progress and decoration  [布尔] [默认值: false]
+  --output    Output format (table, json, or md)  [字符串] [可选值: "table", "json", "md"] [默认值: "table"]
 ```
 
 ## kilo profile
@@ -698,10 +698,10 @@ Options:
 ```
 show Kilo account profile
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
-  --json     output profile as JSON  [boolean] [default: false]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
+  --json     output profile as JSON  [布尔] [默认值: false]
 ```
 
 ## kilo stats
@@ -709,13 +709,13 @@ Options:
 ```
 show token usage and cost statistics
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
-  --days     show stats for the last N days (default: all time)  [number]
-  --tools    number of tools to show (default: all)  [number]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
+  --days     show stats for the last N days (default: all time)  [数字]
+  --tools    number of tools to show (default: all)  [数字]
   --models   show model statistics (default: hidden). Pass a number to show top N, otherwise shows all
-  --project  filter by project (default: all projects, empty string: current project)  [string]
+  --project  filter by project (default: all projects, empty string: current project)  [字符串]
 ```
 
 ## kilo export
@@ -724,12 +724,12 @@ Options:
 export session data as JSON
 
 Positionals:
-  sessionID  session id to export  [string]
+  --sessionID  session id to export  [字符串]
 
-Options:
-  --help      Show help  [boolean]
-  --version   Show version number  [boolean]
-  --sanitize  redact sensitive transcript and file data  [boolean]
+选项：
+  --help      显示帮助信息  [布尔]
+  --version   显示版本号  [布尔]
+  --sanitize  redact sensitive transcript and file data  [布尔]
 ```
 
 ## kilo import
@@ -738,11 +738,11 @@ Options:
 import session data from JSON file or URL
 
 Positionals:
-  file  path to JSON file or share URL  [string]
+  --file  path to JSON file or share URL  [字符串]
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ## kilo github
@@ -750,13 +750,13 @@ Options:
 ```
 manage GitHub agent
 
-Commands:
+命令：
   kilo github install  install the GitHub agent
   kilo github run      run the GitHub agent
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo github install
@@ -764,9 +764,9 @@ Options:
 ```
 install the GitHub agent
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo github run
@@ -774,11 +774,11 @@ Options:
 ```
 run the GitHub agent
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
-  --event    GitHub mock event to run the agent for  [string]
-  --token    GitHub personal access token (github_pat_********)  [string]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
+  --event    GitHub mock event to run the agent for  [字符串]
+  --token    GitHub personal access token (github_pat_********)  [字符串]
 ```
 
 ## kilo pr
@@ -787,11 +787,11 @@ Options:
 fetch and checkout a GitHub PR branch, then run kilo
 
 Positionals:
-  number  PR number to checkout  [number]
+  --number  PR number to checkout  [数字]
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ## kilo session
@@ -799,13 +799,13 @@ Options:
 ```
 manage sessions
 
-Commands:
+命令：
   kilo session list                list sessions
   kilo session delete <sessionID>  delete a session
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo session list
@@ -813,13 +813,13 @@ Options:
 ```
 list sessions
 
-Options:
-      --help       Show help  [boolean]
-      --version    Show version number  [boolean]
-  -n, --max-count  limit to N most recent sessions  [number]
-      --format     output format  [string] [choices: "table", "json"] [default: "table"]
-  -a, --all        list sessions from all projects  [boolean] [default: false]
-  -s, --search     filter sessions by title  [string]
+选项：
+      --help       显示帮助信息  [布尔]
+      --version    显示版本号  [布尔]
+  -n, --max-count  limit to N most recent sessions  [数字]
+      --format     output format  [字符串] [可选值: "table", "json"] [默认值: "table"]
+  -a, --all        list sessions from all projects  [布尔] [默认值: false]
+  -s, --search     filter sessions by title  [字符串]
 ```
 
 ### kilo session delete
@@ -828,21 +828,11 @@ Options:
 delete a session
 
 Positionals:
-  sessionID  session ID to delete  [string]
+  --sessionID  session ID to delete  [字符串]
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
-```
-
-## kilo remote
-
-```
-enable remote connection for real-time session relay
-
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ## kilo daemon
@@ -850,23 +840,23 @@ Options:
 ```
 manage the local kilo daemon
 
-Commands:
-  kilo daemon          start the local kilo daemon  [default]
+命令：
+  kilo daemon          start the local kilo daemon  [默认值]
   kilo daemon start    start the local kilo daemon
   kilo daemon status   show local kilo daemon status
   kilo daemon stop     stop the local kilo daemon
   kilo daemon restart  restart the local kilo daemon
 
-Options:
-      --help         Show help  [boolean]
-      --version      Show version number  [boolean]
-      --port         port to listen on  [number] [default: 0]
-      --hostname     hostname to listen on  [string] [default: "127.0.0.1"]
-      --mdns         enable mDNS service discovery (defaults hostname to 0.0.0.0)  [boolean] [default: false]
-      --mdns-domain  custom domain name for mDNS service (default: kilo.local)  [string] [default: "kilo.local"]
-      --cors         additional domains to allow for CORS  [array] [default: []]
-      --json         print daemon details as JSON  [boolean]
-  -f, --foreground   keep the command active until interrupted  [boolean]
+选项：
+      --help         显示帮助信息  [布尔]
+      --version      显示版本号  [布尔]
+      --port         port to listen on  [数字] [默认值: 0]
+      --hostname     hostname to listen on  [字符串] [默认值: "127.0.0.1"]
+      --mdns         enable mDNS service discovery (defaults hostname to 0.0.0.0)  [布尔] [默认值: false]
+      --mdns-domain  custom domain name for mDNS service (default: kilo.local)  [字符串] [默认值: "kilo.local"]
+      --cors         additional domains to allow for CORS  [数组] [默认值: []]
+      --json         print daemon details as JSON  [布尔]
+  -f, --foreground   keep the command active until interrupted  [布尔]
 ```
 
 ### kilo daemon start
@@ -874,16 +864,16 @@ Options:
 ```
 start the local kilo daemon
 
-Options:
-      --help         Show help  [boolean]
-      --version      Show version number  [boolean]
-      --port         port to listen on  [number] [default: 0]
-      --hostname     hostname to listen on  [string] [default: "127.0.0.1"]
-      --mdns         enable mDNS service discovery (defaults hostname to 0.0.0.0)  [boolean] [default: false]
-      --mdns-domain  custom domain name for mDNS service (default: kilo.local)  [string] [default: "kilo.local"]
-      --cors         additional domains to allow for CORS  [array] [default: []]
-      --json         print daemon details as JSON  [boolean]
-  -f, --foreground   keep the command active until interrupted  [boolean]
+选项：
+      --help         显示帮助信息  [布尔]
+      --version      显示版本号  [布尔]
+      --port         port to listen on  [数字] [默认值: 0]
+      --hostname     hostname to listen on  [字符串] [默认值: "127.0.0.1"]
+      --mdns         enable mDNS service discovery (defaults hostname to 0.0.0.0)  [布尔] [默认值: false]
+      --mdns-domain  custom domain name for mDNS service (default: kilo.local)  [字符串] [默认值: "kilo.local"]
+      --cors         additional domains to allow for CORS  [数组] [默认值: []]
+      --json         print daemon details as JSON  [布尔]
+  -f, --foreground   keep the command active until interrupted  [布尔]
 ```
 
 ### kilo daemon status
@@ -891,10 +881,10 @@ Options:
 ```
 show local kilo daemon status
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
-  --json     print daemon details as JSON  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
+  --json     print daemon details as JSON  [布尔]
 ```
 
 ### kilo daemon stop
@@ -902,10 +892,10 @@ Options:
 ```
 stop the local kilo daemon
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
-  --json     print daemon details as JSON  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
+  --json     print daemon details as JSON  [布尔]
 ```
 
 ### kilo daemon restart
@@ -913,16 +903,16 @@ Options:
 ```
 restart the local kilo daemon
 
-Options:
-      --help         Show help  [boolean]
-      --version      Show version number  [boolean]
-      --port         port to listen on  [number] [default: 0]
-      --hostname     hostname to listen on  [string] [default: "127.0.0.1"]
-      --mdns         enable mDNS service discovery (defaults hostname to 0.0.0.0)  [boolean] [default: false]
-      --mdns-domain  custom domain name for mDNS service (default: kilo.local)  [string] [default: "kilo.local"]
-      --cors         additional domains to allow for CORS  [array] [default: []]
-      --json         print daemon details as JSON  [boolean]
-  -f, --foreground   keep the command active until interrupted  [boolean]
+选项：
+      --help         显示帮助信息  [布尔]
+      --version      显示版本号  [布尔]
+      --port         port to listen on  [数字] [默认值: 0]
+      --hostname     hostname to listen on  [字符串] [默认值: "127.0.0.1"]
+      --mdns         enable mDNS service discovery (defaults hostname to 0.0.0.0)  [布尔] [默认值: false]
+      --mdns-domain  custom domain name for mDNS service (default: kilo.local)  [字符串] [默认值: "kilo.local"]
+      --cors         additional domains to allow for CORS  [数组] [默认值: []]
+      --json         print daemon details as JSON  [布尔]
+  -f, --foreground   keep the command active until interrupted  [布尔]
 ```
 
 ## kilo console
@@ -930,19 +920,19 @@ Options:
 ```
 open or stop the local Kilo Console (deprecated)
 
-Commands:
-  kilo console       open the local Kilo Console (deprecated)  [default]
+命令：
+  kilo console       open the local Kilo Console (deprecated)  [默认值]
   kilo console stop  stop the local kilo daemon
 
-Options:
-      --help         Show help  [boolean]
-      --version      Show version number  [boolean]
-      --port         port to listen on  [number] [default: 0]
-      --hostname     hostname to listen on  [string] [default: "127.0.0.1"]
-      --mdns         enable mDNS service discovery (defaults hostname to 0.0.0.0)  [boolean] [default: false]
-      --mdns-domain  custom domain name for mDNS service (default: kilo.local)  [string] [default: "kilo.local"]
-      --cors         additional domains to allow for CORS  [array] [default: []]
-  -f, --foreground   keep the command active until interrupted  [boolean]
+选项：
+      --help         显示帮助信息  [布尔]
+      --version      显示版本号  [布尔]
+      --port         port to listen on  [数字] [默认值: 0]
+      --hostname     hostname to listen on  [字符串] [默认值: "127.0.0.1"]
+      --mdns         enable mDNS service discovery (defaults hostname to 0.0.0.0)  [布尔] [默认值: false]
+      --mdns-domain  custom domain name for mDNS service (default: kilo.local)  [字符串] [默认值: "kilo.local"]
+      --cors         additional domains to allow for CORS  [数组] [默认值: []]
+  -f, --foreground   keep the command active until interrupted  [布尔]
 ```
 
 ### kilo console stop
@@ -950,10 +940,10 @@ Options:
 ```
 stop the local kilo daemon
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
-  --json     print daemon details as JSON  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
+  --json     print daemon details as JSON  [布尔]
 ```
 
 ## kilo cloud
@@ -961,15 +951,15 @@ Options:
 ```
 run Cloud Agent tasks
 
-Commands:
+命令：
   kilo cloud start   start a Cloud Agent task
   kilo cloud send    send a follow-up prompt to a Cloud Agent task
   kilo cloud status  show Cloud Agent task status
   kilo cloud result  show a Cloud Agent task result
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo cloud start
@@ -977,17 +967,17 @@ Options:
 ```
 start a Cloud Agent task
 
-Options:
-  --help       Show help  [boolean]
-  --version    Show version number  [boolean]
-  --prompt     prompt for the Cloud Agent  [string] [required]
-  --repo       repository shorthand or URL  [string]
-  --repo-type  repository provider type  [string] [choices: "github", "gitlab", "git"]
-  --branch     repository branch  [string]
-  --model      Cloud Agent model  [string]
-  --mode       Cloud Agent mode  [string]
-  --org-id     Kilo organization ID  [string]
-  --stream     connect to the WebSocket stream and print events as JSONL  [boolean]
+选项：
+  --help       显示帮助信息  [布尔]
+  --version    显示版本号  [布尔]
+  --prompt     prompt for the Cloud Agent  [字符串] [必需]
+  --repo       repository shorthand or URL  [字符串]
+  --repo-type  repository provider type  [字符串] [可选值: "github", "gitlab", "git"]
+  --branch     repository branch  [字符串]
+  --model      Cloud Agent model  [字符串]
+  --mode       Cloud Agent mode  [字符串]
+  --org-id     Kilo organization ID  [字符串]
+  --stream     connect to the WebSocket stream and print events as JSONL  [布尔]
 ```
 
 ### kilo cloud send
@@ -995,11 +985,11 @@ Options:
 ```
 send a follow-up prompt to a Cloud Agent task
 
-Options:
-  --help        Show help  [boolean]
-  --version     Show version number  [boolean]
-  --session-id  Cloud Agent session ID  [string] [required]
-  --prompt      follow-up prompt for the Cloud Agent  [string] [required]
+选项：
+  --help        显示帮助信息  [布尔]
+  --version     显示版本号  [布尔]
+  --session-id  Cloud Agent session ID  [字符串] [必需]
+  --prompt      follow-up prompt for the Cloud Agent  [字符串] [必需]
 ```
 
 ### kilo cloud status
@@ -1007,11 +997,11 @@ Options:
 ```
 show Cloud Agent task status
 
-Options:
-  --help        Show help  [boolean]
-  --version     Show version number  [boolean]
-  --session-id  Cloud Agent session ID  [string] [required]
-  --message-id  Cloud Agent message ID  [string] [required]
+选项：
+  --help        显示帮助信息  [布尔]
+  --version     显示版本号  [布尔]
+  --session-id  Cloud Agent session ID  [字符串] [必需]
+  --message-id  Cloud Agent message ID  [字符串] [必需]
 ```
 
 ### kilo cloud result
@@ -1019,11 +1009,11 @@ Options:
 ```
 show a Cloud Agent task result
 
-Options:
-  --help        Show help  [boolean]
-  --version     Show version number  [boolean]
-  --session-id  Cloud Agent session ID  [string] [required]
-  --message-id  Cloud Agent message ID  [string] [required]
+选项：
+  --help        显示帮助信息  [布尔]
+  --version     显示版本号  [布尔]
+  --session-id  Cloud Agent session ID  [字符串] [必需]
+  --message-id  Cloud Agent message ID  [字符串] [必需]
 ```
 
 ## kilo db
@@ -1031,17 +1021,17 @@ Options:
 ```
 database tools
 
-Commands:
-  kilo db [query]     open an interactive sqlite3 shell or run a query  [default]
+命令：
+  kilo db [query]     open an interactive sqlite3 shell or run a query  [默认值]
   kilo db path        print the database path
 
-Positionals:
-  query  SQL query to execute  [string]
+位置：
+  query  SQL query to execute  [字符串]
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
-  --format   Output format  [string] [choices: "json", "tsv"] [default: "tsv"]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
+  --format   Output format  [字符串] [可选值: "json", "tsv"] [默认值: "tsv"]
 ```
 
 ### kilo db path
@@ -1049,9 +1039,9 @@ Options:
 ```
 print the database path
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ## kilo config
@@ -1059,12 +1049,12 @@ Options:
 ```
 configuration tools
 
-Commands:
+命令：
   kilo config check  check configuration for warnings and errors
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ### kilo config check
@@ -1072,9 +1062,9 @@ Options:
 ```
 check configuration for warnings and errors
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```
 
 ## kilo plugin
@@ -1083,13 +1073,13 @@ Options:
 install plugin and update config
 
 Positionals:
-  module  npm module name  [string]
+      --module  npm module name  [字符串]
 
-Options:
-      --help     Show help  [boolean]
-      --version  Show version number  [boolean]
-  -g, --global   install in global config  [boolean] [default: false]
-  -f, --force    replace existing plugin version  [boolean] [default: false]
+选项：
+      --help     显示帮助信息  [布尔]
+      --version  显示版本号  [布尔]
+  -g, --global   install in global config  [布尔] [默认值: false]
+  -f, --force    replace existing plugin version  [布尔] [默认值: false]
 ```
 
 ## kilo help
@@ -1098,13 +1088,13 @@ Options:
 show full CLI reference
 
 Positionals:
-  command  command to show help for  [string]
+  --command  command to show help for  [字符串]
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
-  --all      show help for all commands  [boolean] [default: false]
-  --format   output format  [string] [choices: "md", "text"] [default: "md"]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
+  --all      show help for all commands  [布尔] [默认值: false]
+  --format   output format  [字符串] [可选值: "md", "text"] [默认值: "md"]
 ```
 
 ## kilo completion
@@ -1112,7 +1102,7 @@ Options:
 ```
 generate shell completion script
 
-Options:
-  --help     Show help  [boolean]
-  --version  Show version number  [boolean]
+选项：
+  --help     显示帮助信息  [布尔]
+  --version  显示版本号  [布尔]
 ```

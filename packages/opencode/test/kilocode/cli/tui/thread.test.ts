@@ -5,11 +5,7 @@ import { fileURLToPath } from "node:url"
 import { spawn, type Exit } from "@opencode-ai/core/pty/driver"
 import { sanitizedProcessEnv } from "@opencode-ai/core/util/opencode-process"
 import { tmpdir } from "../../../fixture/fixture"
-import {
-  embeddedRemoteExitClient,
-  resolveThreadDirectory,
-  runEmbeddedRemoteExitBridge,
-} from "../../../../src/cli/cmd/tui"
+import { resolveThreadDirectory } from "../../../../src/cli/cmd/tui"
 import { preload } from "../../../../src/kilocode/cli/cmd/tui"
 import { KiloTuiThreadDaemon } from "../../../../src/kilocode/cli/cmd/tui/thread"
 import { DaemonClient } from "../../../../src/kilocode/daemon/client"
@@ -141,47 +137,6 @@ describe("kilo tui thread", () => {
       if (prev === undefined) delete process.env.KILO_DEV_CWD
       else process.env.KILO_DEV_CWD = prev
     }
-  })
-
-  test("enables remote exit only for the embedded worker transport", () => {
-    const client = { marker: "worker" }
-
-    expect(embeddedRemoteExitClient(false, client)).toBe(client)
-    expect(embeddedRemoteExitClient(true, client)).toBeUndefined()
-    expect(embeddedRemoteExitClient(false, undefined)).toBeUndefined()
-  })
-
-  test("continues TUI startup when remote-exit readiness and cleanup never reply", async () => {
-    const calls: string[] = []
-    let handler: (() => void) | undefined
-    let tuiContinued = false
-    const done = Promise.resolve().then(() => {
-      tuiContinued = true
-    })
-
-    await runEmbeddedRemoteExitBridge({
-      client: {
-        on(_event, next) {
-          calls.push("subscribe")
-          handler = next
-          return () => {
-            calls.push("unsubscribe")
-            handler = undefined
-          }
-        },
-        async call(method) {
-          calls.push(method)
-          await new Promise(() => {})
-        },
-      },
-      exit: () => {},
-      done,
-      timeoutMs: 5,
-    })
-
-    expect(tuiContinued).toBe(true)
-    expect(calls).toEqual(["subscribe", "tuiReady", "tuiGone", "unsubscribe"])
-    expect(handler).toBeUndefined()
   })
 
   test("validates imported daemon session over HTTP after importing from cloud", async () => {

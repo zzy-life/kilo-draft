@@ -57,8 +57,6 @@ export const dict = {
   "command.provider.connect": "Підключити провайдера",
 
   "command.session.new": "Нова сесія",
-  "command.session.show.changes": "Показати зміни",
-  "command.review.toggle": "Перемкнути огляд",
   "revert.banner.count_one": "{{count}} повідомлення скасовано",
   "revert.banner.count_other": "{{count}} повідомлень скасовано",
   "revert.banner.redo": "Повторити",
@@ -202,11 +200,6 @@ export const dict = {
   "prompt.action.stop": "Зупинити",
   "prompt.action.enhance": "Покращити запит",
   "prompt.action.indexing": "Налаштування індексування",
-  "prompt.action.autoApprove.enable": "Увімкнути автоматичне схвалення",
-  "prompt.action.autoApprove.disable": "Вимкнути автоматичне схвалення",
-  "prompt.action.autoApprove.enabled": "Автоматичне схвалення увімкнено. Запити дозволів схвалюватимуться автоматично.",
-  "prompt.action.autoApprove.disabled":
-    "Автоматичне схвалення вимкнено. Натисніть, щоб автоматично схвалювати запити дозволів.",
   "prompt.action.resetModel": "Скинути модель до стандартної",
   "prompt.action.enhanceDescription":
     "Кнопка 'Покращити запит' допомагає вдосконалити ваш запит, надаючи додатковий контекст, уточнення або перефразування. Введіть запит тут і натисніть кнопку ще раз, щоб побачити, як це працює.",
@@ -296,22 +289,7 @@ export const dict = {
   "ui.permission.toolLabel.todoWrite": "Записати завдання",
   "ui.permission.toolLabel.codeSearch": "Пошук коду",
   "ui.permission.copyCommand": "Копіювати",
-  "ui.approval.auto": "Схвалено автоматично",
-  "ui.approval.manual": "Схвалено вами",
-  "ui.approval.rule": "збіг із правилом `{{permission}}` `{{pattern}}`",
-  "ui.approval.source.agent": "агентом {{agent}}",
-  "ui.approval.source.agent.default": "агентом",
-  "ui.approval.source.global": "вашою глобальною конфігурацією",
-  "ui.approval.source.project": "конфігурацією проєкту",
-  "ui.approval.source.yolo": "режимом автосхвалення (YOLO)",
-  "ui.approval.source.session": "правилом автосхвалення сесії",
-  "ui.approval.source.default": "за замовчуванням",
-  "ui.approval.outsideWorkspace": "(за межами вашого робочого простору: {{file}})",
 
-  "session.tab.review": "Огляд",
-  "session.review.filesChanged": "{{count}} файлів змінено",
-  "session.review.loadingChanges": "Завантаження змін...",
-  "session.review.noChanges": "Змін немає",
 
   "session.messages.loadingEarlier": "Завантаження попередніх повідомлень...",
   "session.messages.loadEarlier": "Завантажити попередні повідомлення",
@@ -339,7 +317,6 @@ export const dict = {
     "Перемістити цю розмову та 1 змінений файл у виділений worktree для ізольованої подальшої роботи.",
   "sidebar.session.moveToWorktree.tooltip.other":
     "Перемістити цю розмову та {{files}} змінених файлів у виділений worktree для ізольованої подальшої роботи.",
-  "sidebar.session.showChanges.tooltip.empty": "Відкрийте перегляд змін, щоб оглянути поточне робоче дерево.",
   "sidebar.session.progress.capturing": "Захоплення змін...",
   "sidebar.session.progress.creating": "Створення worktree...",
   "sidebar.session.progress.setup": "Виконання налаштування...",
@@ -359,51 +336,6 @@ export const dict = {
 
   "sidebar.settings": "Налаштування",
 
-  "sound.option.alert01": "Сигнал 01",
-  "sound.option.alert02": "Сигнал 02",
-  "sound.option.alert03": "Сигнал 03",
-  "sound.option.alert04": "Сигнал 04",
-  "sound.option.alert05": "Сигнал 05",
-  "sound.option.alert06": "Сигнал 06",
-  "sound.option.alert07": "Сигнал 07",
-  "sound.option.alert08": "Сигнал 08",
-  "sound.option.alert09": "Сигнал 09",
-  "sound.option.alert10": "Сигнал 10",
-  "sound.option.bipbop01": "Біп-боп 01",
-  "sound.option.bipbop02": "Біп-боп 02",
-  "sound.option.bipbop03": "Біп-боп 03",
-  "sound.option.bipbop04": "Біп-боп 04",
-  "sound.option.bipbop05": "Біп-боп 05",
-  "sound.option.bipbop06": "Біп-боп 06",
-  "sound.option.bipbop07": "Біп-боп 07",
-  "sound.option.bipbop08": "Біп-боп 08",
-  "sound.option.bipbop09": "Біп-боп 09",
-  "sound.option.bipbop10": "Біп-боп 10",
-  "sound.option.staplebops01": "Staplebops 01",
-  "sound.option.staplebops02": "Staplebops 02",
-  "sound.option.staplebops03": "Staplebops 03",
-  "sound.option.staplebops04": "Staplebops 04",
-  "sound.option.staplebops05": "Staplebops 05",
-  "sound.option.staplebops06": "Staplebops 06",
-  "sound.option.staplebops07": "Staplebops 07",
-  "sound.option.nope01": "Ні 01",
-  "sound.option.nope02": "Ні 02",
-  "sound.option.nope03": "Ні 03",
-  "sound.option.nope04": "Ні 04",
-  "sound.option.nope05": "Ні 05",
-  "sound.option.nope06": "Ні 06",
-  "sound.option.nope07": "Ні 07",
-  "sound.option.nope08": "Ні 08",
-  "sound.option.nope09": "Ні 09",
-  "sound.option.nope10": "Ні 10",
-  "sound.option.nope11": "Ні 11",
-  "sound.option.nope12": "Ні 12",
-  "sound.option.yup01": "Так 01",
-  "sound.option.yup02": "Так 02",
-  "sound.option.yup03": "Так 03",
-  "sound.option.yup04": "Так 04",
-  "sound.option.yup05": "Так 05",
-  "sound.option.yup06": "Так 06",
 
   "settings.providers.title": "Провайдери",
   "settings.providers.section.connected": "Підключені провайдери",
@@ -627,11 +559,9 @@ export const dict = {
   "profile.action.logout": "Вийти",
 
   "settings.agentBehaviour.title": "Поведінка агента",
-  "settings.autoApprove.title": "Автоматичне схвалення",
   "settings.webTools.title": "Вебінструменти",
   "settings.webTools.description": "Налаштуйте вебпошук і автоматизацію браузера.",
   "settings.webTools.webSearch.enable": "Увімкнути для всіх постачальників",
-  "settings.webTools.browserAutomation": "Автоматизація браузера",
   "settings.webTools.webSearch.title": "Вебпошук",
   "settings.webTools.webSearch.description": "Зробіть вебпошук доступним для моделей усіх постачальників.",
   "settings.checkpoints.title": "Контрольні точки",
@@ -639,7 +569,6 @@ export const dict = {
   "settings.autocomplete.title": "Автодоповнення",
   "settings.autocomplete.model.title": "Модель автодоповнення",
   "settings.autocomplete.model.description": "Виберіть модель для вбудованого (inline) автодоповнення коду",
-  "settings.notifications.title": "Сповіщення",
   "settings.context.title": "Контекст",
   "settings.indexing.title": "Індексування",
   "settings.indexing.status.title": "Статус",
@@ -763,15 +692,6 @@ export const dict = {
   "settings.agentBehaviour.subtab.workflows": "Робочі процеси",
   "settings.agentBehaviour.subtab.skills": "Навички",
 
-  "settings.browser.description":
-    "Після увімкнення агент ШІ може взаємодіяти з веб-сторінками — навігація, натискання, введення тексту та знімки екрана. Відкриється вікно Chrome, щоб ви могли стежити за роботою агента.",
-  "settings.browser.enable.title": "Увімкнути автоматизацію браузера",
-  "settings.browser.enable.description": "Зареєструвати MCP-сервер Playwright з CLI-бекендом.",
-  "settings.browser.systemChrome.title": "Використовувати системний Chrome",
-  "settings.browser.systemChrome.description":
-    "Використовувати встановлений браузер Chrome замість окремого екземпляра Chromium.",
-  "settings.browser.headless.title": "Безголовий режим",
-  "settings.browser.headless.description": "Запускати в безголовому режимі (без видимого вікна браузера).",
 
   "settings.language.description":
     '"Автоматично" використовує мову відображення VS Code. Виберіть мову для інтерфейсу Kilo Code.',
@@ -789,15 +709,6 @@ export const dict = {
   "settings.autocomplete.chatAutocomplete.description": "Показувати підказки автодоповнення в полі введення чату",
   "settings.autocomplete.modelsHint": "Щоб вибрати модель для автодоповнення, див. Налаштування моделей.",
 
-  "settings.notifications.sounds": "Звуки",
-  "settings.notifications.enable.title": "Увімкнути звукові сповіщення",
-  "settings.notifications.enable.description":
-    "Відтворювати звуки, коли сеанси завершуються, виникає помилка або потрібна ваша відповідь",
-  "settings.notifications.testSound": "Тест",
-  "settings.notifications.sound.default": "За замовчуванням",
-  "settings.notifications.sound.system": "Системний",
-  "settings.notifications.sound.description":
-    "За замовчуванням для завершення, запиту на введення та помилок використовуються різні звуки. В інших варіантах для всіх подій використовується один і той самий звук.",
 
   "settings.experimental.share.title": "Режим публікації",
   "settings.experimental.share.description": "Як поводиться публікація сесій",
@@ -823,9 +734,6 @@ export const dict = {
     "Увімкніть провайдер Kilo та виконайте вхід, щоб використовувати Speech to Text. Наразі Speech to Text підтримується лише з Kilo Gateway.",
   "settings.models.speechToTextModel.title": "Модель мовлення в текст",
   "settings.models.speechToTextModel.description": "Виберіть модель транскрипції Kilo Gateway для голосового введення.",
-  "settings.experimental.nativeNotebookTools.title": "Власні інструменти для блокнотів",
-  "settings.experimental.nativeNotebookTools.description":
-    "Увімкнути експериментальні інструменти для читання, редагування та виконання блокнотів VS Code",
   "settings.experimental.continueOnDeny.title": "Продовжувати при відхиленні",
   "settings.experimental.continueOnDeny.description": "Продовжувати цикл агента, коли дозвіл відхилено",
   "settings.sandboxing.title": "Пісочниця",
@@ -850,14 +758,6 @@ export const dict = {
     "Увімкніть керування сеансами та робочими деревами в кількох репозиторіях в Agent Manager. Поточний репозиторій робочого простору завжди є проєктом за замовчуванням.",
   "settings.experimental.mcpTimeout.title": "Тайм-аут MCP (мс)",
   "settings.experimental.mcpTimeout.description": "Тайм-аут у мілісекундах для запитів до MCP-сервера",
-  "settings.experimental.remote.title": "Керування Remote",
-  "settings.experimental.remote.description":
-    "Увімкніть керування Remote сеансами через Kilo Cloud. Це також вплине на CLI на цьому комп'ютері.",
-  "settings.experimental.remote.current": "Поточний стан:",
-  "settings.experimental.remote.startup": "Автоматичне ввімкнення під час запуску:",
-  "settings.experimental.remote.active": "Активний",
-  "settings.experimental.remote.inactive": "Неактивний",
-  "settings.experimental.remote.hint": "Використовуйте /remote у чаті для перемикання",
   "settings.experimental.toolToggles": "Перемикачі інструментів",
   "settings.sandboxing.enabled.title": "Пісочниця",
   "settings.sandboxing.enabled.description":
@@ -946,11 +846,6 @@ export const dict = {
   "settings.agentBehaviour.workflows.variant": "варіант",
   "settings.agentBehaviour.workflows.modelDescription": "Глобальне перевизначення моделі",
 
-  "settings.autoApprove.description":
-    "Визначте, як виконуються інструменти. Більшість інструментів за замовчуванням — Дозволити. doom_loop та external_directory за замовчуванням — Запитувати.",
-  "settings.autoApprove.maxCost.title": "Сповіщення про вартість сесії",
-  "settings.autoApprove.maxCost.description":
-    "Попереджати перед продовженням сесії, якщо її витрати перевищують цю суму в USD. Використовуйте цілі долари; залиште порожнім, щоб вимкнути.",
   "settings.autoApprove.level.allow": "Дозволити",
   "settings.autoApprove.level.ask": "Запитувати",
   "settings.autoApprove.level.deny": "Відхилити",
@@ -1152,30 +1047,7 @@ export const dict = {
   "settings.agentBehaviour.permissions.hint":
     "Правила оцінюються по порядку — останнє відповідне правило має пріоритет. Це розрахований набір правил з CLI бекенду.",
   "settings.agentBehaviour.editMode.save": "Готово",
-  "diffViewer.source.workspace.label": "Гілка",
-  "diffViewer.source.workspace.tooltip":
-    "Усі зміни в цій гілці порівняно з базовою. Включає незакомічені файли (staged, unstaged, невідстежувані) та локальні коміти, яких ще немає в базі.",
-  "diffViewer.source.staged.label": "Staged",
-  "diffViewer.source.staged.tooltip":
-    "Файли зі змінами, доданими до області підготовки git (`git add`), як вони з'являться в наступному коміті.",
-  "diffViewer.source.unstaged.label": "Unstaged",
-  "diffViewer.source.unstaged.tooltip":
-    "Файли, змінені в робочому дереві, але ще не підготовлені, плюс невідстежувані (нові) файли.",
-  "diffViewer.source.session.label": "Сесія",
-  "diffViewer.source.session.tooltip":
-    "Файли, змінені Kilo під час поточної сесії, на основі знімків по ходу. Скидається при старті нової сесії.",
-  "diffViewer.group.session": "Сесія",
-  "diffViewer.group.git": "Git",
-  "diffViewer.notice.snapshotsDisabled":
-    "Знімки вимкнено для цього репозиторію. Будь ласка, відредагуйте файли конфігурації, щоб відображати зміни сесії.",
 
-  "diffViewer.baseBranch.auto": "Default",
-  "diffViewer.baseBranch.default": "Default",
-  "diffViewer.baseBranch.remote": "Remote",
-  "diffViewer.baseBranch.search": "Search branches",
-  "diffViewer.baseBranch.empty": "No matching branches",
-  "diffViewer.baseBranch.loading": "Loading branches…",
-  "diffViewer.baseBranch.none": "—",
   "plan.exit.ready": "План готовий:",
   "chat.search.placeholder": "Пошук у чаті…",
   "chat.search.toggle": "Пошук у чаті",

@@ -335,6 +335,30 @@ packages/kilo-vscode/src/commands/toggle-auto-approve.ts
 
 注意不要误删代码补全自己的 CodeActionProvider。
 
+### 当前进度（2026-08-14）
+
+**阶段 4 已完成。SDK 生成物、i18n、配置与测试残留均已清理；仅剩人工验收（按用户指示不做构建验证）。**
+
+已完成范围：
+
+- `extension.ts` 中 Browser Automation、Notebook Bridge、Remote Status、独立 Diff/Sub-agent Viewer、Attention、Auto-Approve 和 Agent Code Actions 的激活/注册接线已移除。
+- 已删除 Browser Automation、Attention、Notebook Bridge、Remote Status、独立 Diff/Virtual Diff、Sub-agent Viewer、Auto-Approve、Agent Code Actions 的扩展实现文件及部分专用测试；Browser Automation 配置、Auto-Approve 快捷键和独立 Diff Webview 构建入口同步移除。
+- Webview 与扩展消息协议已移除 Browser、独立 Diff、Sub-agent Viewer、Auto-Approve、Remote 和通知设置相关消息；残留的失效调用、Auto-Approve Story 与独立 Diff 测试断言已清理。
+- 为保留 Agent Manager 的 worktree diff，已将它依赖的最小二进制、图片和路径工具迁入 `src/agent-manager/diff-utils.ts`，未恢复独立 Diff Viewer。
+- Notebook Bridge 的 HTTP 路由、服务、Host 工具、sandbox 接线与原生工具配置已移除；普通 `.ipynb` 内容读取能力继续保留。
+- Remote Status 的 HTTP API、`/session/viewed` 路由、`KiloViewers` 注入和 presence 认证失效接线已移除。
+- 已完整移除 Remote Control 的运行时栈：`src/kilo-sessions/`、云 presence 服务、`kilo remote` 命令、TUI Remote 指示器与 remote-exit 桥接、云通知/文件传送工具，以及对应 CLI、服务启动、工具注册、会话分享/同步钩子和专用测试。
+- 已将通用会话分享恢复为既有 `ShareNext` 实现，避免继续通过已删除的 Kilo 云会话 relay。
+- 已修复已知 Notebook 残留：通用工具注册表不再依赖已删除的 `Notebook.node`，相关 sandbox、权限和工具注册测试数据同步更新。
+- 已通过 SDK 生成流程（重新运行 `bun ./script/generate.ts`，未手工改动生成文件）清除 Notebook、Remote 与 `session.viewed` 的客户端、类型、OpenAPI 定义与事件；同时从 `packages/core` 移除已失效的 `native_notebook_tools` 实验配置与 `notebook_read/edit/execute` 权限规则。
+- 已清理各语言 i18n 中 Browser Automation、Attention/通知设置、Auto-Approve、独立 Diff、Show Changes、Sub-agent Viewer 和 Remote Control 文案（21 个语言文件均校验可正常加载），以及 Storybook、Knip、测试与配置残留。
+- 已审查确认 Agent Manager worktree diff（`local-diff.ts`、`diff-utils.ts`）均为 Agent Manager 所需实现，无独立 Changes Review 残留；`packages/tui` 的 diff-viewer 插件为保留的 TUI 功能，不在裁剪范围。
+- 已清除最后失效引用：`kilo-code.new.autoApprove.enabled` 死配置、TUI `session.viewed` presence 上报（`useSessionEffects`）、`cli/tui/worker.ts` 的 `remoteExit.shutdown()` 失效调用、`httpapi-exercise-scenarios.ts` 的 `/session/viewed` 场景，以及对应的专用测试（`tui-session-presence-contract`、connection-service viewed 测试块、workspace-routing viewed 测试）。
+
+待完成范围：
+
+- 剩余最小范围类型检查与人工验收（按用户指示不进行构建验证）。
+
 ### 验收
 
 每个小批次单独确认：

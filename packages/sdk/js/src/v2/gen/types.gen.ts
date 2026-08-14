@@ -115,9 +115,6 @@ export type Event =
   | EventKilocodeAgentManagerStart
   | EventKilocodeAgentManagerRequested
   | EventKilocodeAgentManagerCancelled
-  | EventKilocodeNotebookRequested
-  | EventKilocodeNotebookCancelled
-  | EventKiloSessionsRemoteStatusChanged
   | EventMemoryStatus1
   | EventMemoryUpdated1
   | EventMemoryError1
@@ -385,67 +382,6 @@ export type AgentManagerRequest =
   | AgentManagerPromptRequest
   | AgentManagerStopRequest
   | AgentManagerMoveRequest
-
-export type NotebookRequestId = string
-
-export type NotebookReadRequest = {
-  id: NotebookRequestId
-  sessionID: string
-  path: string
-  operation: "read"
-  includeOutputs: boolean
-}
-
-export type NotebookEditRequest = {
-  id: NotebookRequestId
-  sessionID: string
-  path: string
-  operation: "edit"
-  /**
-   * Opaque notebook content revision; pass it back unchanged and do not parse or increment it
-   */
-  expectedRevision?: string
-  /**
-   * Zero-based cell index
-   */
-  index: number
-  edit:
-    | {
-        action: "insert"
-        kind: "code" | "markdown"
-        language?: string
-        source: string
-      }
-    | {
-        action: "replace"
-        kind: "code" | "markdown"
-        language?: string
-        source: string
-      }
-    | {
-        action: "delete"
-      }
-    | {
-        action: "create"
-      }
-}
-
-export type NotebookExecuteRequest = {
-  id: NotebookRequestId
-  sessionID: string
-  path: string
-  operation: "execute"
-  /**
-   * Opaque notebook content revision; pass it back unchanged and do not parse or increment it
-   */
-  expectedRevision: string
-  /**
-   * Zero-based cell index
-   */
-  index: number
-}
-
-export type NotebookRequest = NotebookReadRequest | NotebookEditRequest | NotebookExecuteRequest
 
 export type IndexingStatusState = "Disabled" | "In Progress" | "Complete" | "Error" | "Standby"
 
@@ -1159,9 +1095,6 @@ export type GlobalEvent = {
     | EventKilocodeAgentManagerStart
     | EventKilocodeAgentManagerRequested
     | EventKilocodeAgentManagerCancelled
-    | EventKilocodeNotebookRequested
-    | EventKilocodeNotebookCancelled
-    | EventKiloSessionsRemoteStatusChanged
     | EventMemoryStatus
     | EventMemoryUpdated
     | EventMemoryError
@@ -2279,9 +2212,6 @@ export type PermissionConfig =
       doom_loop?: PermissionActionConfig
       skill?: PermissionRuleConfig
       agent_manager?: PermissionRuleConfig
-      notebook_read?: PermissionRuleConfig
-      notebook_edit?: PermissionRuleConfig
-      notebook_execute?: PermissionRuleConfig
       [key: string]: PermissionRuleConfig | PermissionActionConfig | undefined
     }
 
@@ -2548,7 +2478,6 @@ export type Config = {
   autoupdate?: boolean | "notify"
   disabled_providers?: Array<string>
   enabled_providers?: Array<string>
-  remote_control?: boolean
   auto_collapse_reasoning?: boolean
   indexing?: IndexingConfig
   console?: {
@@ -2697,7 +2626,6 @@ export type Config = {
     image_generation?: boolean
     image_generation_model?: string
     agent_requirements?: boolean
-    native_notebook_tools?: boolean
     speech_to_text_model?: string
     openTelemetry?: boolean
     primary_tools?: Array<string>
@@ -4192,106 +4120,6 @@ export type CommandFile = {
   hints: Array<string>
 }
 
-export type NotebookOutput = {
-  mime: string
-  text?: string
-  name?: string
-  message?: string
-  stack?: string
-  omitted?: boolean
-  truncated?: boolean
-}
-
-export type NotebookCell = {
-  /**
-   * Zero-based cell index
-   */
-  index: number
-  kind: "code" | "markdown"
-  language: string
-  source: string
-  execution?: {
-    order?: number
-    success?: boolean
-    started?: number
-    ended?: number
-  }
-  outputs?: Array<NotebookOutput>
-}
-
-export type NotebookReadResult = {
-  operation: "read"
-  path: string
-  requestPath: string
-  /**
-   * Opaque notebook content revision; pass it back unchanged and do not parse or increment it
-   */
-  revision: string
-  cells: Array<NotebookCell>
-  truncated?: boolean
-}
-
-export type NotebookEditResult = {
-  operation: "edit"
-  path: string
-  requestPath: string
-  /**
-   * Opaque notebook content revision; pass it back unchanged and do not parse or increment it
-   */
-  revision: string
-  /**
-   * Zero-based cell index
-   */
-  index: number
-  action: "insert" | "replace" | "delete" | "create"
-  cell?: NotebookCell
-}
-
-export type NotebookExecuteResult = {
-  operation: "execute"
-  path: string
-  requestPath: string
-  /**
-   * Opaque notebook content revision; pass it back unchanged and do not parse or increment it
-   */
-  revision: string
-  /**
-   * Zero-based cell index
-   */
-  index: number
-  status: "success" | "error"
-  outputs: Array<NotebookOutput>
-  truncated?: boolean
-}
-
-export type NotebookResult = NotebookReadResult | NotebookEditResult | NotebookExecuteResult
-
-export type NotebookFailure = {
-  code:
-    | "already_exists"
-    | "cancelled"
-    | "closed"
-    | "disconnected"
-    | "execution_failed"
-    | "invalid_cell"
-    | "invalid_path"
-    | "no_kernel"
-    | "not_found"
-    | "stale_revision"
-    | "timeout"
-    | "unsupported"
-  message: string
-  path?: string
-  /**
-   * Zero-based cell index
-   */
-  index?: number
-  /**
-   * Opaque notebook content revision; pass it back unchanged and do not parse or increment it
-   */
-  currentRevision?: string
-}
-
 export type AgentManagerActivity = "idle" | "busy" | "retry" | "offline"
 
 export type AgentManagerAttention = Array<"permission" | "question">
@@ -5001,31 +4829,6 @@ export type EventKilocodeAgentManagerCancelled = {
     requestID: AgentManagerRequestId
     sessionID: string
     reason: "cancelled" | "disposed" | "timeout"
-  }
-}
-
-export type EventKilocodeNotebookRequested = {
-  id: string
-  type: "kilocode.notebook.requested"
-  properties: NotebookRequest
-}
-
-export type EventKilocodeNotebookCancelled = {
-  id: string
-  type: "kilocode.notebook.cancelled"
-  properties: {
-    requestID: NotebookRequestId
-    sessionID: string
-    reason: "cancelled" | "disposed" | "timeout"
-  }
-}
-
-export type EventKiloSessionsRemoteStatusChanged = {
-  id: string
-  type: "kilo-sessions.remote-status-changed"
-  properties: {
-    enabled: boolean
-    connected: boolean
   }
 }
 
@@ -13956,41 +13759,6 @@ export type PartUpdateResponses = {
 
 export type PartUpdateResponse = PartUpdateResponses[keyof PartUpdateResponses]
 
-export type SessionViewedData = {
-  body?: {
-    viewer: {
-      id: string
-      active: boolean
-    }
-    attached: Array<string>
-    visible: Array<string>
-  }
-  path?: never
-  query?: {
-    directory?: string
-    workspace?: string
-  }
-  url: "/session/viewed"
-}
-
-export type SessionViewedErrors = {
-  /**
-   * BadRequest | InvalidRequestError
-   */
-  400: EffectHttpApiErrorBadRequest | InvalidRequestError
-}
-
-export type SessionViewedError = SessionViewedErrors[keyof SessionViewedErrors]
-
-export type SessionViewedResponses = {
-  /**
-   * Viewed sessions updated
-   */
-  200: boolean
-}
-
-export type SessionViewedResponse = SessionViewedResponses[keyof SessionViewedResponses]
-
 export type SyncStartData = {
   body?: never
   path?: never
@@ -16639,106 +16407,6 @@ export type KilocodeRemoveAgentResponses = {
 
 export type KilocodeRemoveAgentResponse = KilocodeRemoveAgentResponses[keyof KilocodeRemoveAgentResponses]
 
-export type KilocodeNotebookListData = {
-  body?: never
-  path?: never
-  query?: {
-    directory?: string
-    workspace?: string
-  }
-  url: "/kilocode/notebook"
-}
-
-export type KilocodeNotebookListErrors = {
-  /**
-   * Bad request
-   */
-  400: BadRequestError
-}
-
-export type KilocodeNotebookListError = KilocodeNotebookListErrors[keyof KilocodeNotebookListErrors]
-
-export type KilocodeNotebookListResponses = {
-  /**
-   * Pending notebook host requests
-   */
-  200: Array<NotebookRequest>
-}
-
-export type KilocodeNotebookListResponse = KilocodeNotebookListResponses[keyof KilocodeNotebookListResponses]
-
-export type KilocodeNotebookReplyData = {
-  body?: {
-    result: NotebookResult
-  }
-  path: {
-    requestID: NotebookRequestId
-  }
-  query?: {
-    directory?: string
-    workspace?: string
-  }
-  url: "/kilocode/notebook/{requestID}/reply"
-}
-
-export type KilocodeNotebookReplyErrors = {
-  /**
-   * BadRequest | InvalidRequestError
-   */
-  400: EffectHttpApiErrorBadRequest | InvalidRequestError
-  /**
-   * Not found
-   */
-  404: NotFoundError
-}
-
-export type KilocodeNotebookReplyError = KilocodeNotebookReplyErrors[keyof KilocodeNotebookReplyErrors]
-
-export type KilocodeNotebookReplyResponses = {
-  /**
-   * Notebook reply accepted
-   */
-  200: boolean
-}
-
-export type KilocodeNotebookReplyResponse = KilocodeNotebookReplyResponses[keyof KilocodeNotebookReplyResponses]
-
-export type KilocodeNotebookRejectData = {
-  body?: {
-    error: NotebookFailure
-  }
-  path: {
-    requestID: NotebookRequestId
-  }
-  query?: {
-    directory?: string
-    workspace?: string
-  }
-  url: "/kilocode/notebook/{requestID}/reject"
-}
-
-export type KilocodeNotebookRejectErrors = {
-  /**
-   * Bad request
-   */
-  400: BadRequestError
-  /**
-   * Not found
-   */
-  404: NotFoundError
-}
-
-export type KilocodeNotebookRejectError = KilocodeNotebookRejectErrors[keyof KilocodeNotebookRejectErrors]
-
-export type KilocodeNotebookRejectResponses = {
-  /**
-   * Notebook rejection accepted
-   */
-  200: boolean
-}
-
-export type KilocodeNotebookRejectResponse = KilocodeNotebookRejectResponses[keyof KilocodeNotebookRejectResponses]
-
 export type KilocodeAgentManagerListData = {
   body?: never
   path?: never
@@ -17114,99 +16782,6 @@ export type NetworkRejectResponses = {
 }
 
 export type NetworkRejectResponse = NetworkRejectResponses[keyof NetworkRejectResponses]
-
-export type RemoteEnableData = {
-  body?: never
-  path?: never
-  query?: {
-    directory?: string
-    workspace?: string
-  }
-  url: "/remote/enable"
-}
-
-export type RemoteEnableErrors = {
-  /**
-   * Bad request
-   */
-  400: BadRequestError
-}
-
-export type RemoteEnableError = RemoteEnableErrors[keyof RemoteEnableErrors]
-
-export type RemoteEnableResponses = {
-  /**
-   * Remote connection enabled
-   */
-  200: {
-    enabled: boolean
-    connected: boolean
-  }
-}
-
-export type RemoteEnableResponse = RemoteEnableResponses[keyof RemoteEnableResponses]
-
-export type RemoteDisableData = {
-  body?: never
-  path?: never
-  query?: {
-    directory?: string
-    workspace?: string
-  }
-  url: "/remote/disable"
-}
-
-export type RemoteDisableErrors = {
-  /**
-   * Bad request
-   */
-  400: BadRequestError
-}
-
-export type RemoteDisableError = RemoteDisableErrors[keyof RemoteDisableErrors]
-
-export type RemoteDisableResponses = {
-  /**
-   * Remote connection disabled
-   */
-  200: {
-    enabled: boolean
-    connected: boolean
-  }
-}
-
-export type RemoteDisableResponse = RemoteDisableResponses[keyof RemoteDisableResponses]
-
-export type RemoteStatusData = {
-  body?: never
-  path?: never
-  query?: {
-    directory?: string
-    workspace?: string
-  }
-  url: "/remote/status"
-}
-
-export type RemoteStatusErrors = {
-  /**
-   * Bad request
-   */
-  400: BadRequestError
-}
-
-export type RemoteStatusError = RemoteStatusErrors[keyof RemoteStatusErrors]
-
-export type RemoteStatusResponses = {
-  /**
-   * Remote connection status
-   */
-  200: {
-    enabled: boolean
-    connected: boolean
-  }
-}
-
-export type RemoteStatusResponse = RemoteStatusResponses[keyof RemoteStatusResponses]
 
 export type SandboxSupportData = {
   body?: never

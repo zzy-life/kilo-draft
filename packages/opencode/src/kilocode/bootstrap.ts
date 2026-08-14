@@ -1,6 +1,5 @@
 import { Cause, Context, Effect, Layer } from "effect"
 import { EffectBridge } from "@/effect/bridge"
-import { KiloSessions } from "@/kilo-sessions/kilo-sessions"
 import * as Log from "@opencode-ai/core/util/log"
 import { Global } from "@opencode-ai/core/global"
 import { InstallationVersion } from "@opencode-ai/core/installation/version"
@@ -36,7 +35,6 @@ export namespace KilocodeBootstrap {
     Effect.gen(function* () {
       // Bind the package memory effect layer to opencode (paths, instance binder, logger, event sink).
       installMemoryRuntime()
-      const kilo = yield* KiloSessions.Service
       const bus = yield* Bus.Service
       const sessions = yield* Session.Service
       const summary = yield* SessionSummary.Service
@@ -46,7 +44,6 @@ export namespace KilocodeBootstrap {
 
       const init = Effect.fn("KilocodeBootstrap.init")(function* () {
         yield* watcher.init()
-        yield* kilo.init()
         yield* MemoryLifecycle.subscribe({ bus, sessions, summary, provider, memory })
         // Invalidate enabled cache on every memory state mutation (properties.directory holds the memory root).
         yield* bus.subscribeCallback(MemoryEvents.Status, (evt) =>
@@ -98,7 +95,6 @@ export namespace KilocodeBootstrap {
 
   export const defaultLayer = layer.pipe(
     Layer.provide([
-      KiloSessions.defaultLayer,
       Session.defaultLayer,
       AppNodeBuilder.build(SessionSummary.node),
       AppNodeBuilder.build(Provider.node),
@@ -114,7 +110,7 @@ export namespace KilocodeBootstrap {
     LayerNode.make({
       service: Service,
       layer,
-      deps: [KiloSessions.node, Session.node, SessionSummary.node, Provider.node, memory, Bus.node, watcher],
+      deps: [Session.node, SessionSummary.node, Provider.node, memory, Bus.node, watcher],
     }),
   )
 }

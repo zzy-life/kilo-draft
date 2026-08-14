@@ -22,7 +22,6 @@
 | `kilo github` | manage GitHub agent |
 | `kilo pr <number>` | fetch and checkout a GitHub PR branch, then run kilo |
 | `kilo session` | manage sessions |
-| `kilo remote` | enable remote connection for real-time session relay |
 | `kilo daemon` | manage the local kilo daemon |
 | `kilo console` | open or stop the local Kilo Console (deprecated) |
 | `kilo cloud` | run Cloud Agent tasks |

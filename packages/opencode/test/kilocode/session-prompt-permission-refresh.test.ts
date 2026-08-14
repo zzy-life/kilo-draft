@@ -53,7 +53,6 @@ import { Truncate } from "../../src/tool/truncate"
 import { KiloHeadless } from "../../src/kilocode/permission/headless"
 import { KiloSessionPrompt } from "../../src/kilocode/session/prompt"
 import { KiloReadObject } from "../../src/kilocode/tool/read-object"
-import { KiloSessions } from "../../src/kilo-sessions/kilo-sessions"
 import { MemoryService } from "@kilocode/kilo-memory/effect/service"
 import { provideTmpdirServer } from "../fixture/fixture"
 import { awaitWithTimeout, pollWithTimeout, testEffect } from "../lib/effect"
@@ -179,7 +178,6 @@ function makeHttp() {
     [SessionSummary.node, summary],
     [LSP.node, lsp],
     [MCP.node, mcp],
-    [KiloSessions.node, KiloSessions.testLayer],
   ])
 }
 const it = testEffect(makeHttp())

@@ -1,4 +1,4 @@
-import { Component, For, Show, createMemo, createSignal, onCleanup, onMount } from "solid-js"
+import { Component, For, Show, createMemo } from "solid-js"
 import { Switch } from "@kilocode/kilo-ui/switch"
 import { Select } from "@kilocode/kilo-ui/select"
 import { TextField } from "@kilocode/kilo-ui/text-field"
@@ -7,7 +7,6 @@ import { useConfig } from "../../context/config"
 import { useLanguage } from "../../context/language"
 import { useVSCode } from "../../context/vscode"
 import { useImageModels } from "../../context/image-models"
-import type { ExtensionMessage } from "../../types/messages"
 import { parseModelString } from "../../../../src/shared/provider-model"
 import { ModelSelectorBase } from "../shared/ModelSelector"
 import SettingsRow from "./SettingsRow"
@@ -28,20 +27,6 @@ const ExperimentalTab: Component = () => {
   const language = useLanguage()
   const imageModels = useImageModels()
   const vscode = useVSCode()
-  const [active, setActive] = createSignal(false)
-
-  const handler = (msg: ExtensionMessage) => {
-    if (msg.type === "remoteStatus") {
-      setActive(msg.enabled)
-    }
-  }
-
-  onMount(() => {
-    const unsub = vscode.onMessage(handler)
-    vscode.postMessage({ type: "requestRemoteStatus" })
-    onCleanup(unsub)
-  })
-
   const experimental = createMemo(() => config().experimental ?? {})
 
   const updateExperimental = (key: string, value: unknown) => {
@@ -53,37 +38,6 @@ const ExperimentalTab: Component = () => {
   return (
     <div>
       <Card>
-        {/* Remote control */}
-        <div data-component="remote-settings">
-          <div data-slot="remote-settings-header">
-            <div data-slot="settings-row-label-title">{language.t("settings.experimental.remote.title")}</div>
-            <div data-slot="settings-row-label-subtitle">{language.t("settings.experimental.remote.description")}</div>
-          </div>
-          <div data-slot="remote-settings-block">
-            <div data-slot="remote-settings-row">
-              <span data-slot="remote-settings-label">{language.t("settings.experimental.remote.current")}</span>
-              <span data-slot="remote-settings-status" data-active={active()}>
-                {active()
-                  ? language.t("settings.experimental.remote.active")
-                  : language.t("settings.experimental.remote.inactive")}
-              </span>
-            </div>
-            <div data-slot="remote-settings-hint">{language.t("settings.experimental.remote.hint")}</div>
-          </div>
-          <div data-slot="remote-settings-row">
-            <span data-slot="remote-settings-label">{language.t("settings.experimental.remote.startup")}</span>
-            <Switch
-              checked={config().remote_control ?? false}
-              onChange={(checked) => {
-                updateConfig({ remote_control: checked })
-              }}
-              hideLabel
-            >
-              {language.t("settings.experimental.remote.startup")}
-            </Switch>
-          </div>
-        </div>
-
         {/* Share mode */}
         <SettingsRow
           title={language.t("settings.experimental.share.title")}
@@ -192,19 +146,6 @@ const ExperimentalTab: Component = () => {
             />
           </SettingsRow>
         </Show>
-
-        <SettingsRow
-          title={language.t("settings.experimental.nativeNotebookTools.title")}
-          description={language.t("settings.experimental.nativeNotebookTools.description")}
-        >
-          <Switch
-            checked={experimental().native_notebook_tools ?? false}
-            onChange={(checked) => updateExperimental("native_notebook_tools", checked)}
-            hideLabel
-          >
-            {language.t("settings.experimental.nativeNotebookTools.title")}
-          </Switch>
-        </SettingsRow>
 
         <SettingsRow
           title={language.t("settings.experimental.continueOnDeny.title")}

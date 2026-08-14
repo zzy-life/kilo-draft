@@ -42,7 +42,6 @@ import { Skill } from "../../src/skill"
 import { Snapshot } from "../../src/snapshot"
 import { ToolRegistry } from "../../src/tool/registry"
 import { Truncate } from "../../src/tool/truncate"
-import { KiloSessions } from "../../src/kilo-sessions/kilo-sessions"
 import { SessionResume } from "../../src/kilocode/session-resume"
 import { SessionID, MessageID, PartID } from "../../src/session/schema"
 import { MemoryService } from "@kilocode/kilo-memory/effect/service"
@@ -226,7 +225,6 @@ const replacements = [
   [LSP.node, lsp],
   [MCP.node, mcp],
   [RuntimeFlags.node, RuntimeFlags.layer({ experimentalEventSystem: true })],
-  [KiloSessions.node, KiloSessions.testLayer],
 ] as const
 
 const it = testEffect(LayerNode.compile(root, replacements))

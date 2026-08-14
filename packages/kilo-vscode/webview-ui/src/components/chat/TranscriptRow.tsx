@@ -1,14 +1,10 @@
 import { type Component, Show, createEffect } from "solid-js"
-import { DiffChanges } from "@kilocode/kilo-ui/diff-changes"
-import { Icon } from "@kilocode/kilo-ui/icon"
-import { useI18n } from "@kilocode/kilo-ui/context/i18n"
 import type { AssistantMessage as SDKAssistantMessage, Part as SDKPart, SnapshotFileDiff } from "@kilocode/sdk/v2"
 import type { TranscriptRow } from "../../context/transcript-rows"
 import type { TimelineHighlight } from "../../utils/timeline/highlight"
 import { useSession } from "../../context/session"
 import { useServer } from "../../context/server"
 import { useLanguage } from "../../context/language"
-import { useVSCode } from "../../context/vscode"
 import { useFeedback } from "../../context/feedback"
 import { AssistantMessage } from "./AssistantMessage"
 import { ErrorDisplay, type ErrorDisplayProps } from "./ErrorDisplay"
@@ -30,15 +26,11 @@ interface TranscriptRowViewProps {
 
 export const TranscriptRowView: Component<TranscriptRowViewProps> = (props) => {
   const session = useSession()
-  const server = useServer()
   const language = useLanguage()
-  const vscode = useVSCode()
   const feedback = useFeedback()
-  const i18n = useI18n()
+  const server = useServer()
 
   createEffect(() => session.hydrateParts([props.row.message.id]))
-
-  const open = () => vscode.postMessage({ type: "openChanges", turnId: props.row.message.id })
 
   return (
     <div
@@ -108,33 +100,6 @@ export const TranscriptRowView: Component<TranscriptRowViewProps> = (props) => {
               }}
             />
           </div>
-        )}
-      </Show>
-
-      <Show when={props.row.type === "diff" ? props.row : undefined}>
-        {(row) => (
-          <Show when={server.gitInstalled()}>
-            <div class="vscode-session-turn-diffs" data-component="session-turn">
-              <button
-                type="button"
-                class="vscode-session-turn-diffs-trigger"
-                onClick={open}
-                aria-label={i18n.t("ui.sessionReview.change.modified")}
-              >
-                <span data-slot="session-turn-diffs-label">{i18n.t("ui.sessionReview.change.modified")}</span>
-                <span data-slot="session-turn-diffs-count">
-                  {row().diffs.length}{" "}
-                  {i18n.t(row().diffs.length === 1 ? "ui.common.file.one" : "ui.common.file.other")}
-                </span>
-                <span data-slot="session-turn-diffs-meta">
-                  <DiffChanges changes={row().diffs as SnapshotFileDiff[]} variant="bars" />
-                </span>
-                <span data-slot="session-turn-diffs-chevron" aria-hidden="true">
-                  <Icon name="chevron-right" size="small" />
-                </span>
-              </button>
-            </div>
-          </Show>
         )}
       </Show>
 

@@ -4,7 +4,6 @@ import { KiloSessionHttpApi } from "@/kilocode/server/httpapi/session-fork" // k
 import { BlockedError as AgentRequirementError } from "@/kilocode/agent-requirements" // kilocode_change
 import { KiloSessionPromptQueue } from "@/kilocode/session/prompt-queue" // kilocode_change
 import { PermissionV1 } from "@opencode-ai/core/v1/permission"
-import { KiloViewers } from "@/kilocode/presence/service" // kilocode_change
 import { Agent } from "@/agent/agent"
 import { SessionV1 } from "@opencode-ai/core/v1/session"
 import { EventV2Bridge } from "@/event-v2-bridge"
@@ -41,7 +40,6 @@ import {
   ShellPayload,
   SummarizePayload,
   UpdatePayload,
-  ViewedPayload, // kilocode_change
 } from "../groups/session"
 import { PermissionNotFoundError } from "../errors"
 import * as SessionError from "./session-errors"
@@ -66,7 +64,6 @@ export const sessionHandlers = HttpApiBuilder.group(InstanceHttpApi, "session", 
     const todoSvc = yield* Todo.Service
     const summary = yield* SessionSummary.Service
     const events = yield* EventV2Bridge.Service
-    const viewers = yield* KiloViewers.Service // kilocode_change
     const scope = yield* Scope.Scope
 
     const list = Effect.fn("SessionHttpApi.list")(function* (ctx: { query: typeof ListQuery.Type }) {
@@ -447,13 +444,6 @@ export const sessionHandlers = HttpApiBuilder.group(InstanceHttpApi, "session", 
       return yield* session.updatePart(payload)
     })
 
-    // kilocode_change start
-    const viewed = Effect.fn("SessionHttpApi.viewed")(function* (ctx: { payload: typeof ViewedPayload.Type }) {
-      yield* viewers.update(ctx.payload)
-      return true
-    })
-    // kilocode_change end
-
     return handlers
       .handle("list", list)
       .handle("status", status)
@@ -482,6 +472,5 @@ export const sessionHandlers = HttpApiBuilder.group(InstanceHttpApi, "session", 
       .handle("deleteMessage", deleteMessage)
       .handle("deletePart", deletePart)
       .handle("updatePart", updatePart)
-      .handle("viewed", viewed) // kilocode_change
   }),
 )

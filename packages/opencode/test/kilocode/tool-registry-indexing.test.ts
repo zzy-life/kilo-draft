@@ -7,7 +7,6 @@ import { Bus } from "../../src/bus"
 import { KiloIndexing } from "../../src/kilocode/indexing"
 import { KilocodeBootstrap } from "../../src/kilocode/bootstrap"
 import { KilocodeWatcher } from "../../src/kilocode/watcher"
-import { KiloSessions } from "../../src/kilo-sessions/kilo-sessions"
 import { KiloMemory } from "@kilocode/kilo-memory/effect"
 import { MemoryService } from "@kilocode/kilo-memory/effect/service"
 import { InstanceState } from "../../src/effect/instance-state"
@@ -343,11 +342,6 @@ describe("kilocode tool registry indexing", () => {
       chart: def("chart"),
       image: def("generate_image"),
       terminal: def("interactive_terminal"),
-      notify: def("notify_user"),
-      send: def("send_file"),
-      notebookRead: def("notebook_read"),
-      notebookEdit: def("notebook_edit"),
-      notebookExecute: def("notebook_execute"),
     }
 
     try {
@@ -359,8 +353,6 @@ describe("kilocode tool registry indexing", () => {
         "recall",
         "background_process",
         "interactive_terminal",
-        "notify_user",
-        "send_file",
       ])
       expect(KiloToolRegistry.extra(tools, { experimental: { codebase_search: true } }).map((tool) => tool.id)).toEqual(
         [
@@ -371,8 +363,6 @@ describe("kilocode tool registry indexing", () => {
           "recall",
           "background_process",
           "interactive_terminal",
-          "notify_user",
-          "send_file",
         ],
       )
       expect(
@@ -388,8 +378,6 @@ describe("kilocode tool registry indexing", () => {
         "recall",
         "background_process",
         "interactive_terminal",
-        "notify_user",
-        "send_file",
       ])
 
       process.env["KILO_CLIENT"] = "vscode"
@@ -404,30 +392,8 @@ describe("kilocode tool registry indexing", () => {
           "background_process",
           "agent_manager_models",
           "agent_manager",
-          "notify_user",
-          "send_file",
         ],
       )
-      expect(
-        KiloToolRegistry.extra(tools, {
-          experimental: { codebase_search: true, native_notebook_tools: true },
-        }).map((tool) => tool.id),
-      ).toEqual([
-        "codebase_search",
-        "semantic_search",
-        "kilo_memory_recall",
-        "kilo_memory_save",
-        "recall",
-        "chart",
-        "background_process",
-        "agent_manager_models",
-        "agent_manager",
-        "notebook_read",
-        "notebook_edit",
-        "notebook_execute",
-        "notify_user",
-        "send_file",
-      ])
       expect(KiloToolRegistry.extra({ ...tools, semantic: undefined }, {}).map((tool) => tool.id)).toEqual([
         "kilo_memory_recall",
         "kilo_memory_save",
@@ -436,8 +402,6 @@ describe("kilocode tool registry indexing", () => {
         "background_process",
         "agent_manager_models",
         "agent_manager",
-        "notify_user",
-        "send_file",
       ])
 
       process.env["KILO_CLIENT"] = "desktop"
@@ -446,8 +410,6 @@ describe("kilocode tool registry indexing", () => {
         "kilo_memory_recall",
         "kilo_memory_save",
         "recall",
-        "notify_user",
-        "send_file",
       ])
 
       process.env["KILO_CLIENT"] = "run"
@@ -456,8 +418,6 @@ describe("kilocode tool registry indexing", () => {
         "kilo_memory_recall",
         "kilo_memory_save",
         "recall",
-        "notify_user",
-        "send_file",
       ])
 
       process.env["KILO_CLIENT"] = "acp"
@@ -466,8 +426,6 @@ describe("kilocode tool registry indexing", () => {
         "kilo_memory_recall",
         "kilo_memory_save",
         "recall",
-        "notify_user",
-        "send_file",
       ])
     } finally {
       if (prev === undefined) delete process.env["KILO_CLIENT"]
@@ -480,15 +438,6 @@ describe("kilocode tool registry indexing", () => {
     process.env["KILO_PLATFORM"] = "cli"
     const logger = Log.create({ service: "kilocode-bootstrap" })
     const err = new Error("indexing init failed")
-    const calls: string[] = []
-    const sessions = Layer.succeed(
-      KiloSessions.Service,
-      KiloSessions.Service.of({
-        init: () => Effect.sync(() => calls.push("sessions")),
-        sendAgentNotification: () => Effect.succeed({ ok: false as const, reason: "not_connected" }),
-        reportSessionTitle: () => Effect.succeed({ ok: false as const, reason: "not_connected" }),
-      }),
-    )
     const bus = Layer.succeed(
       Bus.Service,
       Bus.Service.of({
@@ -511,14 +460,13 @@ describe("kilocode tool registry indexing", () => {
       await Effect.runPromise(
         KilocodeBootstrap.Service.use((svc) => svc.init()).pipe(
           Effect.provide(
-            KilocodeBootstrap.layer.pipe(Layer.provide([sessions, bus, memory, session, summary, provider, watcher])),
+            KilocodeBootstrap.layer.pipe(Layer.provide([bus, memory, session, summary, provider, watcher])),
           ),
           Effect.scoped,
         ),
       )
       await new Promise((resolve) => setTimeout(resolve, 0))
 
-      expect(calls).toEqual(["sessions"])
       expect(indexing).toHaveBeenCalledTimes(1)
       expect(warn).toHaveBeenCalledWith("indexing bootstrap failed", { err })
     } finally {

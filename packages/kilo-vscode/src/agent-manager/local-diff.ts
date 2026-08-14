@@ -1,7 +1,5 @@
 import * as fs from "fs/promises"
-import { binaryFile } from "../diff/shared/binary"
-import { imageMime, loadImage, readImageFile } from "../diff/shared/image"
-import { resolveInside } from "../diff/shared/path"
+import { binaryFile, imageMime, loadImage, readImageFile, resolveInside } from "./diff-utils"
 import type { GitOps } from "./GitOps"
 import type { WorktreeDiffEntry } from "./types"
 

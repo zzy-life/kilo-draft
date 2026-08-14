@@ -20,7 +20,6 @@ import { ImportCommand } from "../cli/cmd/import"
 import { GithubCommand } from "../cli/cmd/github"
 import { PrCommand } from "../cli/cmd/pr"
 import { SessionCommand } from "../cli/cmd/session"
-import { RemoteCommand } from "../cli/cmd/remote"
 import { DbCommand } from "../cli/cmd/db"
 import { ConfigCommand as ConfigCLICommand } from "../cli/cmd/config"
 import { PluginCommand } from "../cli/cmd/plug"
@@ -69,7 +68,6 @@ export const commands = [
   GithubCommand,
   PrCommand,
   SessionCommand,
-  RemoteCommand,
   DaemonCommand,
   KiloConsoleCommand,
   CloudCommand,

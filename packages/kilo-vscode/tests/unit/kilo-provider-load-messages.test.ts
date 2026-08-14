@@ -207,10 +207,6 @@ function createConnection(client: ReturnType<typeof createClient>) {
     recordMessageSessionId: () => undefined,
     notifyNotificationDismissed: () => undefined,
     pruneSession: () => undefined,
-    registerVisible: () => undefined,
-    unregisterVisible: () => undefined,
-    registerAttached: () => undefined,
-    unregisterAttached: () => undefined,
   }
 }
 

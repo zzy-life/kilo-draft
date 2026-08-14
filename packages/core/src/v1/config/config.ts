@@ -106,9 +106,6 @@ export const Info = Schema.Struct({
   // NOTE: Any new kilocode_change key added to Config.Info must also be mirrored in
   // apps/web/src/app/config.json/extras.ts in the cloud repo, otherwise
   // $schema: https://app.kilo.ai/config.json will not recognize it.
-  remote_control: Schema.optional(Schema.Boolean).annotate({
-    description: "Enable remote control of sessions via Kilo Cloud. Equivalent to running /remote on startup.",
-  }),
   auto_collapse_reasoning: Schema.optional(Schema.Boolean).annotate({
     description: "Automatically collapse reasoning blocks after the agent finishes writing them",
   }),
@@ -303,9 +300,6 @@ export const Info = Schema.Struct({
       }),
       agent_requirements: Schema.optional(Schema.Boolean).annotate({
         description: "Require declared agent skills, MCPs, and VS Code extensions before VS Code prompts can run",
-      }),
-      native_notebook_tools: Schema.optional(Schema.Boolean).annotate({
-        description: "Enable native tools for reading, editing, and executing VS Code notebooks",
       }),
       speech_to_text_model: Schema.optional(Schema.String).annotate({
         description: "Speech-to-text transcription model ID to use for voice input",

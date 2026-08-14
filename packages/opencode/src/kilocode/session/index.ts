@@ -232,31 +232,7 @@ export namespace KiloSession {
     return undefined
   }
 
-  // ---------------------------------------------------------------------------
-  // Session lifecycle hooks (share, unshare, remove)
-  // ---------------------------------------------------------------------------
-
-  export function shareSession(id: SessionID) {
-    return EffectBridge.fromPromise(async () => {
-      const { KiloSessions } = await import("@/kilo-sessions/kilo-sessions")
-      return KiloSessions.share(id)
-    }).pipe(Effect.catchCause((cause) => Effect.fail(Cause.squash(cause))))
-  }
-
-  export function unshareSession(id: SessionID) {
-    return EffectBridge.fromPromise(async () => {
-      const { KiloSessions } = await import("@/kilo-sessions/kilo-sessions")
-      await KiloSessions.unshare(id)
-    }).pipe(Effect.catchCause((cause) => Effect.fail(Cause.squash(cause))))
-  }
-
-  export async function removeSession(id: string): Promise<void> {
-    const { KiloSessions } = await import("@/kilo-sessions/kilo-sessions")
-    await KiloSessions.remove(id).catch(() => {})
-  }
-
   export async function cleanup(id: string): Promise<void> {
-    await removeSession(id)
     clearPlatformOverride(id)
     const [app, state] = await Promise.all([import("@/effect/app-runtime"), import("@/session/run-state")])
     const { SessionID } = await import("@/session/schema")

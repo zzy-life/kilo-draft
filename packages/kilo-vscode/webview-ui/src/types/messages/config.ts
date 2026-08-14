@@ -54,7 +54,6 @@ export interface ExperimentalConfig {
   image_generation?: boolean
   image_generation_model?: string
   agent_requirements?: boolean
-  native_notebook_tools?: boolean
   speech_to_text_model?: string
   primary_tools?: string[]
   continue_loop_on_deny?: boolean
@@ -128,12 +127,6 @@ export type KiloEmbeddingModelCatalog = {
 
 export type IndexingStatus = SdkIndexingStatus
 
-export interface BrowserSettings {
-  enabled: boolean
-  useSystemChrome: boolean
-  headless: boolean
-}
-
 export type TerminalCommandDisplay = "expanded" | "collapsed"
 export type CodeEditDisplay = "expanded" | "collapsed"
 
@@ -154,7 +147,6 @@ export interface Config {
   instructions?: string[]
   skills?: SkillsConfig
   snapshot?: boolean
-  remote_control?: boolean
   terminal_command_display?: TerminalCommandDisplay
   code_edit_display?: CodeEditDisplay
   hide_prompt_training_models?: boolean

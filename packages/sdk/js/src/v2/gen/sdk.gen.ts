@@ -187,12 +187,6 @@ import type {
   KilocodeCommandFilesResponses,
   KilocodeHeapSnapshotErrors,
   KilocodeHeapSnapshotResponses,
-  KilocodeNotebookListErrors,
-  KilocodeNotebookListResponses,
-  KilocodeNotebookRejectErrors,
-  KilocodeNotebookRejectResponses,
-  KilocodeNotebookReplyErrors,
-  KilocodeNotebookReplyResponses,
   KilocodeRemoveAgentErrors,
   KilocodeRemoveAgentResponses,
   KilocodeRemoveCommandErrors,
@@ -274,9 +268,6 @@ import type {
   NetworkRejectResponses,
   NetworkReplyErrors,
   NetworkReplyResponses,
-  NotebookFailure,
-  NotebookRequestId,
-  NotebookResult,
   OutputFormat,
   Part as Part2,
   PartDeleteErrors,
@@ -343,12 +334,6 @@ import type {
   QuestionReplyErrors,
   QuestionReplyResponses,
   QuestionV2Reply,
-  RemoteDisableErrors,
-  RemoteDisableResponses,
-  RemoteEnableErrors,
-  RemoteEnableResponses,
-  RemoteStatusErrors,
-  RemoteStatusResponses,
   SandboxStatusErrors,
   SandboxStatusResponses,
   SandboxSupportErrors,
@@ -403,8 +388,6 @@ import type {
   SessionUnshareResponses,
   SessionUpdateErrors,
   SessionUpdateResponses,
-  SessionViewedErrors,
-  SessionViewedResponses,
   SubtaskPartInput,
   SuggestionAcceptErrors,
   SuggestionAcceptResponses,
@@ -5113,50 +5096,6 @@ export class Session2 extends HeyApiClient {
       ...params,
     })
   }
-
-  /**
-   * Set viewed sessions
-   *
-   * Notify the server which sessions the user is currently viewing, or clear all.
-   */
-  public viewed<ThrowOnError extends boolean = false>(
-    parameters?: {
-      directory?: string
-      workspace?: string
-      viewer?: {
-        id: string
-        active: boolean
-      }
-      attached?: Array<string>
-      visible?: Array<string>
-    },
-    options?: Options<never, ThrowOnError>,
-  ) {
-    const params = buildClientParams(
-      [parameters],
-      [
-        {
-          args: [
-            { in: "query", key: "directory" },
-            { in: "query", key: "workspace" },
-            { in: "body", key: "viewer" },
-            { in: "body", key: "attached" },
-            { in: "body", key: "visible" },
-          ],
-        },
-      ],
-    )
-    return (options?.client ?? this.client).post<SessionViewedResponses, SessionViewedErrors, ThrowOnError>({
-      url: "/session/viewed",
-      ...options,
-      ...params,
-      headers: {
-        "Content-Type": "application/json",
-        ...options?.headers,
-        ...params.headers,
-      },
-    })
-  }
 }
 
 export class Part extends HeyApiClient {
@@ -7444,128 +7383,6 @@ export class Heap extends HeyApiClient {
   }
 }
 
-export class Notebook extends HeyApiClient {
-  /**
-   * List pending notebook requests
-   *
-   * List pending native notebook requests for the routed workspace.
-   */
-  public list<ThrowOnError extends boolean = false>(
-    parameters?: {
-      directory?: string
-      workspace?: string
-    },
-    options?: Options<never, ThrowOnError>,
-  ) {
-    const params = buildClientParams(
-      [parameters],
-      [
-        {
-          args: [
-            { in: "query", key: "directory" },
-            { in: "query", key: "workspace" },
-          ],
-        },
-      ],
-    )
-    return (options?.client ?? this.client).get<
-      KilocodeNotebookListResponses,
-      KilocodeNotebookListErrors,
-      ThrowOnError
-    >({
-      url: "/kilocode/notebook",
-      ...options,
-      ...params,
-    })
-  }
-
-  /**
-   * Reply to a notebook request
-   *
-   * Complete a pending native notebook request with a structured result.
-   */
-  public reply<ThrowOnError extends boolean = false>(
-    parameters: {
-      requestID: NotebookRequestId
-      directory?: string
-      workspace?: string
-      result?: NotebookResult
-    },
-    options?: Options<never, ThrowOnError>,
-  ) {
-    const params = buildClientParams(
-      [parameters],
-      [
-        {
-          args: [
-            { in: "path", key: "requestID" },
-            { in: "query", key: "directory" },
-            { in: "query", key: "workspace" },
-            { in: "body", key: "result" },
-          ],
-        },
-      ],
-    )
-    return (options?.client ?? this.client).post<
-      KilocodeNotebookReplyResponses,
-      KilocodeNotebookReplyErrors,
-      ThrowOnError
-    >({
-      url: "/kilocode/notebook/{requestID}/reply",
-      ...options,
-      ...params,
-      headers: {
-        "Content-Type": "application/json",
-        ...options?.headers,
-        ...params.headers,
-      },
-    })
-  }
-
-  /**
-   * Reject a notebook request
-   *
-   * Complete a pending native notebook request with a structured host error.
-   */
-  public reject<ThrowOnError extends boolean = false>(
-    parameters: {
-      requestID: NotebookRequestId
-      directory?: string
-      workspace?: string
-      error?: NotebookFailure
-    },
-    options?: Options<never, ThrowOnError>,
-  ) {
-    const params = buildClientParams(
-      [parameters],
-      [
-        {
-          args: [
-            { in: "path", key: "requestID" },
-            { in: "query", key: "directory" },
-            { in: "query", key: "workspace" },
-            { in: "body", key: "error" },
-          ],
-        },
-      ],
-    )
-    return (options?.client ?? this.client).post<
-      KilocodeNotebookRejectResponses,
-      KilocodeNotebookRejectErrors,
-      ThrowOnError
-    >({
-      url: "/kilocode/notebook/{requestID}/reject",
-      ...options,
-      ...params,
-      headers: {
-        "Content-Type": "application/json",
-        ...options?.headers,
-        ...params.headers,
-      },
-    })
-  }
-}
-
 export class AgentManager extends HeyApiClient {
   /**
    * List pending Agent Manager requests
@@ -8304,11 +8121,6 @@ export class Kilocode extends HeyApiClient {
     return (this._heap ??= new Heap({ client: this.client }))
   }
 
-  private _notebook?: Notebook
-  get notebook(): Notebook {
-    return (this._notebook ??= new Notebook({ client: this.client }))
-  }
-
   private _agentManager?: AgentManager
   get agentManager(): AgentManager {
     return (this._agentManager ??= new AgentManager({ client: this.client }))
@@ -8517,98 +8329,6 @@ export class Network extends HeyApiClient {
     )
     return (options?.client ?? this.client).post<NetworkRejectResponses, NetworkRejectErrors, ThrowOnError>({
       url: "/network/{requestID}/reject",
-      ...options,
-      ...params,
-    })
-  }
-}
-
-export class Remote extends HeyApiClient {
-  /**
-   * Enable remote connection
-   *
-   * Enable WebSocket connection to UserConnectionDO for real-time session relay and commands.
-   */
-  public enable<ThrowOnError extends boolean = false>(
-    parameters?: {
-      directory?: string
-      workspace?: string
-    },
-    options?: Options<never, ThrowOnError>,
-  ) {
-    const params = buildClientParams(
-      [parameters],
-      [
-        {
-          args: [
-            { in: "query", key: "directory" },
-            { in: "query", key: "workspace" },
-          ],
-        },
-      ],
-    )
-    return (options?.client ?? this.client).post<RemoteEnableResponses, RemoteEnableErrors, ThrowOnError>({
-      url: "/remote/enable",
-      ...options,
-      ...params,
-    })
-  }
-
-  /**
-   * Disable remote connection
-   *
-   * Close the remote WebSocket connection to UserConnectionDO.
-   */
-  public disable<ThrowOnError extends boolean = false>(
-    parameters?: {
-      directory?: string
-      workspace?: string
-    },
-    options?: Options<never, ThrowOnError>,
-  ) {
-    const params = buildClientParams(
-      [parameters],
-      [
-        {
-          args: [
-            { in: "query", key: "directory" },
-            { in: "query", key: "workspace" },
-          ],
-        },
-      ],
-    )
-    return (options?.client ?? this.client).post<RemoteDisableResponses, RemoteDisableErrors, ThrowOnError>({
-      url: "/remote/disable",
-      ...options,
-      ...params,
-    })
-  }
-
-  /**
-   * Get remote connection status
-   *
-   * Get the current state of the remote WebSocket connection.
-   */
-  public status<ThrowOnError extends boolean = false>(
-    parameters?: {
-      directory?: string
-      workspace?: string
-    },
-    options?: Options<never, ThrowOnError>,
-  ) {
-    const params = buildClientParams(
-      [parameters],
-      [
-        {
-          args: [
-            { in: "query", key: "directory" },
-            { in: "query", key: "workspace" },
-          ],
-        },
-      ],
-    )
-    return (options?.client ?? this.client).get<RemoteStatusResponses, RemoteStatusErrors, ThrowOnError>({
-      url: "/remote/status",
       ...options,
       ...params,
     })
@@ -11511,11 +11231,6 @@ export class KiloClient extends HeyApiClient {
   private _network?: Network
   get network(): Network {
     return (this._network ??= new Network({ client: this.client }))
-  }
-
-  private _remote?: Remote
-  get remote(): Remote {
-    return (this._remote ??= new Remote({ client: this.client }))
   }
 
   private _sandbox?: Sandbox

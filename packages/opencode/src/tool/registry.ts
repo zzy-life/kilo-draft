@@ -31,7 +31,6 @@ import { Provider } from "@/provider/provider"
 
 import { WebSearchTool } from "./websearch"
 import { KiloToolRegistry } from "../kilocode/tool/registry" // kilocode_change
-import { Notebook } from "@/kilocode/notebook/service" // kilocode_change
 import { AgentManager } from "@/kilocode/agent-manager/service" // kilocode_change
 import { RepoOverviewTool } from "@/kilocode/tool/repo-overview" // kilocode_change
 import { RepoCloneTool } from "./repo_clone" // kilocode_change
@@ -61,7 +60,6 @@ import { Agent } from "../agent/agent"
 import { Skill } from "../skill"
 import { Permission } from "@/permission"
 import { SessionStatus } from "@/session/status" // kilocode_change
-import { KiloSessions } from "@/kilo-sessions/kilo-sessions" // kilocode_change - provide KiloSessions.Service so the notify_user tool's init resolves
 import { Git } from "@/git" // kilocode_change
 import { BackgroundJob } from "@/background/job"
 import { RuntimeFlags } from "@/effect/runtime-flags"
@@ -146,8 +144,7 @@ const layer = Layer.effect(
     // kilocode_change start
     const suggesttool = yield* SuggestTool
     const manager = Option.getOrUndefined(yield* Effect.serviceOption(AgentManager.Service))
-    const notebook = Option.getOrUndefined(yield* Effect.serviceOption(Notebook.Service))
-    const kiloToolInfos = yield* KiloToolRegistry.infos(manager, notebook).pipe(Effect.provide(MemoryService.layer))
+    const kiloToolInfos = yield* KiloToolRegistry.infos(manager).pipe(Effect.provide(MemoryService.layer))
     // kilocode_change end
     const codeMode = flags.experimentalCodeMode ? yield* Effect.promise(() => import("./code-mode")) : undefined
 
@@ -550,9 +547,7 @@ export const node = LayerNode.suspend(() =>
       Auth.node,
       SessionStatus.node,
       AgentManager.node,
-      Notebook.node,
       RepositoryCache.node,
-      KiloSessions.node,
     ],
   }),
 )

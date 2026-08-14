@@ -459,21 +459,6 @@ export const kiloScenarios: Scenario[] = [
       check(typeof body.available === "boolean", "sandbox toggle should report backend availability")
       check(typeof body.version === "number", "sandbox toggle should report its revision")
     }),
-  http.protected.get("/remote/status", "remote.status").json(200, (body) => {
-    object(body)
-    check(body.enabled === false && body.connected === false, "remote should start disabled")
-  }),
-  http.protected.post("/remote/disable", "remote.disable").json(200, (body) => {
-    object(body)
-    check(body.enabled === false && body.connected === false, "remote disable should report disconnected state")
-  }),
-  http.protected
-    .post("/remote/enable", "remote.enable")
-    .probe({ path: "/path" })
-    .json(200, (body) => {
-      object(body)
-      check(body.enabled === false && body.connected === false, "disabled ingest should keep remote disconnected")
-    }),
   http.protected.get("/suggestion", "suggestion.list").json(200, array),
   http.protected
     .post("/suggestion/{requestID}/accept", "suggestion.accept")
@@ -730,58 +715,6 @@ export const kiloScenarios: Scenario[] = [
       body: { enable: true, sessionID: ctx.state.id },
     }))
     .status(401),
-  http.protected
-    .post("/session/viewed", "session.viewed")
-    .at((ctx) => ({
-      path: "/session/viewed",
-      headers: ctx.headers(),
-      body: {
-        viewer: { id: "11111111-1111-4111-8111-111111111111", active: true },
-        attached: [],
-        visible: [],
-      },
-    }))
-    .json(200, (body) => check(body === true, "session viewed should return true")),
-  http.protected
-    .post("/session/viewed", "session.viewed")
-    .at((ctx) => ({ path: "/session/viewed", headers: ctx.headers(), body: { attached: [], visible: [] } }))
-    .status(400),
-  http.protected
-    .post("/session/viewed", "session.viewed")
-    .at((ctx) => ({
-      path: "/session/viewed",
-      headers: ctx.headers(),
-      body: {
-        viewer: { id: "not-a-uuid", active: true },
-        attached: [],
-        visible: [],
-      },
-    }))
-    .status(400),
-  http.protected
-    .post("/session/viewed", "session.viewed")
-    .at((ctx) => ({
-      path: "/session/viewed",
-      headers: ctx.headers(),
-      body: {
-        viewer: { id: "11111111-1111-4111-8111-111111111111", active: true },
-        attached: ["ses_" + "x".repeat(231)],
-        visible: [],
-      },
-    }))
-    .status(400),
-  http.protected
-    .post("/session/viewed", "session.viewed")
-    .at((ctx) => ({
-      path: "/session/viewed",
-      headers: ctx.headers(),
-      body: {
-        viewer: { id: "11111111-1111-4111-8111-111111111111", active: true },
-        attached: Array.from({ length: 1001 }, () => "ses_1"),
-        visible: [],
-      },
-    }))
-    .status(400),
   http.protected
     .post("/telemetry/capture", "telemetry.capture")
     .at((ctx) => ({

@@ -25,8 +25,8 @@ import type { Message as SDKMessage, Part as SDKPart } from "@kilocode/sdk/v2"
 import { cycleAgent as cycle } from "./context/session-agent"
 import "./styles/chat.css"
 
-type ViewType = "newTask" | "history" | "profile" | "settings" | "subAgentViewer"
-const VALID_VIEWS = new Set<string>(["newTask", "history", "profile", "settings", "subAgentViewer"])
+type ViewType = "newTask" | "history" | "profile" | "settings"
+const VALID_VIEWS = new Set<string>(["newTask", "history", "profile", "settings"])
 
 /**
  * Bridge our session store to the DataProvider's expected Data shape.
@@ -123,10 +123,6 @@ export const DataBridge: Component<{ children: any }> = (props) => {
     vscode.postMessage({ type: "openFile", filePath, line, column })
   }
 
-  const openDiff = (diff: { file: string; patch?: string; additions: number; deletions: number }) => {
-    vscode.postMessage({ type: "openDiffVirtual", diff, initialDiffStyle: "split" })
-  }
-
   const openUrl = (url: string) => {
     vscode.postMessage({ type: "openExternal", url })
   }
@@ -179,7 +175,6 @@ export const DataBridge: Component<{ children: any }> = (props) => {
       onQuestionReply={reply}
       onQuestionReject={reject}
       onOpenFile={open}
-      onOpenDiff={openDiff}
       onOpenUrl={openUrl}
       onOpenContent={openContent}
       onValidateFiles={validateFiles}
@@ -274,11 +269,6 @@ const AppContent: Component = () => {
       }
       handleKiloModel(message)
       handleForked(message)
-      if (message?.type === "viewSubAgentSession" && message.sessionID) {
-        console.log("[Kilo New] App: 🔍 viewSubAgentSession:", message.sessionID)
-        session.setCurrentSessionID(message.sessionID)
-        setCurrentView("subAgentViewer")
-      }
     }
     window.addEventListener("message", handler)
     onCleanup(() => window.removeEventListener("message", handler))
@@ -350,9 +340,6 @@ const AppContent: Component = () => {
         </Match>
         <Match when={currentView() === "settings"}>
           <Settings tab={settingsTab()} onTabChange={setSettingsTab} />
-        </Match>
-        <Match when={currentView() === "subAgentViewer"}>
-          <ChatView readonly />
         </Match>
       </Switch>
     </div>

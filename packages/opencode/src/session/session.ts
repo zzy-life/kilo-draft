@@ -728,7 +728,6 @@ export const layer: Layer.Layer<
         yield* SandboxPolicy.dispose(
           sessionID,
           Effect.gen(function* () {
-            yield* Effect.promise(() => KiloSession.removeSession(sessionID)).pipe(Effect.ignore)
             KiloSession.clearPlatformOverride(sessionID)
             if (hasInstance) {
               yield* Effect.promise(() => BackgroundProcess.stopSession(sessionID)).pipe(Effect.ignore)

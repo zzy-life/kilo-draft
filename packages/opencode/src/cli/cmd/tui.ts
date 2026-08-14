@@ -23,8 +23,6 @@ import {
   sanitizedProcessEnv,
 } from "@opencode-ai/core/util/opencode-process"
 // kilocode_change end
-import type { RemoteExitBridgeClient } from "@/kilocode/cli/cmd/tui/remote-exit-bridge" // kilocode_change - runtime import deferred
-import type { Exit } from "@opencode-ai/tui/context/exit" // kilocode_change
 
 declare global {
   const KILO_WORKER_PATH: string
@@ -32,51 +30,12 @@ declare global {
 
 type RpcClient = ReturnType<typeof Rpc.client<typeof rpc>>
 
-// kilocode_change start - bridge remote exit only for the embedded worker transport
-export function embeddedRemoteExitClient<T>(external: boolean, client: T | undefined): T | undefined {
-  return external ? undefined : client
-}
-
-export async function runEmbeddedRemoteExitBridge(input: {
-  client: RemoteExitBridgeClient
-  exit: Exit
-  done: Promise<unknown>
-  timeoutMs?: number
-}) {
-  const { createParentRemoteExitBridge } = await import("@/kilocode/cli/cmd/tui/remote-exit-bridge")
-  const timeoutMs = input.timeoutMs ?? 5_000
-  const bridge = createParentRemoteExitBridge(input.client, input.exit)
-  let ready = false
-  try {
-    try {
-      await withTimeout(bridge.ready(), timeoutMs, "remote exit startup timed out")
-      ready = true
-    } catch {
-      await bridge.dispose(timeoutMs).catch(() => {})
-    }
-    await input.done
-  } finally {
-    if (ready) await bridge.dispose(timeoutMs).catch(() => {})
-  }
-}
-// kilocode_change end
-
 // kilocode_change start - share the extracted TUI runner between daemon and worker paths
-async function start(input: StartInput, remoteExitClient?: RpcClient) {
+async function start(input: StartInput) {
   const { Effect } = await import("effect")
   const { run } = await import("../tui/layer")
   const { createLegacyTuiPluginHost } = await import("@/plugin/tui/runtime")
-  const pluginHost = createLegacyTuiPluginHost()
-  if (!remoteExitClient) {
-    await Effect.runPromise(run({ ...input, pluginHost }))
-    return
-  }
-
-  const ready = Promise.withResolvers<Exit>()
-  const done = Effect.runPromise(run({ ...input, pluginHost, onExit: ready.resolve }))
-  const exit = await Promise.race([ready.promise, done.then(() => undefined)])
-  if (!exit) return
-  await runEmbeddedRemoteExitBridge({ client: remoteExitClient, exit, done })
+  await Effect.runPromise(run({ ...input, pluginHost: createLegacyTuiPluginHost() }))
 }
 // kilocode_change end
 
@@ -490,7 +449,6 @@ export const TuiThreadCommand = cmd({
               auto: args.auto || args.yolo || args["dangerously-skip-permissions"],
             },
           },
-          embeddedRemoteExitClient(external, client),
         )
         // kilocode_change end
       } finally {

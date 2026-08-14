@@ -2,7 +2,7 @@
   "name": "kilo-draft",
   "displayName": "Kilo Draft",
   "description": "AI-powered code completion and Git commit message generation for VS Code.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "icon": "assets/icons/logo-outline-black.png",
   "galleryBanner": {
     "color": "#FFFFFF",
@@ -142,11 +142,6 @@
         }
       },
       {
-        "command": "kilo-code.new.showChanges",
-        "title": "Show Changes",
-        "category": "Kilo Code"
-      },
-      {
         "command": "kilo-code.new.showMemory",
         "title": "Show Project Memory",
         "category": "Kilo Code"
@@ -244,11 +239,6 @@
       {
         "command": "kilo-code.new.cyclePreviousAgentMode",
         "title": "Cycle Previous Agent Mode",
-        "category": "Kilo Code"
-      },
-      {
-        "command": "kilo-code.new.toggleAutoApprove",
-        "title": "Toggle Auto-Approve",
         "category": "Kilo Code"
       },
       {
@@ -419,11 +409,6 @@
         "command": "kilo-code.new.focusChatInput",
         "key": "ctrl+shift+a",
         "mac": "cmd+shift+a"
-      },
-      {
-        "command": "kilo-code.new.toggleAutoApprove",
-        "key": "ctrl+alt+a",
-        "mac": "cmd+alt+a"
       },
       {
         "command": "kilo-code.new.generateTerminalCommand",
@@ -670,11 +655,6 @@
           "default": "",
           "description": "Absolute path to a PEM file containing extra CA certificates to trust when the Kilo backend makes HTTPS requests (sets NODE_EXTRA_CA_CERTS on the CLI process). Use this if you're behind a corporate proxy that performs SSL inspection. Leave empty to rely on the OS trust store."
         },
-        "kilo-code.new.autoApprove.enabled": {
-          "type": "boolean",
-          "default": false,
-          "description": "Start Kilo Code with the main auto-approve toggle enabled. When enabled, permission prompts are approved automatically."
-        },
         "kilo-code.new.maxCost": {
           "type": "number",
           "default": 0,
@@ -687,80 +667,6 @@
           "minimum": 10,
           "maximum": 24,
           "description": "Font size in pixels for the Kilo Code webview UI."
-        },
-        "kilo-code.new.browserAutomation.enabled": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enable browser automation powered by Playwright. When enabled, the AI agent can interact with web pages in a visible Chrome window."
-        },
-        "kilo-code.new.browserAutomation.useSystemChrome": {
-          "type": "boolean",
-          "default": true,
-          "description": "Use your system's installed Chrome browser instead of downloading a separate Chromium instance."
-        },
-        "kilo-code.new.browserAutomation.headless": {
-          "type": "boolean",
-          "default": false,
-          "description": "Run browser automation in headless mode (no visible window). When disabled, you can watch the agent interact with the browser."
-        },
-        "kilo-code.new.attention.enabled": {
-          "type": "boolean",
-          "default": false,
-          "description": "Play sounds when sessions complete, error, or need input"
-        },
-        "kilo-code.new.attention.sound": {
-          "type": "string",
-          "default": "default",
-          "enum": [
-            "default",
-            "system",
-            "alert-01",
-            "alert-02",
-            "alert-03",
-            "alert-04",
-            "alert-05",
-            "alert-06",
-            "alert-07",
-            "alert-08",
-            "alert-09",
-            "alert-10",
-            "bip-bop-01",
-            "bip-bop-02",
-            "bip-bop-03",
-            "bip-bop-04",
-            "bip-bop-05",
-            "bip-bop-06",
-            "bip-bop-07",
-            "bip-bop-08",
-            "bip-bop-09",
-            "bip-bop-10",
-            "staplebops-01",
-            "staplebops-02",
-            "staplebops-03",
-            "staplebops-04",
-            "staplebops-05",
-            "staplebops-06",
-            "staplebops-07",
-            "nope-01",
-            "nope-02",
-            "nope-03",
-            "nope-04",
-            "nope-05",
-            "nope-06",
-            "nope-07",
-            "nope-08",
-            "nope-09",
-            "nope-10",
-            "nope-11",
-            "nope-12",
-            "yup-01",
-            "yup-02",
-            "yup-03",
-            "yup-04",
-            "yup-05",
-            "yup-06"
-          ],
-          "description": "Use different sounds for completion, input, and errors, or choose one sound for every event"
         },
         "kilo-code.new.showTaskTimeline": {
           "type": "boolean",
@@ -799,11 +705,6 @@
             "Onboarding was skipped without changing work style settings"
           ],
           "description": "Preferred agent work style. Set to Unset to show the onboarding flow again."
-        },
-        "kilo-code.new.diff.renderMarkdown": {
-          "type": "boolean",
-          "default": false,
-          "description": "Render Markdown files in Kilo diff viewers by default. Toggle this from a Markdown file header in the diff viewer."
         }
       }
     }

@@ -16,7 +16,7 @@ export const WorkStylePicker: Component = () => {
   const work = useWorkStyle()
   const open = (event: MouseEvent) => {
     event.preventDefault()
-    vscode.postMessage({ type: "openSettingsPanel", tab: "autoApprove" })
+    vscode.postMessage({ type: "openSettingsPanel" })
   }
 
   return (

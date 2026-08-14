@@ -11,7 +11,6 @@ import { Component, createEffect, createMemo, createSignal, Index, Show, on, onC
 import { ToolRegistry, ToolProps, getToolInfo } from "@kilocode/kilo-ui/message-part"
 import { BasicTool, initialOpen } from "@kilocode/kilo-ui/basic-tool"
 import { Icon } from "@kilocode/kilo-ui/icon"
-import { IconButton } from "@kilocode/kilo-ui/icon-button"
 import { Markdown } from "@kilocode/kilo-ui/markdown"
 import { useLanguage } from "../../context/language"
 import { useI18n } from "@kilocode/kilo-ui/context/i18n"
@@ -111,13 +110,6 @@ const TaskToolRenderer: Component<ToolProps> = (props) => {
     }),
   )
 
-  const openInTab = (e: MouseEvent) => {
-    e.stopPropagation()
-    const id = childSessionId()
-    if (!id) return
-    vscode.postMessage({ type: "openSubAgentViewer", sessionID: id, title: description() })
-  }
-
   const trigger = () => (
     <div data-slot="basic-tool-tool-info-structured">
       <div data-slot="basic-tool-tool-info-main">
@@ -133,15 +125,6 @@ const TaskToolRenderer: Component<ToolProps> = (props) => {
           </span>
         </Show>
       </div>
-      <Show when={childSessionId()}>
-        <IconButton
-          icon="square-arrow-top-right"
-          size="small"
-          variant="ghost"
-          aria-label="Open sub-agent in tab"
-          onClick={openInTab}
-        />
-      </Show>
     </div>
   )
 

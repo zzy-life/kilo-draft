@@ -31,9 +31,7 @@ import { ModelCache } from "@/provider/model-cache" // kilocode_change
 import { Provider } from "@/provider/provider"
 import { Question } from "@/question"
 // kilocode_change start
-import { Notebook } from "@/kilocode/notebook/service"
 import { AgentManager } from "@/kilocode/agent-manager/service"
-import { KiloViewers } from "@/kilocode/presence/service"
 // kilocode_change end
 import { SessionCompaction } from "@/session/compaction"
 import { Instruction } from "@/session/instruction"
@@ -315,8 +313,6 @@ export function createRoutes(
       MemoryService.layer, // kilocode_change
       // kilocode_change start
       AgentManager.defaultLayer,
-      Notebook.defaultLayer,
-      KiloViewers.defaultLayer,
       SyncEvent.defaultLayer,
       // kilocode_change end
       AppNodeBuilderV1.build(MoveSession.node, [[LocationServiceMap.node, locationServiceMapV2]]),

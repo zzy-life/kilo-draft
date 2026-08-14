@@ -11,22 +11,13 @@
 
 import { Component, createMemo, For, Show, createEffect } from "solid-js"
 import { UserMessageDisplay } from "@kilocode/kilo-ui/message-part"
-import { DiffChanges } from "@kilocode/kilo-ui/diff-changes"
-import { Icon } from "@kilocode/kilo-ui/icon"
 import { useData } from "@kilocode/kilo-ui/context/data"
-import { useI18n } from "@kilocode/kilo-ui/context/i18n"
 import { AssistantMessage } from "./AssistantMessage"
-import type {
-  AssistantMessage as SDKAssistantMessage,
-  Message as SDKMessage,
-  Part as SDKPart,
-  SnapshotFileDiff,
-} from "@kilocode/sdk/v2"
+import type { AssistantMessage as SDKAssistantMessage, Message as SDKMessage, Part as SDKPart } from "@kilocode/sdk/v2"
 import { ErrorDisplay } from "./ErrorDisplay"
-import { useServer } from "../../context/server"
 import { useSession } from "../../context/session"
+import { useServer } from "../../context/server"
 import { useLanguage } from "../../context/language"
-import { useVSCode } from "../../context/vscode"
 import { useFeedback } from "../../context/feedback"
 import { visibleError } from "../../context/session-errors"
 import type { ErrorDisplayProps } from "./ErrorDisplay"
@@ -47,16 +38,12 @@ interface VscodeSessionTurnProps {
 
 export const VscodeSessionTurn: Component<VscodeSessionTurnProps> = (props) => {
   const data = useData()
-  const i18n = useI18n()
-  const server = useServer()
   const session = useSession()
+  const server = useServer()
   const language = useLanguage()
-  const vscode = useVSCode()
   const feedback = useFeedback()
 
   const emptyParts: SDKPart[] = []
-  const emptyDiffs: SnapshotFileDiff[] = []
-
   createEffect(() => {
     const turn = props.turn
     const ids = turn.partial ? turn.assistant.map((m) => m.id) : [turn.user.id, ...turn.assistant.map((m) => m.id)]
@@ -75,24 +62,6 @@ export const VscodeSessionTurn: Component<VscodeSessionTurnProps> = (props) => {
   const interrupted = createMemo(() => assistantMessages().some((m) => m.error?.name === "MessageAbortedError"))
 
   const error = createMemo(() => visibleError(assistantMessages(), session.isErrorHidden))
-
-  // Diffs from message summary
-  const diffs = createMemo(() => {
-    const rawDiffs = (message() as unknown as { summary?: { diffs?: unknown[] } } | undefined)?.summary?.diffs
-    if (!rawDiffs?.length) return emptyDiffs
-    const seen = new Set<string>()
-    return (rawDiffs as SnapshotFileDiff[])
-      .reduceRight<SnapshotFileDiff[]>((result, diff) => {
-        const file = diff.file ?? ""
-        if (seen.has(file)) return result
-        seen.add(file)
-        result.push(diff)
-        return result
-      }, [])
-      .reverse()
-  })
-
-  const openChanges = () => vscode.postMessage({ type: "openChanges", turnId: message().id })
 
   // Copy part ID — the last text part from the last assistant message.
   // Synthetic parts (e.g. "Initializing snapshot…" from the slow-repo guard)
@@ -173,29 +142,6 @@ export const VscodeSessionTurn: Component<VscodeSessionTurnProps> = (props) => {
                   />
                 )}
               </For>
-            </div>
-          </Show>
-
-          {/* Diff summary — shown after completion. Click opens the changes view. */}
-          <Show when={diffs().length > 0 && server.gitInstalled()}>
-            <div class="vscode-session-turn-diffs" data-component="session-turn">
-              <button
-                type="button"
-                class="vscode-session-turn-diffs-trigger"
-                onClick={openChanges}
-                aria-label={i18n.t("ui.sessionReview.change.modified")}
-              >
-                <span data-slot="session-turn-diffs-label">{i18n.t("ui.sessionReview.change.modified")}</span>
-                <span data-slot="session-turn-diffs-count">
-                  {diffs().length} {i18n.t(diffs().length === 1 ? "ui.common.file.one" : "ui.common.file.other")}
-                </span>
-                <span data-slot="session-turn-diffs-meta">
-                  <DiffChanges changes={diffs()} variant="bars" />
-                </span>
-                <span data-slot="session-turn-diffs-chevron" aria-hidden="true">
-                  <Icon name="chevron-right" size="small" />
-                </span>
-              </button>
             </div>
           </Show>
 

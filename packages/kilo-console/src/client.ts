@@ -628,17 +628,6 @@ export async function removeProjectPty(input: Query, pty: string) {
   return demand("Remove terminal", result)
 }
 
-export async function viewProjectSessions(
-  input: ProjectQuery,
-  viewer: { id: string; active: boolean },
-  attached: string[],
-  visible: string[],
-) {
-  const sdk = client(input)
-  const result = await sdk.session.viewed({ directory: input.dir, viewer, attached, visible })
-  return demand("Viewed sessions", result)
-}
-
 export function subscribeProjectEvents(input: ProjectQuery, handler: (event: ProjectConsoleEvent) => void) {
   const sdk = client(input)
   const ctl = new AbortController()

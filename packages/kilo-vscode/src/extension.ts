@@ -1,25 +1,15 @@
 import * as vscode from "vscode"
 import { KiloProvider } from "./KiloProvider"
-import { DiffViewerProvider } from "./diff/DiffViewerProvider"
-import { DiffSourceCatalog } from "./diff/sources/catalog"
-import { DiffVirtualProvider } from "./DiffVirtualProvider"
 import { SettingsEditorProvider } from "./SettingsEditorProvider"
-import { SubAgentViewerProvider } from "./SubAgentViewerProvider"
 import { EXTENSION_DISPLAY_NAME } from "./constants"
 import { KiloConnectionService } from "./services/cli-backend"
 import { registerAutocompleteProvider } from "./services/autocomplete"
 import { ensureBackendForAutocomplete } from "./services/autocomplete/ensure-backend"
 import { AutocompleteServiceManager } from "./services/autocomplete/AutocompleteServiceManager"
-import { AttentionService } from "./services/attention"
-import { BrowserAutomationService } from "./services/browser-automation"
 import { TelemetryEventName, TelemetryProxy } from "./services/telemetry"
 import { registerCommitMessageService } from "./services/commit-message"
-import { registerCodeActions, registerTerminalActions, KiloCodeActionProvider } from "./services/code-actions"
-import { registerToggleAutoApprove } from "./commands/toggle-auto-approve"
 import { registerHeapSnapshot } from "./commands/heap-snapshot"
-import { RemoteStatusService } from "./services/RemoteStatusService"
 import { markWorkspace } from "./util/spotlight"
-import { createNotebookBridge } from "./services/notebook"
 import { isCursorHost } from "./utils"
 
 const panelTitleHandler = (panel: vscode.WebviewPanel) => (title: string) => {
@@ -40,43 +30,20 @@ export function activate(context: vscode.ExtensionContext) {
 
   // Create shared connection service (one server for all webviews)
   const connectionService = new KiloConnectionService(context)
-  const notebookBridge = createNotebookBridge(connectionService)
 
-  // Create browser automation service (manages Playwright MCP registration)
-  const browserAutomationService = new BrowserAutomationService(connectionService)
-  browserAutomationService.syncWithSettings()
-
-  // Create remote status service (one status bar item for all webviews)
-  const remoteService = new RemoteStatusService()
-  context.subscriptions.push(remoteService)
-  connectionService.setRemoteService(remoteService)
-
-  // Re-register browser automation MCP server on CLI backend reconnect, configure telemetry,
-  // set remote service client, and reload autocomplete so it picks up the now-available backend connection.
+  // Configure telemetry and reload autocomplete when the backend reconnects.
   const unsubscribeStateChange = connectionService.onStateChange((state) => {
-    if (state === "connected") {
-      browserAutomationService.reregisterIfEnabled()
-      const config = connectionService.getServerConfig()
-      if (config) {
-        telemetry.configure(config.baseUrl, config.password)
-        // Sync the CLI's PostHog client with the current consent state. The
-        // CLI reads KILO_TELEMETRY_LEVEL once at spawn, so without this call
-        // a fresh CLI started while VS Code telemetry was off would stay
-        // opted out for the rest of the session.
-        telemetry.setEnabled(vscode.env.isTelemetryEnabled)
-      }
-      try {
-        remoteService.setClient(connectionService.getClient())
-        console.log("[Kilo New] CLI connected, calling remoteService.refresh()")
-        remoteService.refresh().catch((err) => console.warn("[Kilo New] initial remote refresh failed:", err))
-      } catch {
-        remoteService.setClient(null)
-      }
-      AutocompleteServiceManager.getInstance()?.load()
-    } else {
-      remoteService.clearState()
-      remoteService.setClient(null)
+    if (state !== "connected") return
+    const config = connectionService.getServerConfig()
+    if (config) {
+      telemetry.configure(config.baseUrl, config.password)
+      // Sync the CLI's PostHog client with the current consent state. The
+      // CLI reads KILO_TELEMETRY_LEVEL once at spawn, so without this call
+      // a fresh CLI started while VS Code telemetry was off would stay
+      // opted out for the rest of the session.
+      telemetry.setEnabled(vscode.env.isTelemetryEnabled)
     }
+    AutocompleteServiceManager.getInstance()?.load()
   })
 
   // Propagate runtime telemetry consent changes to the CLI subprocess so its
@@ -107,7 +74,6 @@ export function activate(context: vscode.ExtensionContext) {
   const provider = new KiloProvider(context.extensionUri, connectionService, context, {
     focusContext: "kilo-code.new.sidebarFocused",
   })
-  provider.setRemoteService(remoteService)
 
   // Register the webview view provider for the sidebar.
   // retainContextWhenHidden keeps the webview alive when switching to other sidebar panels.
@@ -117,26 +83,7 @@ export function activate(context: vscode.ExtensionContext) {
     }),
   )
 
-  // Register toggle auto-approve shortcut (Ctrl+Alt+A / Cmd+Alt+A)
-  const defaultDir = () => vscode.workspace.workspaceFolders?.[0]?.uri.fsPath ?? process.cwd()
-  const autoApprove = registerToggleAutoApprove(
-    context,
-    connectionService,
-    (sessionId) => provider.getSessionDirectories().get(sessionId ?? "") ?? defaultDir(),
-    () => {
-      const dirs = new Set([defaultDir()])
-      for (const dir of provider.getSessionDirectories().values()) dirs.add(dir)
-      return [...dirs]
-    },
-  )
-  const attention = new AttentionService(connectionService, {
-    approve: (event, directory) => autoApprove.approve(event, directory),
-  })
-
-  // Prewarm only after all global event consumers are ready.
   ensureBackendForAutocomplete(connectionService)
-
-  provider.setAutoApproveController(autoApprove)
 
   // Register serializer so "Open in Tab" restores when VS Code restarts
   context.subscriptions.push(
@@ -146,9 +93,6 @@ export function activate(context: vscode.ExtensionContext) {
           tabTitle: panelTitleHandler(panel),
           topBarSurface: "tab",
         })
-        tabProvider.setRemoteService(remoteService)
-        tabProvider.setAutoApproveController(autoApprove)
-        tabProvider.setDiffVirtualProvider(diffVirtualProvider)
         tabProvider.resolveWebviewPanel(panel)
         tabPanels.set(panel, tabProvider)
         panel.onDidDispose(
@@ -165,29 +109,9 @@ export function activate(context: vscode.ExtensionContext) {
     }),
   )
 
-  const diffSourceCatalog = new DiffSourceCatalog(connectionService)
-  context.subscriptions.push(diffSourceCatalog)
-  const diffViewerProvider = new DiffViewerProvider(context.extensionUri, connectionService, diffSourceCatalog, {
-    sessionIdProvider: () => provider.getCurrentSessionId(),
-  })
-  diffViewerProvider.setCommentHandler((comments, autoSend) => {
-    void provider.appendReviewComments(comments, autoSend)
-  })
-  context.subscriptions.push(diffViewerProvider)
-
-  // Create diff virtual provider (lightweight single-file diff for permission approval)
-  const diffVirtualProvider = new DiffVirtualProvider(context.extensionUri)
-  provider.setDiffVirtualProvider(diffVirtualProvider)
-  context.subscriptions.push(diffVirtualProvider)
-
   // Create standalone editor providers (open in editor area, not sidebar)
   const settingsEditorProvider = new SettingsEditorProvider(context.extensionUri, connectionService, context)
-  settingsEditorProvider.setRemoteService(remoteService)
   context.subscriptions.push(settingsEditorProvider)
-
-  // Create sub-agent viewer provider (read-only editor panel for sub-agent sessions)
-  const subAgentViewerProvider = new SubAgentViewerProvider(context.extensionUri, connectionService, context)
-  context.subscriptions.push(subAgentViewerProvider)
 
   // Register serializers so standalone panels restore on restart
   const settingsViews = ["settingsPanel", "profilePanel"] as const
@@ -201,26 +125,6 @@ export function activate(context: vscode.ExtensionContext) {
       }),
     )
   }
-
-  context.subscriptions.push(
-    vscode.window.registerWebviewPanelSerializer(DiffViewerProvider.viewType, {
-      deserializeWebviewPanel(panel: vscode.WebviewPanel) {
-        diffViewerProvider.deserializePanel(panel)
-        return Promise.resolve()
-      },
-    }),
-  )
-
-  context.subscriptions.push(
-    vscode.window.registerWebviewPanelSerializer("kilo-code.new.SubAgentViewerPanel", {
-      deserializeWebviewPanel(panel: vscode.WebviewPanel) {
-        // Sub-agent viewer requires a session ID that can't be recovered
-        // after restart, so dispose the stale panel cleanly.
-        panel.dispose()
-        return Promise.resolve()
-      },
-    }),
-  )
 
   // Sidebar menus use wrapper commands so this event measures real title button presses,
   // not programmatic opens, shortcuts, or editor title commands.
@@ -297,27 +201,8 @@ export function activate(context: vscode.ExtensionContext) {
       await provider.waitForReady()
       provider.postMessage({ type: "triggerTask", text: `Generate a terminal command: ${input}` })
     }),
-    vscode.commands.registerCommand("kilo-code.new.toggleRemote", () => {
-      remoteService.toggle().catch((err) => console.error("[Kilo New] toggleRemote command failed:", err))
-    }),
     vscode.commands.registerCommand("kilo-code.new.openInTab", () => {
-      return openKiloInNewTab(
-        context,
-        connectionService,
-        tabPanels,
-        diffVirtualProvider,
-        remoteService,
-        autoApprove,
-      )
-    }),
-    vscode.commands.registerCommand(
-      "kilo-code.new.showChanges",
-      (arg?: { sessionId?: string; turnId?: string; initialSourceId?: string }) => {
-        diffViewerProvider.openFromCommand(arg)
-      },
-    ),
-    vscode.commands.registerCommand("kilo-code.new.openSubAgentViewer", (sessionID: string, title?: string) => {
-      subAgentViewerProvider.openPanel(sessionID, title)
+      return openKiloInNewTab(context, connectionService, tabPanels)
     }),
   )
 
@@ -360,27 +245,11 @@ export function activate(context: vscode.ExtensionContext) {
     }),
   )
 
-  // Register code actions (editor context menus, terminal context menus, keyboard shortcuts)
-  registerCodeActions(context, provider, activeTabProvider)
-  registerTerminalActions(context, provider)
-
-  // Register CodeActionProvider (lightbulb quick fixes)
-  context.subscriptions.push(
-    vscode.languages.registerCodeActionsProvider(
-      { scheme: "file" },
-      new KiloCodeActionProvider(),
-      KiloCodeActionProvider.metadata,
-    ),
-  )
-
   // Dispose services when extension deactivates (kills the server)
   context.subscriptions.push({
     dispose: () => {
       unsubscribeStateChange()
-      attention.dispose()
-      browserAutomationService.dispose()
       provider.dispose()
-      notebookBridge.dispose()
       connectionService.dispose()
     },
   })
@@ -394,9 +263,6 @@ function openKiloInNewTab(
   context: vscode.ExtensionContext,
   connectionService: KiloConnectionService,
   tabPanels: Map<vscode.WebviewPanel, KiloProvider>,
-  diffVirtualProvider: DiffVirtualProvider,
-  remoteService: RemoteStatusService,
-  autoApprove: ReturnType<typeof registerToggleAutoApprove>,
 ) {
   const panel = vscode.window.createWebviewPanel(
     "kilo-code.new.TabPanel",
@@ -418,9 +284,6 @@ function openKiloInNewTab(
     tabTitle: panelTitleHandler(panel),
     topBarSurface: "tab",
   })
-  tabProvider.setRemoteService(remoteService)
-  tabProvider.setAutoApproveController(autoApprove)
-  tabProvider.setDiffVirtualProvider(diffVirtualProvider)
   tabProvider.resolveWebviewPanel(panel)
   tabPanels.set(panel, tabProvider)
 

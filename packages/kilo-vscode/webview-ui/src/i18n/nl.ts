@@ -57,8 +57,6 @@ export const dict = {
   "command.provider.connect": "Provider verbinden",
 
   "command.session.new": "Nieuwe sessie",
-  "command.session.show.changes": "Wijzigingen tonen",
-  "command.review.toggle": "Review in-/uitschakelen",
   "revert.banner.count_one": "{{count}} bericht teruggedraaid",
   "revert.banner.count_other": "{{count}} berichten teruggedraaid",
   "revert.banner.redo": "Opnieuw uitvoeren",
@@ -203,12 +201,6 @@ export const dict = {
   "prompt.action.stop": "Stop",
   "prompt.action.enhance": "Prompt verbeteren",
   "prompt.action.indexing": "Indexeringsinstellingen",
-  "prompt.action.autoApprove.enable": "Automatisch goedkeuren inschakelen",
-  "prompt.action.autoApprove.disable": "Automatisch goedkeuren uitschakelen",
-  "prompt.action.autoApprove.enabled":
-    "Automatisch goedkeuren is ingeschakeld. Toestemmingsverzoeken worden automatisch goedgekeurd.",
-  "prompt.action.autoApprove.disabled":
-    "Automatisch goedkeuren is uitgeschakeld. Klik om toestemmingsverzoeken automatisch goed te keuren.",
   "prompt.action.resetModel": "Model terugzetten naar standaard",
   "prompt.action.enhanceDescription":
     "De knop 'Prompt verbeteren' helpt je prompt te verbeteren door extra context, verduidelijking of herformulering te bieden. Typ hier een prompt en klik nogmaals op de knop om te zien hoe het werkt.",
@@ -297,22 +289,7 @@ export const dict = {
   "ui.permission.toolLabel.todoWrite": "Todo Schrijven",
   "ui.permission.toolLabel.codeSearch": "Code Zoeken",
   "ui.permission.copyCommand": "Kopiëren",
-  "ui.approval.auto": "Automatisch goedgekeurd",
-  "ui.approval.manual": "Door jou goedgekeurd",
-  "ui.approval.rule": "kwam overeen met regel `{{permission}}` `{{pattern}}`",
-  "ui.approval.source.agent": "door de {{agent}}-agent",
-  "ui.approval.source.agent.default": "door de agent",
-  "ui.approval.source.global": "door je globale configuratie",
-  "ui.approval.source.project": "door de projectconfiguratie",
-  "ui.approval.source.yolo": "door de automatische goedkeuringsmodus (YOLO)",
-  "ui.approval.source.session": "door een sessie-automatische-goedkeuringsregel",
-  "ui.approval.source.default": "standaard",
-  "ui.approval.outsideWorkspace": "(buiten je werkruimte: {{file}})",
 
-  "session.tab.review": "Beoordelen",
-  "session.review.filesChanged": "{{count}} bestanden gewijzigd",
-  "session.review.loadingChanges": "Wijzigingen laden...",
-  "session.review.noChanges": "Geen wijzigingen",
 
   "session.messages.loadingEarlier": "Eerdere berichten laden...",
   "session.messages.loadEarlier": "Eerdere berichten laden",
@@ -340,8 +317,6 @@ export const dict = {
     "Verplaats deze conversatie en 1 gewijzigd bestand naar een specifieke worktree voor geïsoleerd vervolgwerk.",
   "sidebar.session.moveToWorktree.tooltip.other":
     "Verplaats deze conversatie en {{files}} gewijzigde bestanden naar een specifieke worktree voor geïsoleerd vervolgwerk.",
-  "sidebar.session.showChanges.tooltip.empty":
-    "Open de weergave met wijzigingen om de huidige worktree te inspecteren.",
   "sidebar.session.progress.capturing": "Wijzigingen vastleggen...",
   "sidebar.session.progress.creating": "Worktree aanmaken...",
   "sidebar.session.progress.setup": "Setup uitvoeren...",
@@ -361,51 +336,6 @@ export const dict = {
 
   "sidebar.settings": "Instellingen",
 
-  "sound.option.alert01": "Melding 01",
-  "sound.option.alert02": "Melding 02",
-  "sound.option.alert03": "Melding 03",
-  "sound.option.alert04": "Melding 04",
-  "sound.option.alert05": "Melding 05",
-  "sound.option.alert06": "Melding 06",
-  "sound.option.alert07": "Melding 07",
-  "sound.option.alert08": "Melding 08",
-  "sound.option.alert09": "Melding 09",
-  "sound.option.alert10": "Melding 10",
-  "sound.option.bipbop01": "Bip-bop 01",
-  "sound.option.bipbop02": "Bip-bop 02",
-  "sound.option.bipbop03": "Bip-bop 03",
-  "sound.option.bipbop04": "Bip-bop 04",
-  "sound.option.bipbop05": "Bip-bop 05",
-  "sound.option.bipbop06": "Bip-bop 06",
-  "sound.option.bipbop07": "Bip-bop 07",
-  "sound.option.bipbop08": "Bip-bop 08",
-  "sound.option.bipbop09": "Bip-bop 09",
-  "sound.option.bipbop10": "Bip-bop 10",
-  "sound.option.staplebops01": "Staplebops 01",
-  "sound.option.staplebops02": "Staplebops 02",
-  "sound.option.staplebops03": "Staplebops 03",
-  "sound.option.staplebops04": "Staplebops 04",
-  "sound.option.staplebops05": "Staplebops 05",
-  "sound.option.staplebops06": "Staplebops 06",
-  "sound.option.staplebops07": "Staplebops 07",
-  "sound.option.nope01": "Nee 01",
-  "sound.option.nope02": "Nee 02",
-  "sound.option.nope03": "Nee 03",
-  "sound.option.nope04": "Nee 04",
-  "sound.option.nope05": "Nee 05",
-  "sound.option.nope06": "Nee 06",
-  "sound.option.nope07": "Nee 07",
-  "sound.option.nope08": "Nee 08",
-  "sound.option.nope09": "Nee 09",
-  "sound.option.nope10": "Nee 10",
-  "sound.option.nope11": "Nee 11",
-  "sound.option.nope12": "Nee 12",
-  "sound.option.yup01": "Ja 01",
-  "sound.option.yup02": "Ja 02",
-  "sound.option.yup03": "Ja 03",
-  "sound.option.yup04": "Ja 04",
-  "sound.option.yup05": "Ja 05",
-  "sound.option.yup06": "Ja 06",
 
   "settings.providers.title": "Providers",
   "settings.providers.section.connected": "Gekoppelde providers",
@@ -630,11 +560,9 @@ export const dict = {
   "profile.action.logout": "Uitloggen",
 
   "settings.agentBehaviour.title": "Agent Gedrag",
-  "settings.autoApprove.title": "Automatisch Goedkeuren",
   "settings.webTools.title": "Webtools",
   "settings.webTools.description": "Configureer zoeken op internet en browserautomatisering.",
   "settings.webTools.webSearch.enable": "Inschakelen voor alle providers",
-  "settings.webTools.browserAutomation": "Browserautomatisering",
   "settings.webTools.webSearch.title": "Zoeken op internet",
   "settings.webTools.webSearch.description": "Maak zoeken op internet beschikbaar voor modellen van alle providers.",
   "settings.checkpoints.title": "Controlepunten",
@@ -642,7 +570,6 @@ export const dict = {
   "settings.autocomplete.title": "Automatisch Aanvullen",
   "settings.autocomplete.model.title": "Autocomplete-model",
   "settings.autocomplete.model.description": "Selecteer het model dat wordt gebruikt voor inline code-aanvullingen",
-  "settings.notifications.title": "Meldingen",
   "settings.context.title": "Context",
   "settings.indexing.title": "Indexering",
   "settings.indexing.status.title": "Status",
@@ -768,15 +695,6 @@ export const dict = {
   "settings.agentBehaviour.subtab.workflows": "Workflows",
   "settings.agentBehaviour.subtab.skills": "Skills",
 
-  "settings.browser.description":
-    "Indien ingeschakeld kan de AI agent interactie hebben met webpagina's — navigeren, klikken, typen en screenshots maken. Er wordt een Chrome-venster geopend zodat je de agent aan het werk kunt zien.",
-  "settings.browser.enable.title": "Browserautomatisering inschakelen",
-  "settings.browser.enable.description": "Registreer de Playwright MCP-server bij de CLI backend.",
-  "settings.browser.systemChrome.title": "Gebruik Systeem Chrome",
-  "settings.browser.systemChrome.description":
-    "Gebruik je geïnstalleerde Chrome-browser in plaats van een aparte Chromium-instantie.",
-  "settings.browser.headless.title": "Headless Modus",
-  "settings.browser.headless.description": "Draai in headless modus (geen zichtbaar browservenster).",
 
   "settings.language.description": 'Kies de taal voor de Kilo Code UI. "Auto" gebruikt je VS Code schermtaal.',
   "settings.language.auto": "Auto (VS Code taal)",
@@ -796,15 +714,6 @@ export const dict = {
   "settings.autocomplete.modelsHint":
     "Om te kiezen welk model wordt gebruikt voor automatisch aanvullen, zie de Modellen-instellingen.",
 
-  "settings.notifications.sounds": "Geluiden",
-  "settings.notifications.enable.title": "Geluidsmeldingen inschakelen",
-  "settings.notifications.enable.description":
-    "Geluiden afspelen wanneer sessies worden voltooid, er een fout optreedt of uw invoer vereist is",
-  "settings.notifications.testSound": "Testen",
-  "settings.notifications.sound.default": "Standaard",
-  "settings.notifications.sound.system": "Systeem",
-  "settings.notifications.sound.description":
-    "Standaard worden verschillende geluiden gebruikt voor voltooiing, invoer en fouten. Andere keuzes gebruiken voor elke gebeurtenis hetzelfde geluid.",
 
   "settings.experimental.share.title": "Deelmodus",
   "settings.experimental.share.description": "Hoe sessiedelen zich gedraagt",
@@ -830,9 +739,6 @@ export const dict = {
     "Schakel de Kilo-provider in en meld u aan om Speech to Text te gebruiken. Speech to Text wordt momenteel alleen ondersteund met Kilo Gateway.",
   "settings.models.speechToTextModel.title": "Spraak-naar-tekst-model",
   "settings.models.speechToTextModel.description": "Kies het Kilo Gateway-transcriptiemodel voor spraakinvoer.",
-  "settings.experimental.nativeNotebookTools.title": "Native notebooktools",
-  "settings.experimental.nativeNotebookTools.description":
-    "Experimentele tools inschakelen voor het lezen, bewerken en uitvoeren van VS Code-notebooks",
   "settings.experimental.continueOnDeny.title": "Doorgaan bij weigering",
   "settings.experimental.continueOnDeny.description":
     "Ga door met de agent loop wanneer een toestemming wordt geweigerd",
@@ -858,14 +764,6 @@ export const dict = {
     "Schakel het beheren van sessies en worktrees over meerdere repositories in Agent Manager in. De huidige workspace-repository is altijd het standaardproject.",
   "settings.experimental.mcpTimeout.title": "MCP Timeout (ms)",
   "settings.experimental.mcpTimeout.description": "Timeout voor MCP-serververzoeken in milliseconden",
-  "settings.experimental.remote.title": "Remote-bediening",
-  "settings.experimental.remote.description":
-    "Schakel Remote-bediening van sessies in via Kilo Cloud. Dit heeft ook invloed op CLI's op deze machine.",
-  "settings.experimental.remote.current": "Huidige status:",
-  "settings.experimental.remote.startup": "Automatisch inschakelen bij opstarten:",
-  "settings.experimental.remote.active": "Actief",
-  "settings.experimental.remote.inactive": "Inactief",
-  "settings.experimental.remote.hint": "Gebruik /remote in de chat om te schakelen",
   "settings.experimental.toolToggles": "Tool Schakelaars",
   "settings.sandboxing.enabled.title": "Sandbox",
   "settings.sandboxing.enabled.description":
@@ -957,11 +855,6 @@ export const dict = {
   "settings.agentBehaviour.workflows.variant": "variant",
   "settings.agentBehaviour.workflows.modelDescription": "Globale modeloverride",
 
-  "settings.autoApprove.description":
-    "Definieer hoe tools mogen worden uitgevoerd. De meeste tools staan standaard op Toestaan. doom_loop en external_directory staan standaard op Vragen.",
-  "settings.autoApprove.maxCost.title": "Sessiekostenwaarschuwing",
-  "settings.autoApprove.maxCost.description":
-    "Waarschuw voordat een sessie doorgaat nadat de kosten dit USD-bedrag overschrijden. Gebruik hele dollars; laat leeg om uit te schakelen.",
   "settings.autoApprove.level.allow": "Toestaan",
   "settings.autoApprove.level.ask": "Vragen",
   "settings.autoApprove.level.deny": "Weigeren",
@@ -1164,30 +1057,7 @@ export const dict = {
   "settings.agentBehaviour.permissions.hint":
     "Regels worden op volgorde geëvalueerd — de laatst overeenkomende regel wint. Dit is de opgeloste regelset van de CLI backend.",
   "settings.agentBehaviour.editMode.save": "Klaar",
-  "diffViewer.source.workspace.label": "Branch",
-  "diffViewer.source.workspace.tooltip":
-    "Alle wijzigingen in deze branch vergeleken met de base branch. Inclusief niet-gecommitte bestanden (staged, unstaged, ungetrackt) en lokale commits die nog niet in de base zitten.",
-  "diffViewer.source.staged.label": "Staged",
-  "diffViewer.source.staged.tooltip":
-    "Bestanden met wijzigingen die je hebt toegevoegd aan het staging-gebied van git (`git add`), zoals ze in de volgende commit zullen verschijnen.",
-  "diffViewer.source.unstaged.label": "Unstaged",
-  "diffViewer.source.unstaged.tooltip":
-    "Bestanden gewijzigd in je werkboom maar nog niet gestaged, plus niet-gevolgde (nieuwe) bestanden.",
-  "diffViewer.source.session.label": "Sessie",
-  "diffViewer.source.session.tooltip":
-    "Bestanden die door Kilo tijdens de huidige sessie zijn gewijzigd, gebaseerd op snapshots per beurt. Wordt gereset bij het starten van een nieuwe sessie.",
-  "diffViewer.group.session": "Sessie",
-  "diffViewer.group.git": "Git",
-  "diffViewer.notice.snapshotsDisabled":
-    "Snapshots zijn uitgeschakeld voor deze repository. Bewerk je configuratiebestanden om de sessiewijzigingen weer te geven.",
 
-  "diffViewer.baseBranch.auto": "Default",
-  "diffViewer.baseBranch.default": "Default",
-  "diffViewer.baseBranch.remote": "Remote",
-  "diffViewer.baseBranch.search": "Search branches",
-  "diffViewer.baseBranch.empty": "No matching branches",
-  "diffViewer.baseBranch.loading": "Loading branches…",
-  "diffViewer.baseBranch.none": "—",
   "plan.exit.ready": "Plan is klaar:",
   "chat.search.placeholder": "Chat doorzoeken…",
   "chat.search.toggle": "Chat doorzoeken",

@@ -16,12 +16,6 @@ import {
   RequestID as AgentManagerRequestID,
   Result as AgentManagerResult,
 } from "@/kilocode/agent-manager/protocol"
-import {
-  Failure as NotebookFailure,
-  Request as NotebookRequest,
-  RequestID as NotebookRequestID,
-  Result as NotebookResult,
-} from "@/kilocode/notebook/protocol"
 import { ModelUsage } from "@/kilocode/session/model-usage"
 import { SessionID } from "@/session/schema"
 import { CommandFiles } from "@/kilocode/command-files"
@@ -44,8 +38,6 @@ export const AgentRequirementQuery = Schema.Struct({
   ...WorkspaceRoutingQueryFields,
   agent: Schema.String,
 })
-export const NotebookReplyPayload = Schema.Struct({ result: NotebookResult })
-export const NotebookRejectPayload = Schema.Struct({ error: NotebookFailure })
 export const AgentManagerReplyPayload = Schema.Struct({ result: AgentManagerResult })
 export const AgentManagerRejectPayload = Schema.Struct({ error: AgentManagerFailure })
 
@@ -56,9 +48,6 @@ export const KilocodePaths = {
   removeCommand: `${root}/command/remove`,
   removeSkill: `${root}/skill/remove`,
   removeAgent: `${root}/agent/remove`,
-  notebookList: `${root}/notebook`,
-  notebookReply: `${root}/notebook/:requestID/reply`,
-  notebookReject: `${root}/notebook/:requestID/reject`,
   agentManagerList: `${root}/agent-manager`,
   agentManagerReply: `${root}/agent-manager/:requestID/reply`,
   agentManagerReject: `${root}/agent-manager/:requestID/reject`,
@@ -135,42 +124,6 @@ export const KilocodeApi = HttpApi.make("kilocode")
             summary: "Remove a custom agent",
             description:
               "Remove a custom (non-native) agent by deleting its markdown file from disk and refreshing state.",
-          }),
-        ),
-        HttpApiEndpoint.get("notebookList", KilocodePaths.notebookList, {
-          query: WorkspaceRoutingQuery,
-          success: described(Schema.Array(NotebookRequest), "Pending notebook host requests"),
-        }).annotateMerge(
-          OpenApi.annotations({
-            identifier: "kilocode.notebook.list",
-            summary: "List pending notebook requests",
-            description: "List pending native notebook requests for the routed workspace.",
-          }),
-        ),
-        HttpApiEndpoint.post("notebookReply", KilocodePaths.notebookReply, {
-          params: { requestID: NotebookRequestID },
-          query: WorkspaceRoutingQuery,
-          payload: NotebookReplyPayload,
-          success: described(Schema.Boolean, "Notebook reply accepted"),
-          error: [HttpApiError.BadRequest, HttpApiError.NotFound],
-        }).annotateMerge(
-          OpenApi.annotations({
-            identifier: "kilocode.notebook.reply",
-            summary: "Reply to a notebook request",
-            description: "Complete a pending native notebook request with a structured result.",
-          }),
-        ),
-        HttpApiEndpoint.post("notebookReject", KilocodePaths.notebookReject, {
-          params: { requestID: NotebookRequestID },
-          query: WorkspaceRoutingQuery,
-          payload: NotebookRejectPayload,
-          success: described(Schema.Boolean, "Notebook rejection accepted"),
-          error: HttpApiError.NotFound,
-        }).annotateMerge(
-          OpenApi.annotations({
-            identifier: "kilocode.notebook.reject",
-            summary: "Reject a notebook request",
-            description: "Complete a pending native notebook request with a structured host error.",
           }),
         ),
         HttpApiEndpoint.get("agentManagerList", KilocodePaths.agentManagerList, {

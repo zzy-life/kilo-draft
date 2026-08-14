@@ -1,7 +1,5 @@
 import type { Argv } from "yargs"
-import * as Log from "@opencode-ai/core/util/log"
 import { InstallationBuildKind, InstallationVersion } from "@opencode-ai/core/installation/version"
-import { KiloShutdown } from "@/kilocode/cli/shutdown"
 import { createHelpCommand } from "@/kilocode/help-command"
 import { KiloConsoleCommand } from "@/kilocode/cli/cmd/console"
 import { CloudCommand } from "@/kilocode/cli/cmd/cloud"
@@ -9,28 +7,7 @@ import { RollCallCommand } from "@/kilocode/cli/cmd/roll-call"
 import { ProfileCommand } from "@/kilocode/cli/cmd/profile"
 import { DaemonCommand } from "@/kilocode/cli/cmd/daemon"
 import { DevSetupCommand, DevAliasCommand } from "@/kilocode/cli/dev-setup"
-import { RemoteCommand } from "@/cli/cmd/remote"
 import { ConfigCommand as ConfigCLICommand } from "@/cli/cmd/config"
-
-const log = Log.create({ service: "kilocode.cli" })
-
-// Process-level ingest drain for non-TUI commands (`kilo run`, etc.).
-// KiloCli.shutdown() runs KiloShutdown before disposeAllInstances — preserve that order.
-// Registered at setup load time (not inside shutdown()) so the task is always present.
-// Dynamic import keeps setup.ts's own static import graph unchanged: consumers that load
-// setup.ts under partial module mocks (e.g. cli-shutdown tests whose @/auth mock omits
-// OAUTH_DUMMY_KEY) would otherwise fail to link the provider/plugin chain. Dynamic import
-// returns the same in-process module singleton, so the drained queue is the one that
-// received events. Task try/catch covers dynamic-import failure outside the shared drain
-// guard; the drain itself never rejects.
-KiloShutdown.register(async () => {
-  try {
-    const { KiloSessions } = await import("@/kilo-sessions/kilo-sessions")
-    await KiloSessions.drainIngestForShutdown()
-  } catch (err) {
-    log.warn("ingest drain failed", { err })
-  }
-})
 
 // All Kilo-specific CLI customization lives here so the shared upstream entrypoint
 // (src/index.ts) only needs a handful of thin call-sites behind kilocode_change markers.
@@ -53,7 +30,6 @@ export namespace KiloCli {
       .command(CloudCommand)
       .command(RollCallCommand)
       .command(ProfileCommand)
-      .command(RemoteCommand)
       .command(DaemonCommand)
       .command(ConfigCLICommand)
     if (InstallationBuildKind !== "release") cli.command(DevSetupCommand).command(DevAliasCommand)
@@ -130,6 +106,9 @@ export namespace KiloCli {
     const code = typeof process.exitCode === "number" ? process.exitCode : undefined
     Telemetry.trackCliExit(code)
     const { SessionExport } = await import("@/kilocode/session-export")
+    const { KiloShutdown } = await import("@/kilocode/cli/shutdown")
+    const { create } = await import("@opencode-ai/core/util/log")
+    const log = create({ service: "kilocode.cli" })
     try {
       await SessionExport.shutdown()
       // Bound telemetry shutdown so an unreachable endpoint (offline, firewall,

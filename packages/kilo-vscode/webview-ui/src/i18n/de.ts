@@ -63,8 +63,6 @@ export const dict = {
   "command.provider.connect": "Anbieter verbinden",
 
   "command.session.new": "Neue Sitzung",
-  "command.session.show.changes": "Änderungen anzeigen",
-  "command.review.toggle": "Überprüfung umschalten",
   "revert.banner.count_one": "{{count}} Nachricht zurückgesetzt",
   "revert.banner.count_other": "{{count}} Nachrichten zurückgesetzt",
   "revert.banner.redo": "Wiederholen",
@@ -207,12 +205,6 @@ export const dict = {
   "prompt.action.send.recording": "Transkribieren und senden",
   "prompt.action.stop": "Stopp",
   "prompt.action.enhance": "Prompt verbessern",
-  "prompt.action.autoApprove.enable": "Automatische Genehmigung aktivieren",
-  "prompt.action.autoApprove.disable": "Automatische Genehmigung deaktivieren",
-  "prompt.action.autoApprove.enabled":
-    "Automatische Genehmigung ist aktiviert. Berechtigungsanfragen werden automatisch genehmigt.",
-  "prompt.action.autoApprove.disabled":
-    "Automatische Genehmigung ist deaktiviert. Klicken, um Berechtigungsanfragen automatisch zu genehmigen.",
   "prompt.action.resetModel": "Modell auf Standard zurücksetzen",
   "prompt.action.enhanceDescription":
     "Die Schaltfläche 'Prompt verbessern' hilft, deine Anfrage durch zusätzlichen Kontext, Klarstellungen oder Umformulierungen zu verbessern. Versuche, hier eine Anfrage einzugeben und klicke erneut auf die Schaltfläche, um zu sehen, wie es funktioniert.",
@@ -302,22 +294,7 @@ export const dict = {
   "ui.permission.toolLabel.todoWrite": "Todo schreiben",
   "ui.permission.toolLabel.codeSearch": "Code-Suche",
   "ui.permission.copyCommand": "Kopieren",
-  "ui.approval.auto": "Automatisch genehmigt",
-  "ui.approval.manual": "Von dir genehmigt",
-  "ui.approval.rule": "entsprach Regel `{{permission}}` `{{pattern}}`",
-  "ui.approval.source.agent": "durch den {{agent}}-Agenten",
-  "ui.approval.source.agent.default": "durch den Agenten",
-  "ui.approval.source.global": "durch deine globale Konfiguration",
-  "ui.approval.source.project": "durch die Projektkonfiguration",
-  "ui.approval.source.yolo": "durch den Auto-Genehmigungsmodus (YOLO)",
-  "ui.approval.source.session": "durch eine Sitzungs-Auto-Genehmigungsregel",
-  "ui.approval.source.default": "standardmäßig",
-  "ui.approval.outsideWorkspace": "(außerhalb deines Arbeitsbereichs: {{file}})",
 
-  "session.tab.review": "Überprüfung",
-  "session.review.filesChanged": "{{count}} Dateien geändert",
-  "session.review.loadingChanges": "Lade Änderungen...",
-  "session.review.noChanges": "Keine Änderungen",
   "session.messages.loadingEarlier": "Lade frühere Nachrichten...",
   "session.messages.loadEarlier": "Frühere Nachrichten laden",
   "session.messages.loading": "Lade Nachrichten...",
@@ -344,8 +321,6 @@ export const dict = {
     "Diese Unterhaltung und 1 geänderte Datei in einen dedizierten Worktree für isolierte Folgearbeiten verschieben.",
   "sidebar.session.moveToWorktree.tooltip.other":
     "Diese Unterhaltung und {{files}} geänderte Dateien in einen dedizierten Worktree für isolierte Folgearbeiten verschieben.",
-  "sidebar.session.showChanges.tooltip.empty":
-    "Öffne die Änderungsansicht, um den aktuellen Working Tree zu überprüfen.",
   "sidebar.session.progress.capturing": "Änderungen werden erfasst...",
   "sidebar.session.progress.creating": "Worktree wird erstellt...",
   "sidebar.session.progress.setup": "Setup wird ausgeführt...",
@@ -365,51 +340,6 @@ export const dict = {
 
   "sidebar.settings": "Einstellungen",
 
-  "sound.option.alert01": "Alarm 01",
-  "sound.option.alert02": "Alarm 02",
-  "sound.option.alert03": "Alarm 03",
-  "sound.option.alert04": "Alarm 04",
-  "sound.option.alert05": "Alarm 05",
-  "sound.option.alert06": "Alarm 06",
-  "sound.option.alert07": "Alarm 07",
-  "sound.option.alert08": "Alarm 08",
-  "sound.option.alert09": "Alarm 09",
-  "sound.option.alert10": "Alarm 10",
-  "sound.option.bipbop01": "Bip-bop 01",
-  "sound.option.bipbop02": "Bip-bop 02",
-  "sound.option.bipbop03": "Bip-bop 03",
-  "sound.option.bipbop04": "Bip-bop 04",
-  "sound.option.bipbop05": "Bip-bop 05",
-  "sound.option.bipbop06": "Bip-bop 06",
-  "sound.option.bipbop07": "Bip-bop 07",
-  "sound.option.bipbop08": "Bip-bop 08",
-  "sound.option.bipbop09": "Bip-bop 09",
-  "sound.option.bipbop10": "Bip-bop 10",
-  "sound.option.staplebops01": "Staplebops 01",
-  "sound.option.staplebops02": "Staplebops 02",
-  "sound.option.staplebops03": "Staplebops 03",
-  "sound.option.staplebops04": "Staplebops 04",
-  "sound.option.staplebops05": "Staplebops 05",
-  "sound.option.staplebops06": "Staplebops 06",
-  "sound.option.staplebops07": "Staplebops 07",
-  "sound.option.nope01": "Nein 01",
-  "sound.option.nope02": "Nein 02",
-  "sound.option.nope03": "Nein 03",
-  "sound.option.nope04": "Nein 04",
-  "sound.option.nope05": "Nein 05",
-  "sound.option.nope06": "Nein 06",
-  "sound.option.nope07": "Nein 07",
-  "sound.option.nope08": "Nein 08",
-  "sound.option.nope09": "Nein 09",
-  "sound.option.nope10": "Nein 10",
-  "sound.option.nope11": "Nein 11",
-  "sound.option.nope12": "Nein 12",
-  "sound.option.yup01": "Ja 01",
-  "sound.option.yup02": "Ja 02",
-  "sound.option.yup03": "Ja 03",
-  "sound.option.yup04": "Ja 04",
-  "sound.option.yup05": "Ja 05",
-  "sound.option.yup06": "Ja 06",
 
   "prompt.action.indexing": "Indizierungseinstellungen",
   "settings.indexing.dimension.description":
@@ -688,11 +618,9 @@ export const dict = {
   "profile.action.logout": "Abmelden",
 
   "settings.agentBehaviour.title": "Agentenverhalten",
-  "settings.autoApprove.title": "Automatisch genehmigen",
   "settings.webTools.title": "Web-Tools",
   "settings.webTools.description": "Konfigurieren Sie Websuche und Browserautomatisierung.",
   "settings.webTools.webSearch.enable": "Für alle Anbieter aktivieren",
-  "settings.webTools.browserAutomation": "Browserautomatisierung",
   "settings.webTools.webSearch.title": "Websuche",
   "settings.webTools.webSearch.description": "Machen Sie die Websuche für Modelle aller Anbieter verfügbar.",
   "settings.checkpoints.title": "Prüfpunkte",
@@ -700,7 +628,6 @@ export const dict = {
   "settings.autocomplete.title": "Autovervollständigung",
   "settings.autocomplete.model.title": "Autocomplete-Modell",
   "settings.autocomplete.model.description": "Wählen Sie das Modell für Inline-Code-Vervollständigungen",
-  "settings.notifications.title": "Benachrichtigungen",
   "settings.context.title": "Kontext",
 
   "settings.experimental.title": "Experimentell",
@@ -790,15 +717,6 @@ export const dict = {
   "settings.agentBehaviour.subtab.workflows": "Workflows",
   "settings.agentBehaviour.subtab.skills": "Fähigkeiten",
 
-  "settings.browser.description":
-    "Wenn aktiviert, kann der KI-Agent mit Webseiten interagieren — navigieren, klicken, tippen und Screenshots erstellen. Ein Chrome-Fenster wird geöffnet, damit Sie dem Agenten bei der Arbeit zusehen können.",
-  "settings.browser.enable.title": "Browser-Automatisierung aktivieren",
-  "settings.browser.enable.description": "Den Playwright-MCP-Server beim CLI-Backend registrieren.",
-  "settings.browser.systemChrome.title": "System-Chrome verwenden",
-  "settings.browser.systemChrome.description":
-    "Verwenden Sie Ihren installierten Chrome-Browser anstelle einer separaten Chromium-Instanz.",
-  "settings.browser.headless.title": "Headless-Modus",
-  "settings.browser.headless.description": "Im Headless-Modus ausführen (kein sichtbares Browserfenster).",
 
   "settings.language.description":
     'Wählen Sie die Sprache für die Kilo Code Oberfläche. „Auto" verwendet die VS Code Anzeigesprache.',
@@ -817,15 +735,6 @@ export const dict = {
   "settings.autocomplete.chatAutocomplete.description": "Autovervollständigungsvorschläge im Chat-Textfeld anzeigen",
   "settings.autocomplete.modelsHint":
     "Um zu wählen, welches Modell für die Autovervollständigung verwendet wird, siehe Modelleinstellungen.",
-  "settings.notifications.sounds": "Töne",
-  "settings.notifications.enable.title": "Tonbenachrichtigungen aktivieren",
-  "settings.notifications.enable.description":
-    "Töne wiedergeben, wenn Sitzungen abgeschlossen werden, ein Fehler auftritt oder Ihre Eingabe erforderlich ist",
-  "settings.notifications.testSound": "Testen",
-  "settings.notifications.sound.default": "Standard",
-  "settings.notifications.sound.system": "System",
-  "settings.notifications.sound.description":
-    "Die Standardeinstellung verwendet unterschiedliche Töne für Abschluss, Eingabe und Fehler. Bei anderen Optionen wird für alle Ereignisse derselbe Ton verwendet.",
   "settings.experimental.share.title": "Freigabemodus",
   "settings.experimental.share.description": "Verhalten der Sitzungsfreigabe",
   "settings.experimental.share.manual": "Manuell",
@@ -851,9 +760,6 @@ export const dict = {
   "settings.models.speechToTextModel.title": "Sprache-zu-Text-Modell",
   "settings.models.speechToTextModel.description":
     "Wählen Sie das Kilo Gateway-Transkriptionsmodell für die Spracheingabe.",
-  "settings.experimental.nativeNotebookTools.title": "Native Notebook-Tools",
-  "settings.experimental.nativeNotebookTools.description":
-    "Experimentelle Tools zum Lesen, Bearbeiten und Ausführen von VS Code-Notebooks aktivieren",
   "settings.experimental.continueOnDeny.title": "Bei Ablehnung fortfahren",
   "settings.experimental.continueOnDeny.description":
     "Agent-Schleife fortsetzen, wenn eine Berechtigung abgelehnt wird",
@@ -879,14 +785,6 @@ export const dict = {
     "Aktivieren Sie die Verwaltung von Sitzungen und Worktrees über mehrere Repositories im Agent Manager. Das aktuelle Workspace-Repository ist immer das Standardprojekt.",
   "settings.experimental.mcpTimeout.title": "MCP-Zeitlimit (ms)",
   "settings.experimental.mcpTimeout.description": "Zeitlimit für MCP-Server-Anfragen in Millisekunden",
-  "settings.experimental.remote.title": "Remote-Steuerung",
-  "settings.experimental.remote.description":
-    "Aktivieren Sie die Remote-Steuerung von Sitzungen über Kilo Cloud. Dies betrifft auch CLIs auf diesem Computer.",
-  "settings.experimental.remote.current": "Aktueller Status:",
-  "settings.experimental.remote.startup": "Automatisch beim Start aktivieren:",
-  "settings.experimental.remote.active": "Aktiv",
-  "settings.experimental.remote.inactive": "Inaktiv",
-  "settings.experimental.remote.hint": "Verwende /remote im Chat zum Umschalten",
   "settings.experimental.toolToggles": "Werkzeug-Schalter",
   "settings.agentBehaviour.defaultAgent.title": "Standard-Agent",
   "settings.agentBehaviour.defaultAgent.description": "Agent, der verwendet wird, wenn keiner angegeben ist",
@@ -1012,11 +910,6 @@ export const dict = {
   "settings.sandboxing.enabled.description":
     "Shell-Befehle des Agenten in einer Sandbox auf Betriebssystemebene ausführen, die Schreibvorgänge auf die Projekt- und Kilo-Statusverzeichnisse beschränkt",
 
-  "settings.autoApprove.description":
-    "Legen Sie fest, wie Tools ausgeführt werden dürfen. Die meisten Tools sind standardmäßig auf Zulassen eingestellt. doom_loop und external_directory sind standardmäßig auf Fragen eingestellt.",
-  "settings.autoApprove.maxCost.title": "Sitzungskostenwarnung",
-  "settings.autoApprove.maxCost.description":
-    "Vor dem Fortsetzen einer Sitzung warnen, wenn ihre Kosten diesen USD-Betrag überschreiten. Ganze Dollarbeträge verwenden; zum Deaktivieren leer lassen.",
   "settings.autoApprove.level.allow": "Erlauben",
   "settings.autoApprove.level.ask": "Fragen",
   "settings.autoApprove.level.deny": "Ablehnen",
@@ -1163,30 +1056,7 @@ export const dict = {
   "notifications.action.close": "Schließen",
   "notifications.action.tryModel": "{{model}} ausprobieren",
   "notifications.action.tryModelGeneric": "Modell ausprobieren",
-  "diffViewer.source.workspace.label": "Branch",
-  "diffViewer.source.workspace.tooltip":
-    "Alle Änderungen in diesem Branch im Vergleich zum Base-Branch. Enthält nicht committete Dateien (gestaged, ungestaged, nicht getrackt) und lokale Commits, die noch nicht im Base-Branch sind.",
-  "diffViewer.source.staged.label": "Staged",
-  "diffViewer.source.staged.tooltip":
-    "Dateien mit Änderungen, die du zu gits Staging-Bereich hinzugefügt hast (`git add`), wie sie im nächsten Commit erscheinen werden.",
-  "diffViewer.source.unstaged.label": "Unstaged",
-  "diffViewer.source.unstaged.tooltip":
-    "Dateien, die in deinem Arbeitsbaum geändert, aber noch nicht gestaged wurden, plus nicht verfolgte (neue) Dateien.",
-  "diffViewer.source.session.label": "Sitzung",
-  "diffViewer.source.session.tooltip":
-    "Von Kilo während der aktuellen Sitzung geänderte Dateien, basierend auf Snapshots pro Runde. Wird beim Start einer neuen Sitzung zurückgesetzt.",
-  "diffViewer.group.session": "Sitzung",
-  "diffViewer.group.git": "Git",
-  "diffViewer.notice.snapshotsDisabled":
-    "Snapshots sind für dieses Repository deaktiviert. Bitte bearbeite deine Konfigurationsdateien, um die Sitzungsänderungen anzuzeigen.",
 
-  "diffViewer.baseBranch.auto": "Standard",
-  "diffViewer.baseBranch.default": "Standard",
-  "diffViewer.baseBranch.remote": "Remote",
-  "diffViewer.baseBranch.search": "Branches suchen",
-  "diffViewer.baseBranch.empty": "Keine passenden Branches",
-  "diffViewer.baseBranch.loading": "Branches werden geladen…",
-  "diffViewer.baseBranch.none": "—",
   "plan.exit.ready": "Plan ist bereit:",
   "chat.search.placeholder": "Chat durchsuchen…",
   "chat.search.toggle": "Chat durchsuchen",

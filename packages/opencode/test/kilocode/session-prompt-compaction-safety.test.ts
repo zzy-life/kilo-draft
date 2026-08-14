@@ -47,7 +47,6 @@ import { Skill } from "../../src/skill"
 import { Snapshot } from "../../src/snapshot"
 import { ToolRegistry } from "../../src/tool/registry"
 import { Truncate } from "../../src/tool/truncate"
-import { KiloSessions } from "../../src/kilo-sessions/kilo-sessions"
 import * as Log from "@opencode-ai/core/util/log"
 import { MemoryService } from "@kilocode/kilo-memory/effect/service"
 import { provideTmpdirServer } from "../fixture/fixture"
@@ -172,7 +171,6 @@ function makeHttp() {
     [LSP.node, lsp],
     [MCP.node, mcp],
     [RuntimeFlags.node, RuntimeFlags.layer()],
-    [KiloSessions.node, KiloSessions.testLayer],
   ])
 }
 

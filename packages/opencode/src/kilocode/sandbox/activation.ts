@@ -2,7 +2,6 @@ import { Effect } from "effect"
 import { BackgroundJob } from "@/background/job"
 import { BackgroundProcess } from "@/kilocode/background-process"
 import { InteractiveTerminal } from "@/kilocode/interactive-terminal"
-import { Service as Notebook } from "@/kilocode/notebook/service"
 import type { Target } from "@/kilocode/sandbox/policy"
 import { InstanceState } from "@/effect/instance-state"
 import { InstanceStore } from "@/project/instance-store"
@@ -27,7 +26,6 @@ export const idle = Effect.fn("SandboxActivation.idle")(function* (
 ) {
   const status = yield* SessionStatus.Service
   const background = yield* BackgroundJob.Service
-  const notebook = yield* Notebook
   const current = yield* InstanceState.directory
   const ids = new Set<string>(family.map((target) => target.id))
   const root = family.find((target) => target.id === sessionID) ?? family[0]
@@ -44,7 +42,6 @@ export const idle = Effect.fn("SandboxActivation.idle")(function* (
         background.list(),
         Effect.promise(() => BackgroundProcess.list()),
         Effect.promise(() => InteractiveTerminal.list()),
-        notebook.list(),
       ] as const,
     ).pipe(Effect.map((resources) => ({ directory, targets, resources })))
     if (directory === current) return scan
@@ -52,7 +49,7 @@ export const idle = Effect.fn("SandboxActivation.idle")(function* (
   })
 
   for (const scan of scans) {
-    const [states, jobs, processes, terminals, requests] = scan.resources
+    const [states, jobs, processes, terminals] = scan.resources
     if (scan.targets.some((target) => states.has(target.id))) return false
     if (
       jobs.some((job) => {
@@ -83,14 +80,6 @@ export const idle = Effect.fn("SandboxActivation.idle")(function* (
         (terminal) =>
           ids.has(terminal.sessionID) &&
           (terminal.sessionID !== sessionID || scan.directory !== root?.directory),
-      )
-    )
-      return false
-    if (
-      requests.some(
-        (request) =>
-          ids.has(request.sessionID) &&
-          (request.sessionID !== sessionID || scan.directory !== root?.directory),
       )
     )
       return false

@@ -14,7 +14,6 @@ import { Config } from "@/config/config"
 import { RuntimeFlags } from "@/effect/runtime-flags"
 import { EventV2Bridge } from "@/event-v2-bridge"
 import { BackgroundProcess } from "@/kilocode/background-process"
-import { Notebook } from "@/kilocode/notebook/service"
 import * as SandboxActivation from "@/kilocode/sandbox/activation"
 import * as SandboxInheritance from "@/kilocode/sandbox/inheritance"
 import * as SandboxPolicy from "@/kilocode/sandbox/policy"
@@ -46,7 +45,6 @@ const it = testEffect(
     AppNodeBuilder.build(Database.node),
     AppNodeBuilder.build(CrossSpawnSpawner.node),
     testInstanceStoreLayer,
-    AppNodeBuilder.build(Notebook.node),
     AppNodeBuilder.build(SessionStatus.node),
   ),
 )

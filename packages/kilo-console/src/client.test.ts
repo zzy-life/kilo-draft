@@ -51,23 +51,3 @@ test("config writes include the selected directory", async () => {
   })
 })
 
-test("viewed snapshots post the presence payload against the selected directory", async () => {
-  const calls = setup()
-  const client = await import("./client")
-  const query = { url: "http://kilo:secret@127.0.0.1:4097", dir: "/tmp/project" }
-  const viewer = { id: "11111111-1111-4111-8111-111111111111", active: false }
-
-  await client.viewProjectSessions(query, viewer, ["ses_selected", "ses_terminal"], [])
-
-  expect(calls).toHaveLength(1)
-
-  const viewed = calls[0]
-  expect(viewed.method).toBe("POST")
-  expect(new URL(viewed.url).pathname).toBe("/session/viewed")
-  expect(new URL(viewed.url).searchParams.get("directory")).toBe("/tmp/project")
-  expect(viewed.body).toEqual({
-    viewer: { id: "11111111-1111-4111-8111-111111111111", active: false },
-    attached: ["ses_selected", "ses_terminal"],
-    visible: [],
-  })
-})

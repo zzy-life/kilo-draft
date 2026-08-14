@@ -85,15 +85,6 @@ describe("plan_exit renderer uses openFile not openDiff (source)", () => {
     expect(src).not.toContain("meta.status")
   })
 
-  it("PlanExitCard does not call openDiffVirtual", () => {
-    // Extract just the PlanExitCard function body to scope the assertion
-    const start = src.indexOf("function PlanExitCard")
-    const end = src.indexOf("\nfunction ", start + 1)
-    const block = end === -1 ? src.slice(start) : src.slice(start, end)
-    expect(block).not.toContain("openDiffVirtual")
-    expect(block).not.toContain("openDiff")
-  })
-
   it("plan_exit tool is handled before generic Part renderer", () => {
     const planExitIdx = src.indexOf("planExit()")
     // <Part may be followed by newline or space

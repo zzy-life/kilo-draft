@@ -271,8 +271,6 @@ function getExtensionConfig() {
 function getWebviewsConfig() {
   return {
     entryPoints: {
-      "diff-viewer": "webview-ui/diff-viewer/index.tsx",
-      "diff-virtual": "webview-ui/diff-virtual/index.tsx",
       webview: "webview-ui/src/index.tsx",
     },
     outdir: "dist",

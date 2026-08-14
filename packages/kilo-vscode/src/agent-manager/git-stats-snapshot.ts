@@ -1,7 +1,6 @@
 import { createHash } from "crypto"
 import * as fs from "fs/promises"
-import { binaryFile } from "../diff/shared/binary"
-import { resolveInside } from "../diff/shared/path"
+import { binaryFile, resolveInside } from "./diff-utils"
 import type { GitOps } from "./GitOps"
 
 const MAX_BYTES = 1_000_000

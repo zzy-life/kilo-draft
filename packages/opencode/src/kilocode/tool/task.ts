@@ -59,7 +59,7 @@ export namespace KiloTask {
     const rules = Permission.merge(input.caller.permission ?? [], input.session.permission ?? [])
     const prefixes = Object.keys(input.mcp ?? {}).map((k) => k.replace(/[^a-zA-Z0-9_-]/g, "_") + "_")
     const isMcp = (p: string) => prefixes.some((prefix) => p.startsWith(prefix))
-    const mutation = new Set(["edit", "bash", "notebook_edit", "notebook_execute"])
+    const mutation = new Set(["edit", "bash"])
     const inherited = rules.filter(
       (r: Permission.Rule) => r.action === "deny" && (mutation.has(r.permission) || isMcp(r.permission)),
     )
