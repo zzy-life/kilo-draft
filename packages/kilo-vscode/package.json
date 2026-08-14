@@ -344,6 +344,11 @@
       ],
       "editor/title": [
         {
+          "command": "kilo-code.new.openInTab",
+          "group": "navigation",
+          "when": "true"
+        },
+        {
           "command": "kilo-code.new.plusButtonClicked",
           "group": "navigation@0",
           "when": "activeWebviewPanelId == kilo-code.new.TabPanel && !kilo-code.new.isCursor"
