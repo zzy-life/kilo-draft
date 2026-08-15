@@ -958,6 +958,8 @@ export const dict = {
   "chat.memory.rebuild": "Memory index rebuilt",
 
   "settings.commitMessage.title": "Commit Message",
+  "settings.commitMessage.model.title": "Model",
+  "settings.commitMessage.model.description": "Odaberite model koji se koristi za generiranje Git commit poruka. Ako nije postavljen, koristi se zadani mali model.",
   "settings.commitMessage.override.title": "Koristi prilagođeni prompt",
   "settings.commitMessage.override.description":
     "Nadjačaj podrazumijevani prompt za commit message. Kada je omogućeno, vaš prilagođeni prompt u potpunosti zamjenjuje ugrađeni prompt za conventional commits.",

@@ -81,6 +81,7 @@ const CommitMessageTab: Component<CommitMessageTabProps> = (props) => {
                 models={provider.models()}
                 disabledModels={(model) => !connected().has(model.providerID)}
                 disabledModelLabel={language.t("settings.models.providerNotConfigured")}
+                favorites={false}
                 allowClear
                 clearLabel={language.t("settings.providers.notSet")}
                 label={language.t("settings.commitMessage.model.title")}

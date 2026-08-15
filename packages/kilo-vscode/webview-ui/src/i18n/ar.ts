@@ -932,6 +932,8 @@ export const dict = {
   "chat.memory.rebuild": "Memory index rebuilt",
 
   "settings.commitMessage.title": "Commit Message",
+  "settings.commitMessage.model.title": "النموذج",
+  "settings.commitMessage.model.description": "اختر النموذج المستخدم لإنشاء رسائل الالتزام في Git. في حال عدم التحديد، يتم استخدام النموذج الصغير الافتراضي.",
   "settings.commitMessage.override.title": "استخدام prompt مخصص",
   "settings.commitMessage.override.description":
     "تجاوز prompt الـ commit message الافتراضي. عند التفعيل، سيستبدل الـ prompt المخصص الخاص بك الـ prompt المدمج لـ conventional commits بالكامل.",

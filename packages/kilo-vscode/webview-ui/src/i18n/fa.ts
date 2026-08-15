@@ -941,6 +941,8 @@ export const dict = {
   "chat.memory.rebuild": "ایندکس حافظه بازسازی شد",
 
   "settings.commitMessage.title": "پیام Commit",
+  "settings.commitMessage.model.title": "مدل",
+  "settings.commitMessage.model.description": "مدل مورد استفاده برای تولید پیام‌های کامیت Git را انتخاب کنید. در صورت عدم تنظیم، مدل کوچک پیش‌فرض استفاده می‌شود.",
   "settings.commitMessage.override.title": "استفاده از Prompt سفارشی",
   "settings.commitMessage.override.description":
     "جایگزینی Prompt پیش‌فرض پیام commit. در صورت فعال‌سازی، Prompt سفارشی شما به‌طور کامل جایگزین Prompt داخلی conventional commits می‌شود.",

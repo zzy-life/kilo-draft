@@ -948,6 +948,8 @@ export const dict = {
   "chat.memory.rebuild": "Memory index rebuilt",
 
   "settings.commitMessage.title": "Commit Message",
+  "settings.commitMessage.model.title": "モデル",
+  "settings.commitMessage.model.description": "Git コミットメッセージの生成に使用するモデルを選択します。未設定の場合は既定の小型モデルが使用されます。",
   "settings.commitMessage.override.title": "カスタム prompt を使用",
   "settings.commitMessage.override.description":
     "デフォルトの commit message の prompt を上書きします。有効にすると、カスタム prompt が組み込みの conventional commits の prompt を完全に置き換えます。",

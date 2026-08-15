@@ -916,6 +916,8 @@ export const dict = {
   "chat.memory.rebuild": "Memory index rebuilt",
 
   "settings.commitMessage.title": "Commit Message",
+  "settings.commitMessage.model.title": "Model",
+  "settings.commitMessage.model.description": "Git commit mesajlarını oluşturmak için kullanılacak modeli seçin. Ayarlanmazsa varsayılan küçük model kullanılır.",
   "settings.commitMessage.override.title": "Özel prompt Kullan",
   "settings.commitMessage.override.description":
     "Varsayılan commit message için olan prompt değerini geçersiz kıl. Etkinleştirildiğinde, özel prompt değeriniz yerleşik conventional commits için olan prompt değerini tamamen değiştirir.",

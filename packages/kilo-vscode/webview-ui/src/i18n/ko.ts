@@ -939,6 +939,8 @@ export const dict = {
   "chat.memory.rebuild": "Memory index rebuilt",
 
   "settings.commitMessage.title": "Commit Message",
+  "settings.commitMessage.model.title": "모델",
+  "settings.commitMessage.model.description": "Git 커밋 메시지를 생성하는 데 사용할 모델을 선택하세요. 설정하지 않으면 기본 소형 모델이 사용됩니다.",
   "settings.commitMessage.override.title": "사용자 지정 prompt 사용",
   "settings.commitMessage.override.description":
     "기본 commit message의 prompt를 재정의합니다. 활성화되면 사용자 지정 prompt가 기본 제공되는 conventional commits의 prompt를 완전히 대체합니다.",

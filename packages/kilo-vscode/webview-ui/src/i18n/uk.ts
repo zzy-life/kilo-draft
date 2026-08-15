@@ -913,6 +913,8 @@ export const dict = {
   "chat.memory.rebuild": "Memory index rebuilt",
 
   "settings.commitMessage.title": "Commit Message",
+  "settings.commitMessage.model.title": "Модель",
+  "settings.commitMessage.model.description": "Виберіть модель для генерації повідомлень комітів Git. Якщо не задано, використовується стандартна мала модель.",
   "settings.commitMessage.override.title": "Використовувати власний prompt",
   "settings.commitMessage.override.description":
     "Перевизначити prompt за замовчуванням для commit message. Якщо ввімкнено, ваш власний prompt повністю замінює вбудований prompt для conventional commits.",

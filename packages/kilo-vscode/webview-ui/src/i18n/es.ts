@@ -968,6 +968,8 @@ export const dict = {
   "chat.memory.rebuild": "Memory index rebuilt",
 
   "settings.commitMessage.title": "Commit Message",
+  "settings.commitMessage.model.title": "Modelo",
+  "settings.commitMessage.model.description": "Elija el modelo que se usa para generar mensajes de confirmación de Git. Si no se define, se usa el modelo pequeño predeterminado.",
   "settings.commitMessage.override.title": "Usar prompt personalizado",
   "settings.commitMessage.override.description":
     "Sobrescribir el prompt por defecto para el commit message. Cuando está habilitado, tu prompt personalizado reemplaza completamente el prompt integrado para conventional commits.",

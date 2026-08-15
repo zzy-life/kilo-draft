@@ -13,7 +13,6 @@ export const PROVIDER_PRIORITY = [
   "openai",
   "google",
   "openrouter",
-  "vercel",
 ] as const
 
 export function isCustomProviderPackage(value: unknown): value is CustomProviderPackage {

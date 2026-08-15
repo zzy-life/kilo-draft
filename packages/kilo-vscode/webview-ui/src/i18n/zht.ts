@@ -866,6 +866,8 @@ export const dict = {
   "chat.memory.rebuild": "Memory index rebuilt",
 
   "settings.commitMessage.title": "Commit Message",
+  "settings.commitMessage.model.title": "生成模型",
+  "settings.commitMessage.model.description": "選擇用於產生 Git 提交訊息的模型；未設定時使用預設小型模型。",
   "settings.commitMessage.override.title": "使用自訂 prompt",
   "settings.commitMessage.override.description":
     "覆寫預設的 commit message 的 prompt。啟用後，您的自訂 prompt 將完全取代內建的 conventional commits 的 prompt。",

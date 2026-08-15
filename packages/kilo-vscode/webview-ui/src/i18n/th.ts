@@ -937,6 +937,8 @@ export const dict = {
   "chat.memory.rebuild": "Memory index rebuilt",
 
   "settings.commitMessage.title": "Commit Message",
+  "settings.commitMessage.model.title": "โมเดล",
+  "settings.commitMessage.model.description": "เลือกโมเดลที่ใช้สำหรับสร้างข้อความคอมมิต Git หากไม่ได้ตั้งค่าไว้ จะใช้โมเดลขนาดเล็กเริ่มต้น",
   "settings.commitMessage.override.title": "ใช้ prompt แบบกำหนดเอง",
   "settings.commitMessage.override.description":
     "แทนที่ prompt เริ่มต้นของ commit message เมื่อเปิดใช้งาน prompt แบบกำหนดเองของคุณจะแทนที่ prompt เริ่มต้นของ conventional commits ทั้งหมด",

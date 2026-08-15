@@ -952,6 +952,8 @@ export const dict = {
   "chat.memory.rebuild": "Memory index rebuilt",
 
   "settings.commitMessage.title": "Commit Message",
+  "settings.commitMessage.model.title": "Modell",
+  "settings.commitMessage.model.description": "Velg modellen som brukes til å generere Git-commit-meldinger. Hvis den ikke er angitt, brukes standard liten modell.",
   "settings.commitMessage.override.title": "Bruk egendefinert prompt",
   "settings.commitMessage.override.description":
     "Overstyr standard prompt for commit message. Når aktivert, erstatter din egendefinerte prompt fullstendig den innebygde prompten for conventional commits.",
