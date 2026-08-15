@@ -524,11 +524,11 @@ packages/kilo-vscode/src/kilo-provider/
 
 ### 原因
 
-前几阶段主要删除 UI 叶子功能。本阶段开始替换共享核心，是整个裁剪中最关键的一步。
+前几阶段主要删除 UI 叶子功能。本阶段确定配置/调用层方案：按方案 B 保留最小 CLI 后端，提交信息经现有 Provider/LLM 体系调用自定义 OpenAI 兼容 provider，补全保持内置 FIM；后续从 CLI 剥离外围模块。
 
 ### 最小配置
 
-建议只保留：
+最终仅需要以下配置，由现有设置页自定义 provider 流程提供（不新增三字段表单）：
 
 ```text
 baseUrl
@@ -545,62 +545,64 @@ commitMessage.language
 commitMessage.prompt
 ```
 
-### 配置存储建议
+### 配置存储（2026-08-15 已确认）
 
-- Base URL、Model 和普通开关：VS Code Configuration。
-- API Key：VS Code `SecretStorage`，不应明文写入 `settings.json`。
-- 明确全局和工作区配置的优先级。
-- 默认不猜测第三方接口路径；根据 OpenAI 兼容协议明确使用的 endpoint。
+- 保持现状，全部走后端 `config` + `auth store`，不引入 VS Code SecretStorage。
+- Base URL / Model / 开关：CLI config（`provider.{id}.options.baseURL`、`commit_message.*` 等）。
+- API Key：CLI `auth store`（`~/.local/share/kilo/auth.json`，权限 0600，明文）。
+- 不猜测第三方接口路径；提交信息走 Chat Completions（OpenAI 兼容通用格式）。
 
-### 调用层选择
+### 调用层（2026-08-15 已确认：方案 B 保留最小 CLI 后端）
 
-在实施前需要人工确认以下架构选择：
-
-#### 方案 A：扩展直接调用 OpenAI 兼容接口
-
-优点：
-
-- 最终结构最小。
-- 可以删除 CLI 子进程、HTTP/SSE、SDK 和大量 Provider 代码。
-- 代码补全和提交信息都在扩展内完成。
-
-缺点：
-
-- 需要把补全上下文构建和提交信息 Prompt 调用迁到扩展侧。
-- 需要自行实现请求取消、超时、错误处理和流式解析。
-
-#### 方案 B：保留最小 CLI 后端
-
-优点：
-
-- 可以复用现有提交信息和部分补全逻辑。
-- 扩展侧改动相对较小。
-
-缺点：
-
-- 仍需打包 CLI 二进制、启动子进程并维护 SDK/HTTP。
-- 最终仓库和安装包仍然较重。
-- 需要从庞大的 CLI 中剥离 Agent、工具、Session、Provider、TUI 等模块。
-
-### 推荐
-
-若目标是“只保留代码补全和 Git 提交信息”的真正轻量扩展，推荐最终采用**方案 A：扩展直接调用 OpenAI 兼容接口**。
-
-在方案 A 完成并人工确认之前，不要删除旧 CLI 调用链。可先让新调用层同时服务补全和提交信息，再移除旧后端。
+- 保留 `kilo serve` 子进程 + SDK/HTTP，提交信息和补全仍经 CLI 后端执行。
+- 提交信息经现有 Provider/LLM 体系（`commit_message.model = provider@model`），支持 `@ai-sdk/openai-compatible` 自定义 provider。
+- 补全保持内置 FIM provider 目录（FIM 各厂商格式不通用，不接自定义 baseUrl）。
+- 剥离路径：保留核心（LLM/Provider/Session/Agent），只删外围。
 
 ### 验收
 
-- 用户只需配置 Base URL、API Key 和 Model。
-- 两项功能均通过同一个 OpenAI 兼容客户端工作。
-- 不再依赖 Kilo 账号或 Gateway 才能调用模型。
+- 通过现有自定义 provider 流程配置 Base URL、API Key 和 Model 后即可使用提交信息。
+- 提交信息经 CLI 自定义 OpenAI 兼容 provider（Chat Completions）工作；补全经内置 FIM provider 工作。
+- 提交信息不依赖 Kilo 账号或 Gateway 即可调用模型。
 - 请求支持取消和合理超时。
-- API Key 不出现在日志、错误信息或普通设置文件中。
+- API Key 存 CLI auth store，不出现于日志、错误信息或 `settings.json`。
+
+### 方案 B 执行记录（2026-08-15）
+
+**调用层方案已确认：方案 B（保留最小 CLI 后端）**。用户明确三件事：
+
+1. **配置存储保持现状**：Base URL / API Key / Model 仍走后端 `config` + `auth store`（经现有自定义 provider 流程写入 `provider.{id}`），不引入 VS Code SecretStorage。
+2. **剥离路径：保留核心、只删外围**：提交信息依赖的 LLM/Provider/Session 核心链路保留不动；只剥离 TUI、云 handler、索引/记忆/sandbox/mcp 等外围模块。**不重写提交信息/补全内部调用**。
+3. **第六阶段同时开始剥离 CLI**（不限于配置层）。
+
+**调查结论（2026-08-15）**：
+
+- **补全（FIM）链路**：扩展 `AutocompleteServiceManager` 读 `kilo-code.new.autocomplete.provider/model` → `generateFim()`（`services/autocomplete/fim.ts`）→ SDK `client.kilo.fim` → 后端 `/kilo/fim` handler（`kilocode/server/httpapi/handlers/kilo-gateway.ts:121`）→ `resolveFimTarget()`（`kilo-gateway/src/fim.ts`，硬编码 5 个 provider URL）→ `auth.get()` 取 token → OpenAI 兼容 FIM 请求（`buildFimPayload` 已通用）。**FIM 链路依赖小，剥离周边容易，但当前不支持自定义 baseUrl**。
+- **提交信息链路**：扩展 `registerCommitMessageService` → `client.commitMessage.generate` → 后端 `/commit-message/generate` handler（`handlers/commit-message.ts`，读 Config `commit_message.prompt/model`）→ `generateCommitMessage()`（`kilocode/commit-message/generate.ts`，经 `Provider.Service` + `LLM.Service` + `Agent.Info` + `AppRuntime`）→ 已支持 `provider@model` 与 `@ai-sdk/openai-compatible` 自定义 provider。
+- **依赖事实**：`session/llm.ts` 依赖 Provider/Config/Auth/Plugin/Permission/EventV2Bridge/KiloSession/SessionExport/InstanceState。**提交信息复用 LLM 体系 ⇒ Agent/Session/Provider/Permission/Plugin 无法从 CLI 剥离**（保留核心路径的结构性约束）。可剥的只有不在这条链路里的外围模块。
+- **CLI 服务端全貌**：HTTP 服务（`server/routes/instance/httpapi/server.ts`）聚合约 18 个 Kilo 特有路由组 + 20 个共享路由组 + 50 个服务节点。Kilo 特有组注册点：`kilocode/server/httpapi/server.ts:31-50`。
+- **CLI auth store**：`~/.local/share/kilo/auth.json` 明文 0600，无加密（`packages/opencode/src/auth/index.ts`）。
+
+**执行步骤（跨会话推进，每完成一项更新进度）**：
+
+> **2026-08-15 调整（用户确认）**：**FIM 不接自定义 provider**——各厂商 FIM 适配格式不通用（Mistral `/v1/fim/completions` prefix/suffix、DeepSeek `/beta/completions`、DashScope `<|fim_prefix|>` 模板等），无法用统一格式适配任意 baseUrl。因此最小配置（Base URL / API Key / Model）只驱动**提交信息**（Chat Completions 为通用 OpenAI 格式）；**补全保持内置 FIM provider 目录选择**（kilo/mistral/inception/deepseek/alibaba-cn）。
+
+- [x] **S1 设置页保持现状（2026-08-15 用户确认，不改代码）**：不重写、不删除设置页。现有 `CustomProviderDialog` 已能配置 Base URL / API Key / Model（写后端 `provider.{id}` + auth store），`CommitMessageTab` 可选择该 provider 的模型用于提交信息（`commit_message.model = {id}@<model>`）。最小配置能力由现有渠道商流程提供，无需新增三字段表单，不删 Provider 目录 / OAuth / 禁用管理等 UI。
+- [ ] **S4 人工验收**：通过现有自定义 provider 流程配置 Base URL / API Key / Model 后，提交信息可用且不依赖 Kilo 账号/Gateway；补全用内置 FIM provider 工作。
+- [ ] **S5 剥离 Kilo 特有 handler（外围）**：从 `kilocode/server/httpapi/server.ts` 移除 agentBuilder、anacondaDesktop、backgroundProcess、branchName、enhancePrompt、indexing、instanceReload、interactiveTerminal、memory、network、sandbox、sessionImport、suggestion、telemetry；保留 commitMessage、kiloGateway（fim/authStatus）、kilocode（必要）、configConsole。删除对应 handler/groups 文件。
+- [ ] **S6 剥离共享路由组（外围）**：从 `server.ts` instance routes 移除 experimental、mcp、permission、question、session、sync、tui、pty、project、projectCopy、workspace、control、controlPlane、file（确认 git-context 不用 file 后再删）。**注意**：`connection-service.ts` 的 `drainPendingPrompts` 仍调用 permission/question/suggestion/network，设置保存前需同步移除该调用。
+- [ ] **S7 剥离服务节点（外围）**：从 app 服务图移除 Account、Skill、Discovery、Question、Permission、PermissionSaved、Todo、MCP、McpAuth、Command、Truncate、ToolRegistry（确认 LLM 不依赖）、Format、Project、Vcs、Workspace、Worktree、Installation、ShareNext、SessionShare、SyncEvent、AgentManager、MemoryService、MoveSession、PtyTicket、ProjectV2、ProjectCopy、Session（确认 LLM/KiloSession 不依赖共享 Session 节点）。保留 Provider/ModelCache/ProviderAuth/Agent/Config/Auth/Storage/Database/FSUtil/Ripgrep/Git/EventV2/EventV2Bridge/InstanceStore/httpClient/Credential/ModelsDev/Npm/LLM。
+- [ ] **S8 删除实现目录（外围）**：skill、mcp、memory、indexing、sandbox、worktree、question、permission、installation、share、control-plane、background、lsp、plugin（确认 LLM 不依赖后）等。
+- [ ] **S9 清理 TUI / CLI 命令 / 启动入口**：`packages/opencode/src/tui/`、`cli/tui/`、`cli/cmd` 中非 serve 命令、`server/shared/ui` 等。
+- [ ] **S10 清理构建配置 / 脚本 / 测试**：esbuild、knip、package.json、无用脚本与测试。
+
+**UX 决策（2026-08-15 确认）**：设置页不新增三字段表单。最小配置（Base URL / API Key / Model）由现有 `CustomProviderDialog` 流程提供，提交信息经 `CommitMessageTab` 选择该 provider 的模型（`commit_message.model = {id}@<model>`）；补全保持内置 FIM provider 目录（FIM 格式各厂商不通用，不接自定义）。
 
 ## 阶段 7：移除 Kilo 云服务、账号、Gateway 和遥测
 
 ### 前置条件
 
-只有当阶段 6 的 OpenAI 兼容调用链已经完全独立后才能开始。
+提交信息需可经自定义 OpenAI 兼容 provider 独立调用（不依赖 Kilo Gateway）；补全需确认 BYOK 内置 FIM provider 可独立工作后，再移除 Gateway。
 
 ### 主要范围
 
@@ -633,54 +635,41 @@ packages/kilo-vscode/src/services/telemetry/
 - 不初始化 PostHog 或 OpenTelemetry。
 - OpenAI 兼容接口仍独立可用。
 
-## 阶段 8：移除 CLI、SDK 和多 Provider 核心
+## 阶段 8：最小化 CLI 后端（保留核心，只删外围）
 
 ### 前置条件
 
-扩展已经直接完成代码补全和 Git 提交信息生成，不再调用 `KiloConnectionService`。
+阶段 6（配置/调用层）与阶段 7（移除云服务、账号、Gateway、遥测）完成。
 
-### 扩展侧清理
+### 方案说明（2026-08-15 已确认方案 B）
 
-移除：
+本阶段**不删除** CLI 后端。保留 `kilo serve` 子进程、SDK/HTTP 客户端、CLI 二进制打包与 `packages/opencode` 核心（Provider/LLM/Session/Agent/Config/Auth/Storage）。只从 CLI 剥离外围模块。
 
-```text
-packages/kilo-vscode/src/services/cli-backend/
-```
+### 剥离范围
 
-同步清理：
+按阶段 6「方案 B 执行记录」S5–S10 分批执行：
 
-- `KiloConnectionService`。
-- `ServerManager`。
-- HTTP/SSE 客户端。
-- CLI 二进制打包和复制脚本。
-- 后端预热逻辑。
-- CLI 密码和端口管理。
+- Kilo 特有 handler：agentBuilder、anacondaDesktop、backgroundProcess、branchName、enhancePrompt、indexing、instanceReload、interactiveTerminal、memory、network、sandbox、sessionImport、suggestion、telemetry。
+- 共享路由组：experimental、mcp、permission、question、session、sync、tui、pty、project、projectCopy、workspace、control、controlPlane、file。
+- 服务节点与实现目录：skill、mcp、memory、indexing、sandbox、worktree、question、permission、installation、share、control-plane、background、lsp、plugin 等（逐一确认 LLM/Provider/Session 不依赖后再删）。
+- TUI、CLI 非 serve 命令、`server/shared/ui`。
 
-### 仓库包清理
+### 保留
 
-根据最终引用关系评估删除：
-
-```text
-packages/opencode/
-packages/sdk/js/
-packages/plugin/
-packages/kilo-memory/
-packages/core/
-```
-
-不要把上面的列表理解为必删清单。每个包都必须根据 workspace 引用和最终扩展依赖确认。
+- `packages/opencode`、`packages/sdk/js`、`packages/plugin`、`packages/kilo-memory`（按最终依赖确认）。
+- `KiloConnectionService`、`ServerManager`、HTTP/SSE 客户端、CLI 二进制打包脚本。
 
 ### 多 Provider 清理
 
-删除所有与最终 OpenAI 兼容客户端无关的 Provider SDK、模型目录、认证方式、Provider 配置和补丁。
+删除与补全（内置 FIM provider）和提交信息（自定义 OpenAI 兼容 provider）无关的 Provider 目录、模型目录和认证方式。
 
 ### 验收
 
-- 扩展不再启动 `kilo serve` 子进程。
-- 安装包不再包含 CLI 二进制。
-- 不再依赖自动生成 SDK。
-- 不再包含多 Provider 模型选择逻辑。
-- 两项功能直接调用用户配置的 OpenAI 兼容接口。
+- 扩展仍启动 `kilo serve` 子进程（方案 B 保留）。
+- 安装包仍包含 CLI 二进制。
+- CLI 服务端不再注册被剥离的路由组与服务。
+- 提交信息经自定义 OpenAI 兼容 provider 工作；补全经内置 FIM provider 工作。
+- CLI 体积与依赖显著缩减。
 
 ## 阶段 9：删除非目标产品和开发基础设施
 
@@ -750,7 +739,7 @@ GitHub Workflow 的删除需要同步维护仓库现有工作流 allowlist。最
 
 ### 设置界面
 
-新的 Base URL、API Key 和 Model 配置入口落地前，必须暂时保留。
+设置页保持现状（2026-08-15 确认），作为 Base URL、API Key、Model 的配置入口，不新增三字段表单。
 
 ### `packages/kilo-gateway/`
 
@@ -802,7 +791,7 @@ GitHub Workflow 的删除需要同步维护仓库现有工作流 allowlist。最
 
 - [ ] Base URL 可保存和读取
 - [ ] Model 可保存和读取
-- [ ] API Key 使用 SecretStorage
+- [ ] API Key 保存到 CLI auth store，不出现于 `settings.json`
 - [ ] 日志中不出现 API Key
 - [ ] 错误提示不泄漏请求头
 - [ ] 不向 Kilo 云服务发送请求
@@ -852,13 +841,7 @@ packages/opencode/package.json
 
 ### 9.5 代码补全模型能力
 
-普通 Chat Completions 模型不一定支持 FIM。最终需要明确代码补全采用：
-
-- Chat Prompt 生成后续代码；
-- FIM Prompt；或
-- 服务商专用代码补全接口。
-
-该决策会影响“任意 OpenAI 兼容 Base URL”的实际兼容范围，应在阶段 6 由用户确认。
+普通 Chat Completions 模型不一定支持 FIM。**2026-08-15 已确认**：代码补全保持内置 FIM provider 目录（kilo/mistral/inception/deepseek/alibaba-cn），不接自定义 baseUrl——FIM 各厂商适配格式不通用（Mistral `/v1/fim/completions` prefix/suffix、DeepSeek `/beta/completions`、DashScope `<|fim_prefix|>` 模板等），无法用统一格式适配任意 OpenAI 兼容接口。补全模型由用户从内置目录选择。
 
 ## 10. 推荐执行结论
 
@@ -869,11 +852,11 @@ packages/opencode/package.json
 3. 移除 Marketplace。
 4. 移除 Agent Manager 和 worktree。
 5. 分批移除 Browser Automation、Notebook、Remote、Diff、Sub-agent、自动审批等外围能力。
-6. 建立最小 OpenAI 配置入口。
-7. 让代码补全和提交信息直接使用统一 OpenAI 兼容客户端。
+6. 使用现有设置页自定义 provider 流程配置 Base URL / API Key / Model（不新增三字段表单）。
+7. 提交信息经 CLI Provider/LLM 调用自定义 OpenAI 兼容 provider；补全保持内置 FIM。
 8. 移除普通 Agent Chat 和主 Webview。
 9. 移除账号、云服务、Gateway 和遥测。
-10. 移除 CLI 后端、SDK 和多 Provider 核心。
+10. 最小化 CLI 后端：保留核心（LLM/Provider/Session/Agent），只删外围（TUI、云 handler、索引/记忆/sandbox/mcp 等）。
 11. 删除非目标产品、无用 workspace、脚本、CI 和依赖。
 12. 完成产品命名、文档和打包收口。
 
