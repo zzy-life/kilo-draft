@@ -3,6 +3,19 @@ import type { KiloConnectionService } from "../cli-backend/connection-service"
 import { getErrorMessage } from "../../kilo-provider-utils"
 import { getCommitMessageLanguage } from "../i18n"
 
+/**
+ * Resolve the commit message model from the VS Code settings (aligned with the
+ * autocomplete model setting). Returns `provider/model` when both are set,
+ * otherwise `undefined` so the backend falls back to commit_message.model →
+ * the default small model.
+ */
+function getCommitMessageModel(vscodeApi: typeof import("vscode")): string | undefined {
+  const config = vscodeApi.workspace.getConfiguration("kilo-code.new.commitMessage")
+  const provider = config.get<string>("provider") ?? ""
+  const model = config.get<string>("model") ?? ""
+  return provider && model ? `${provider}/${model}` : undefined
+}
+
 let lastGeneratedMessage: string | undefined
 let lastWorkspacePath: string | undefined
 
@@ -102,7 +115,13 @@ export function registerCommitMessageService(
 
               try {
                 const { data } = await client.commitMessage.generate(
-                  { path, selectedFiles: undefined, previousMessage, language: getCommitMessageLanguage(vscode) },
+                  {
+                    path,
+                    selectedFiles: undefined,
+                    previousMessage,
+                    language: getCommitMessageLanguage(vscode),
+                    model: getCommitMessageModel(vscode),
+                  },
                   { throwOnError: true, signal: state.controller.signal },
                 )
                 const message = data.message

@@ -23,7 +23,7 @@ export const commitMessageHandlers = HttpApiBuilder.group(InstanceHttpApi, "comm
           path: ctx.payload.path,
           selectedFiles: ctx.payload.selectedFiles ? [...ctx.payload.selectedFiles] : undefined,
           previousMessage: ctx.payload.previousMessage,
-          model: cfg.commit_message?.model,
+          model: ctx.payload.model ?? cfg.commit_message?.model,
           prompt,
           language: ctx.payload.language,
           signal,

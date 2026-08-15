@@ -4,7 +4,13 @@ import { retry } from "../services/cli-backend/retry"
 import type { ConfigTarget } from "./config-bindings"
 
 type Client = Pick<KiloClient, "config" | "global">
-type Settings = { maxCost: number; languageCommitMessage: string }
+type Settings = {
+  maxCost: number
+  languageCommitMessage: string
+  /** Commit message model as a `provider/model` pair of VS Code settings. */
+  "commitMessage.provider"?: string
+  "commitMessage.model"?: string
+}
 export async function fetchSnapshot(client: Client, dir: string, settings: () => Settings) {
   const [{ data: config }, { data: global }, { data: overlay }] = await Promise.all([
     retry(() => client.config.get({ directory: dir }, { throwOnError: true })),

@@ -773,9 +773,12 @@ export class SettingsProvider implements vscode.Disposable {
   }
 
   private configSettings() {
+    const commitMessage = vscode.workspace.getConfiguration("kilo-code.new.commitMessage")
     return {
       maxCost: vscode.workspace.getConfiguration("kilo-code.new").get<number>("maxCost", 0),
       languageCommitMessage: vscode.workspace.getConfiguration("kilo-code.new").get<string>("languageCommitMessage", "sync"),
+      "commitMessage.provider": commitMessage.get<string>("provider", ""),
+      "commitMessage.model": commitMessage.get<string>("model", ""),
     }
   }
 

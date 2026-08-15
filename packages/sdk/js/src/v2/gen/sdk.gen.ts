@@ -6343,6 +6343,7 @@ export class CommitMessage extends HeyApiClient {
       selectedFiles?: Array<string>
       previousMessage?: string
       language?: string
+      model?: string
     },
     options?: Options<never, ThrowOnError>,
   ) {
@@ -6357,6 +6358,7 @@ export class CommitMessage extends HeyApiClient {
             { in: "body", key: "selectedFiles" },
             { in: "body", key: "previousMessage" },
             { in: "body", key: "language" },
+            { in: "body", key: "model" },
           ],
         },
       ],

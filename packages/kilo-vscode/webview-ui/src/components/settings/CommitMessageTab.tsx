@@ -8,9 +8,9 @@ import { useConfig } from "../../context/config"
 import { useLanguage, LOCALES, LOCALE_LABELS } from "../../context/language"
 import { useProvider } from "../../context/provider"
 import type { Locale } from "../../context/language"
-import { parseModelString } from "../../../../src/shared/provider-model"
 import { ModelSelectorBase } from "../shared/ModelSelector"
 import SettingsRow from "./SettingsRow"
+import { getCommitMessageSelection } from "./commit-message-model-selector"
 
 const SYNC = "sync"
 const opts = [SYNC, ...LOCALES] as const
@@ -33,8 +33,20 @@ const CommitMessageTab: Component<CommitMessageTabProps> = (props) => {
     updateConfig({ commit_message: { ...config().commit_message, ...value } })
   }
 
+  // Commit message model is stored as a VS Code setting (aligned with the
+  // autocomplete model setting), so the selector reads/writes settings().
+  const commitProvider = () => {
+    const value = settings()["commitMessage.provider"]
+    return typeof value === "string" && value ? value : undefined
+  }
+  const commitModel = () => {
+    const value = settings()["commitMessage.model"]
+    return typeof value === "string" && value ? value : undefined
+  }
+
   const selectModel = (providerID: string, modelID: string) => {
-    updateCommitMessage({ model: providerID && modelID ? `${providerID}/${modelID}` : null })
+    updateSetting("commitMessage.provider", providerID || null)
+    updateSetting("commitMessage.model", modelID || null)
   }
 
   const toggle = (checked: boolean) => {
@@ -75,7 +87,7 @@ const CommitMessageTab: Component<CommitMessageTabProps> = (props) => {
             </Show>
             <div class="settings-model-selector">
               <ModelSelectorBase
-                value={parseModelString(config().commit_message?.model ?? undefined)}
+                value={getCommitMessageSelection(commitProvider(), commitModel())}
                 onSelect={selectModel}
                 placement="bottom-start"
                 models={provider.models()}

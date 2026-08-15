@@ -299,6 +299,16 @@
             "فارسی"
           ]
         },
+        "kilo-code.new.commitMessage.provider": {
+          "type": "string",
+          "default": "",
+          "description": "Provider used to generate Git commit messages. Leave unset to use the default small model."
+        },
+        "kilo-code.new.commitMessage.model": {
+          "type": "string",
+          "default": "",
+          "description": "Model used to generate Git commit messages. Leave unset to use the default small model."
+        },
         "kilo-code.new.autocomplete.model": {
           "type": "string",
           "enum": [

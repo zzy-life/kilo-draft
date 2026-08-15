@@ -11346,6 +11346,10 @@
                   },
                   "language": {
                     "type": "string"
+                  },
+                  "model": {
+                    "type": "string",
+                    "description": "Model to use for commit message generation in provider/model format. Falls back to the configured commit_message.model, then the default small model."
                   }
                 },
                 "required": ["path"],

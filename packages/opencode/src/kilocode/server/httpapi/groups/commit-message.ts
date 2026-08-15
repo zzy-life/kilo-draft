@@ -21,6 +21,10 @@ export const CommitMessagePayload = Schema.Struct({
   language: Schema.optional(Schema.String).annotate({
     description: "Target language for the generated commit message (e.g. zh, en). Falls back to English.",
   }),
+  model: Schema.optional(Schema.String).annotate({
+    description:
+      "Model to use for commit message generation in provider/model format. Falls back to the configured commit_message.model, then the default small model.",
+  }),
 })
 
 const CommitMessageResponse = Schema.Struct({
