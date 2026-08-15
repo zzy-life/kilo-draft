@@ -24,6 +24,21 @@ export class SettingsLauncherProvider implements vscode.WebviewViewProvider {
     }
     webviewView.webview.html = this.html()
 
+    this.launch()
+
+    // resolveWebviewView is only called when the webview view is (re)created.
+    // With retainContextWhenHidden the same retained webview is re-shown on
+    // every activity-bar click, so re-run the launcher whenever the view
+    // becomes visible again (e.g. after switching to Explorer / Source Control
+    // and back) — otherwise a stale narrow "Opening Kilo Settings…" view
+    // lingers in the sidebar.
+    webviewView.onDidChangeVisibility(() => {
+      if (webviewView.visible) this.launch()
+    })
+  }
+
+  /** Open the wide settings panel, then collapse the sidebar. */
+  private launch(): void {
     // Open the wide settings panel first, then collapse the sidebar so the
     // launcher doesn't linger as a narrow empty view. Defer the collapse so
     // VS Code finishes resolving the view before the sidebar closes.
