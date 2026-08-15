@@ -83,6 +83,12 @@ export interface LanguageChangedMessage {
   locale: string
 }
 
+/** Effective UI locale pushed to the narrow settings-nav sidebar (extension → webview). */
+export interface NavLanguageMessage {
+  type: "navLanguage"
+  locale: string
+}
+
 export interface ConnectionStateMessage {
   type: "connectionState"
   state: ConnectionState
@@ -1297,6 +1303,7 @@ export type ExtensionMessage =
   | FavoritesLoadedMessage
   | ModelSelectionsLoadedMessage
   | LanguageChangedMessage
+  | NavLanguageMessage
   | ContinueInWorktreeProgressMessage
   | WorktreeStatsLoadedMessage
   | McpStatusLoadedMessage
