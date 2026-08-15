@@ -5,9 +5,8 @@
 
 import { createSignal } from "solid-js"
 import type { Meta, StoryObj } from "storybook-solidjs-vite"
-import { StoryProviders, mockSessionValue } from "./StoryProviders"
+import { StoryProviders } from "./StoryProviders"
 import { ModelSelectorBase } from "../components/shared/ModelSelector"
-import { SessionContext } from "../context/session"
 import type { EnrichedModel } from "../context/provider"
 import type { ModelSelection } from "../types/messages"
 import { Markdown } from "@kilocode/kilo-ui/markdown"
@@ -122,46 +121,6 @@ export const ModelSelectorAccessible: Story = {
       <AccessibleModelSelector />
     </StoryProviders>
   ),
-}
-
-export const ModelSelectorSelectedFavorite: Story = {
-  name: "ModelSelector — selected favorite",
-  render: () => {
-    const session = {
-      ...mockSessionValue(),
-      favoriteModels: () => [{ providerID: "kilo", modelID: "alpha" }],
-    }
-
-    return (
-      <StoryProviders>
-        <SessionContext.Provider value={session as any}>
-          <AccessibleModelSelector />
-        </SessionContext.Provider>
-      </StoryProviders>
-    )
-  },
-}
-
-export const ModelSelectorMostUsed: Story = {
-  name: "ModelSelector - most used suggestions",
-  render: () => {
-    const session = {
-      ...mockSessionValue(),
-      modelUsageHistory: () => ({
-        "kilo/alpha": { count: 3, lastUsed: 100 },
-        "kilo/bravo": { count: 12, lastUsed: 200 },
-        "nvidia/nova": { count: 7, lastUsed: 300 },
-      }),
-    }
-
-    return (
-      <StoryProviders>
-        <SessionContext.Provider value={session as any}>
-          <AccessibleModelSelector />
-        </SessionContext.Provider>
-      </StoryProviders>
-    )
-  },
 }
 
 const LARGE_MODELS: EnrichedModel[] = Array.from({ length: 600 }, (_, i) => {

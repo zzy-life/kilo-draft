@@ -1,6 +1,5 @@
-import { Show, For, useContext, type Component } from "solid-js"
+import { Show, For, type Component } from "solid-js"
 import type { EnrichedModel } from "../../context/provider"
-import { SessionContext } from "../../context/session"
 import { Markdown } from "@kilocode/kilo-ui/markdown"
 import { Icon } from "@kilocode/kilo-ui/icon"
 import { Tooltip } from "@kilocode/kilo-ui/tooltip"
@@ -42,7 +41,6 @@ const MODALITY_KEYS: Record<string, string> = {
 
 export const ModelPreview: Component<Props> = (props) => {
   const m = () => props.model
-  const session = useContext(SessionContext)
   const language = useLanguage()
 
   return (
@@ -82,27 +80,6 @@ export const ModelPreview: Component<Props> = (props) => {
                 <div class="model-preview-title-row">
                   <div class="model-preview-name-row">
                     <span class="model-preview-name">{sanitizeName(model().name)}</span>
-                    <Show when={session}>
-                      {(() => {
-                        const starred = () =>
-                          session!
-                            .favoriteModels()
-                            .some((f) => f.providerID === model().providerID && f.modelID === model().id)
-                        return (
-                          <button
-                            type="button"
-                            class={`model-selector-star model-selector-star--preview${starred() ? " model-selector-star--active" : ""}`}
-                            aria-label={
-                              starred() ? language.t("model.favorite.remove") : language.t("model.favorite.add")
-                            }
-                            aria-pressed={starred()}
-                            onClick={() => session!.toggleFavorite(model().providerID, model().id)}
-                          >
-                            <Icon name={starred() ? "star-filled" : "star"} size="small" />
-                          </button>
-                        )
-                      })()}
-                    </Show>
                   </div>
                   <Show when={isAuto(model()) || model().isFree || hasByok(model()) || isDataCollectedModel(model())}>
                     <span class="model-preview-free-data">

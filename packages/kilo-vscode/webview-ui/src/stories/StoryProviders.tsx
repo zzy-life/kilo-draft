@@ -1,19 +1,19 @@
 /** @jsxImportSource solid-js */
 /**
- * StoryProviders — wraps composite stories with all required contexts.
+ * StoryProviders — wraps stories with the contexts needed by the settings
+ * webview. The chat/session layer was removed in Phase 5 (repository
+ * reduction), so this no longer mocks Session/Feedback/Notifications/etc.
  *
- * Instead of instantiating the full VSCodeProvider → ServerProvider → SessionProvider
- * chain (which requires a real extension host / SSE connection), we provide mock
- * context values directly. Where a real provider is safe to instantiate without an
- * extension host (VSCodeProvider, ServerProvider, ProviderProvider), we use the real
- * thing so components that call useVSCode()/useServer()/useProvider()/useIndexing()
- * don't throw.
+ * Where a real provider is safe to instantiate without an extension host
+ * (VSCodeProvider, ServerProvider, DisplayProvider), we use the real thing so
+ * components that call useVSCode()/useServer()/useProvider()/useConfig() don't
+ * throw. Provider and Config are mocked so model lists and config edits are
+ * synchronous.
  */
 
 import { createSignal, createMemo, type ParentComponent } from "solid-js"
 import { VSCodeProvider } from "../context/vscode"
 import { ServerProvider } from "../context/server"
-import { FeedbackProvider } from "../context/feedback"
 import { ProviderContext } from "../context/provider"
 import { flattenModels, findModel as _findModel } from "../context/provider-utils"
 import { ConfigProvider, ConfigContext } from "../context/config"
@@ -29,30 +29,13 @@ import type { UiI18nPluralKey } from "@kilocode/kilo-ui/context"
 import { Diff } from "@kilocode/kilo-ui/diff"
 import { Code } from "@kilocode/kilo-ui/code"
 import { File } from "@kilocode/kilo-ui/file"
-import { SessionContext } from "../context/session"
-import { AgentRequirementsContext, type AgentRequirementsContextValue } from "../context/agent-requirements"
-import { NotificationsContext } from "../context/notifications"
 import { LanguageContext } from "../context/language"
-import { IndexingProvider } from "../context/indexing"
-import { KiloEmbeddingModelsProvider } from "../context/kilo-embedding-models"
-import { MemoryProvider } from "../context/memory"
-import { TranscriptSearchProvider } from "../context/transcript-search"
 import { dict as uiEn } from "@kilocode/kilo-ui/i18n/en"
 import { dict as appEn } from "../i18n/en"
 import { dict as kiloEn } from "@kilocode/kilo-i18n/en"
 import { hasIndexingPlugin } from "@kilocode/kilo-indexing/detect"
 import { resolveTemplate } from "../context/language-utils"
-import type {
-  Config,
-  FeatureFlags,
-  KilocodeNotification,
-  PermissionRequest,
-  ProviderAuthState,
-  SessionCloseReason,
-  QuestionRequest,
-  SuggestionRequest,
-  AgentRequirementResult,
-} from "../types/messages"
+import type { Config, FeatureFlags, ProviderAuthState } from "../types/messages"
 
 type PluginSpec = string | [string, Record<string, unknown>]
 
@@ -66,10 +49,6 @@ export function t(key: string, params?: Record<string, string | number | boolean
 
 const plural = (key: UiI18nPluralKey, count: number, params?: Record<string, string | number | boolean>) =>
   t(pluralKey(key, pluralCategory("en", count)), { ...params, count })
-
-// ---------------------------------------------------------------------------
-// Default mock data (empty session)
-// ---------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------
 // Mock providers — pre-loaded Kilo Gateway model for stories
@@ -121,37 +100,28 @@ const MockProviderProvider: ParentComponent<{ kiloAuth?: boolean; training?: boo
   return <ProviderContext.Provider value={value}>{props.children}</ProviderContext.Provider>
 }
 
-/** @deprecated use MockProviderProvider; kept for callers that still call dispatchMockProviders */
-function dispatchMockProviders() {}
-
-export const defaultMockData = {
-  session: [],
-  session_status: {},
-  session_diff: {},
-  message: {} as Record<string, any[]>,
-  part: {} as Record<string, any[]>,
-  permission: {} as Record<string, any[]>,
-  question: {},
-  provider: { all: new Map(), connected: [], default: {} },
-}
-
-// ---------------------------------------------------------------------------
-// Mock NotificationsContext value
-// ---------------------------------------------------------------------------
-
 function noop() {}
 
-function mockNotificationsValue(items: KilocodeNotification[] = []) {
-  return {
-    notifications: () => items,
-    filteredNotifications: () => items,
-    dismiss: noop,
-  }
-}
+// ---------------------------------------------------------------------------
+// StoryProviders component
+// ---------------------------------------------------------------------------
 
-// ---------------------------------------------------------------------------
-// Mock SessionContext value — only the subset used by components
-// ---------------------------------------------------------------------------
+interface StoryProvidersProps {
+  /** When provided, injects a mock ConfigContext with this config instead of the real ConfigProvider. */
+  config?: Config
+  features?: Partial<FeatureFlags>
+  globalConfig?: Config
+  projectConfig?: Config
+  onConfigChange?: (config: Config) => void
+  onGlobalConfigChange?: (config: Config) => void
+  onProjectConfigChange?: (config: Config) => void
+  onOpenDiff?: OpenDiffFn
+  onOpenFile?: OpenFileFn
+  kiloAuth?: boolean
+  training?: boolean
+  /** When true, renders children without the default 12px padding wrapper */
+  noPadding?: boolean
+}
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return !!value && typeof value === "object" && !Array.isArray(value)
@@ -168,155 +138,6 @@ function merge(target: Record<string, unknown>, source: Record<string, unknown>)
     result[key] = value
   }
   return result
-}
-
-export function mockSessionValue(overrides?: {
-  id?: string
-  permissions?: PermissionRequest[]
-  questions?: QuestionRequest[]
-  suggestions?: SuggestionRequest[]
-  status?: string
-  closeReason?: SessionCloseReason
-}) {
-  const id = overrides?.id ?? "story-session-001"
-  const permissions = overrides?.permissions ?? []
-  const qs = overrides?.questions ?? []
-  const suggestions = overrides?.suggestions ?? []
-  const status = (overrides?.status ?? "idle") as "idle" | "busy"
-
-  return {
-    currentSessionID: () => id,
-    currentSession: () => ({
-      id,
-      title: "Story session",
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    }),
-    setCurrentSessionID: noop,
-    sessions: () => [],
-    status: () => status,
-    statusInfo: () => ({ type: status }),
-    closeReason: () => overrides?.closeReason,
-    statusText: () => (status === "idle" ? undefined : "Thinking…"),
-    busySince: () => (status === "busy" ? Date.now() - 2000 : undefined),
-    loading: () => false,
-    loadingOlderMessages: () => false,
-    hasOlderMessages: () => false,
-    submitting: () => false,
-    draftSessionID: () => undefined,
-    setDraftSessionID: noop,
-    userClearedSession: () => false,
-    messageMutation: () => undefined,
-    messages: () => [],
-    visibleMessages: () => [],
-    userMessages: () => [],
-    allMessages: () => ({}),
-    allParts: () => ({}),
-    allStatusMap: () => ({}),
-    getParts: () => [],
-    getSessionToolParts: () => [],
-    getSessionToolCount: () => 0,
-    isErrorHidden: () => false,
-    hydrateParts: noop,
-    todos: () => [],
-    permissions: () => permissions,
-    respondingPermissions: () => new Set<string>(),
-    questions: () => qs,
-    questionErrors: () => new Set<string>(),
-    suggestions: () => suggestions,
-    suggestionErrors: () => new Set<string>(),
-    respondingSuggestions: () => new Set<string>(),
-    scopedPermissions: (sid?: string) => (sid ? permissions.filter((p) => p.sessionID === sid) : permissions),
-    scopedQuestions: (sid?: string) => (sid ? qs.filter((q) => q.sessionID === sid) : qs),
-    scopedSuggestions: (sid?: string) => (sid ? suggestions.filter((item) => item.sessionID === sid) : suggestions),
-    selected: () => ({ providerID: "kilo", modelID: "anthropic/claude-sonnet-4-6" }),
-    modelForAgent: () => ({ providerID: "kilo", modelID: "anthropic/claude-sonnet-4-6" }),
-    configModelForAgent: () => ({ providerID: "kilo", modelID: "anthropic/claude-sonnet-4-6" }),
-    selectModel: noop,
-    hasModelOverride: () => false,
-    clearModelOverride: noop,
-    costBreakdown: () => [],
-    contextUsage: () => undefined,
-    modelUsage: () => undefined,
-    agents: () => [{ name: "code", description: "Code mode", mode: "primary" as const }],
-    allAgents: () => [{ name: "code", description: "Code mode", mode: "primary" as const }],
-    skills: () => [],
-    refreshSkills: noop,
-    removeSkill: noop,
-    removeAgent: noop,
-    selectedAgent: () => "code",
-    selectAgent: noop,
-    getSessionAgent: () => "code",
-    setSessionModel: noop,
-    setSessionAgent: noop,
-    setSessionVariant: noop,
-    revert: () => undefined,
-    revertedCount: () => 0,
-    summary: () => undefined,
-    worktreeStats: () => undefined,
-    revertSession: noop,
-    unrevertSession: noop,
-    favoriteModels: () => [],
-    recentModels: () => [],
-    modelUsageHistory: () => ({}),
-    toggleFavorite: noop,
-    variantList: () => [],
-    currentVariant: () => undefined,
-    variantForAgent: () => undefined,
-    selectVariant: noop,
-    sendMessage: noop,
-    sendCommand: noop,
-    abort: noop,
-    compact: noop,
-    respondToPermission: noop,
-    replyToQuestion: noop,
-    rejectQuestion: noop,
-    closeQuestion: noop,
-    acceptSuggestion: noop,
-    dismissSuggestion: noop,
-    createSession: noop,
-    clearCurrentSession: noop,
-    loadSessions: noop,
-    loadOlderMessages: () => false,
-    selectSession: noop,
-    deleteSession: noop,
-    renameSession: noop,
-    syncSession: noop,
-    exportSessionTranscript: noop,
-    cloudPreviewId: () => null,
-    selectCloudSession: noop,
-  }
-}
-
-// ---------------------------------------------------------------------------
-// StoryProviders component
-// ---------------------------------------------------------------------------
-
-interface StoryProvidersProps {
-  data?: any
-  permissions?: PermissionRequest[]
-  questions?: QuestionRequest[]
-  suggestions?: SuggestionRequest[]
-  notifications?: KilocodeNotification[]
-  agentRequirements?: AgentRequirementResult
-  agentRequirementsChecking?: boolean
-  agentRequirementsBlocked?: boolean
-  status?: string
-  sessionID?: string
-  /** When provided, injects a mock ConfigContext with this config instead of the real ConfigProvider. */
-  config?: Config
-  features?: Partial<FeatureFlags>
-  globalConfig?: Config
-  projectConfig?: Config
-  onConfigChange?: (config: Config) => void
-  onGlobalConfigChange?: (config: Config) => void
-  onProjectConfigChange?: (config: Config) => void
-  onOpenDiff?: OpenDiffFn
-  onOpenFile?: OpenFileFn
-  kiloAuth?: boolean
-  training?: boolean
-  /** When true, renders children without the default 12px padding wrapper */
-  noPadding?: boolean
 }
 
 /** Wraps children with either a mock ConfigContext (when config prop is given) or the real ConfigProvider. */
@@ -405,99 +226,64 @@ const ConfigWrapper: ParentComponent<{
 }
 
 export const StoryProviders: ParentComponent<StoryProvidersProps> = (props) => {
-  const data = () => props.data ?? defaultMockData
-  const session = mockSessionValue({
-    id: props.sessionID,
-    permissions: props.permissions,
-    questions: props.questions,
-    suggestions: props.suggestions,
-    status: props.status,
-  })
-  const notifications = mockNotificationsValue(props.notifications)
   const [locale] = createSignal<"en">("en")
-  const result = () => props.agentRequirements
-  const visible = () => {
-    const value = result()
-    return value?.state === "blocked" || value?.state === "error"
-  }
-  const requirements: AgentRequirementsContextValue = {
-    result,
-    checking: () => props.agentRequirementsChecking ?? false,
-    blocked: () => {
-      if (props.agentRequirementsBlocked !== undefined) return props.agentRequirementsBlocked
-      const value = result()
-      if (!value) return props.agentRequirementsChecking === true
-      return value.enabled && (value.state === "blocked" || value.state === "error")
-    },
-    visible,
-  }
 
   return (
     <VSCodeProvider>
       <ServerProvider>
-        <FeedbackProvider>
-          <ConfigWrapper
-            config={props.config}
-            features={props.features}
-            globalConfig={props.globalConfig}
-            projectConfig={props.projectConfig}
-            onConfigChange={props.onConfigChange}
-            onGlobalConfigChange={props.onGlobalConfigChange}
-            onProjectConfigChange={props.onProjectConfigChange}
-          >
-            <DisplayProvider>
-              <MockProviderProvider kiloAuth={props.kiloAuth} training={props.training}>
-                <DialogProvider>
-                  <LanguageContext.Provider
-                    value={{
-                      locale,
-                      setLocale: noop,
-                      userOverride: () => "" as any,
-                      t,
-                    }}
-                  >
-                    <I18nProvider value={{ locale: () => "en", t, plural }}>
-                      <NotificationsContext.Provider value={notifications}>
-                        <SessionContext.Provider value={session as any}>
-                          <AgentRequirementsContext.Provider value={requirements}>
-                            <MemoryProvider>
-                              <IndexingProvider>
-                                <KiloEmbeddingModelsProvider>
-                                  <DataProvider
-                                    data={data()}
-                                    directory="/project/"
-                                    onOpenDiff={props.onOpenDiff}
-                                    onOpenFile={props.onOpenFile}
-                                  >
-                                    <DiffComponentProvider component={Diff}>
-                                      <CodeComponentProvider component={Code}>
-                                        <FileComponentProvider component={File}>
-                                          <MarkedProvider>
-                                            <TranscriptSearchProvider>
-                                              {props.noPadding ? (
-                                                props.children
-                                              ) : (
-                                                <div style={{ padding: "12px" }}>{props.children}</div>
-                                              )}
-                                            </TranscriptSearchProvider>
-                                          </MarkedProvider>
-                                        </FileComponentProvider>
-                                      </CodeComponentProvider>
-                                    </DiffComponentProvider>
-                                  </DataProvider>
-                                </KiloEmbeddingModelsProvider>
-                              </IndexingProvider>
-                            </MemoryProvider>
-                          </AgentRequirementsContext.Provider>
-                        </SessionContext.Provider>
-                      </NotificationsContext.Provider>
-                    </I18nProvider>
-                  </LanguageContext.Provider>
-                </DialogProvider>
-              </MockProviderProvider>
-            </DisplayProvider>
-          </ConfigWrapper>
-        </FeedbackProvider>
+        <ConfigWrapper
+          config={props.config}
+          features={props.features}
+          globalConfig={props.globalConfig}
+          projectConfig={props.projectConfig}
+          onConfigChange={props.onConfigChange}
+          onGlobalConfigChange={props.onGlobalConfigChange}
+          onProjectConfigChange={props.onProjectConfigChange}
+        >
+          <DisplayProvider>
+            <MockProviderProvider kiloAuth={props.kiloAuth} training={props.training}>
+              <DialogProvider>
+                <LanguageContext.Provider
+                  value={{
+                    locale,
+                    setLocale: noop,
+                    userOverride: () => "" as any,
+                    t,
+                  }}
+                >
+                  <I18nProvider value={{ locale: () => "en", t, plural }}>
+                    <DataProvider
+                      data={{
+                        session: [],
+                        session_status: {},
+                        session_diff: {},
+                        message: {},
+                        part: {},
+                      }}
+                      directory="/project/"
+                      onOpenDiff={props.onOpenDiff}
+                      onOpenFile={props.onOpenFile}
+                    >
+                      <DiffComponentProvider component={Diff}>
+                        <CodeComponentProvider component={Code}>
+                          <FileComponentProvider component={File}>
+                            <MarkedProvider>
+                              {props.noPadding ? (
+                                props.children
+                              ) : (
+                                <div style={{ padding: "12px" }}>{props.children}</div>
+                              )}
+                            </MarkedProvider>
+                          </FileComponentProvider>
+                        </CodeComponentProvider>
+                      </DiffComponentProvider>
+                    </DataProvider>
+                  </I18nProvider>
+                </LanguageContext.Provider>
+              </DialogProvider>
+            </MockProviderProvider>
+          </DisplayProvider>
+        </ConfigWrapper>
       </ServerProvider>
     </VSCodeProvider>
   )

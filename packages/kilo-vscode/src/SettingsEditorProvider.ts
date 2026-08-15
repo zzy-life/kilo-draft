@@ -1,30 +1,28 @@
 import * as vscode from "vscode"
-import { KiloProvider } from "./KiloProvider"
+import { SettingsProvider } from "./SettingsProvider"
 import { resolvePanelProjectDirectory } from "./project-directory"
 import type { KiloConnectionService } from "./services/cli-backend"
 
-type PanelView = "settings" | "profile" | "indexing"
+type PanelView = "settings"
 
 const PANEL_TITLES: Record<PanelView, string> = {
   settings: "Kilo Settings",
-  profile: "Kilo Profile",
-  indexing: "Codebase Indexing",
 }
 
 /**
- * Opens Settings or Profile as an editor-area WebviewPanel,
- * keeping the sidebar chat undisturbed.
+ * Opens the Settings page as an editor-area WebviewPanel (wide UI),
+ * reached from the activity-bar launcher or the command palette.
  *
  * Each view type is a singleton panel — calling openPanel() again
  * reveals the existing panel instead of creating a duplicate.
  *
- * Uses a full KiloProvider under the hood so each panel has
- * the same backend connectivity (config, providers, profile, auth)
- * as the sidebar.
+ * Uses a minimal SettingsProvider under the hood so the panel has
+ * the settings backend connectivity (config, providers, auth) it needs.
+ * The chat sidebar and KiloProvider were removed in Phase 5.
  */
 export class SettingsEditorProvider implements vscode.Disposable {
   private panels = new Map<PanelView, vscode.WebviewPanel>()
-  private providers = new Map<PanelView, KiloProvider>()
+  private providers = new Map<PanelView, SettingsProvider>()
   private tabs = new Map<PanelView, string>()
 
   constructor(
@@ -44,11 +42,7 @@ export class SettingsEditorProvider implements vscode.Disposable {
 
   /** Extract the PanelView from a viewType string like "kilo-code.new.settingsPanel". */
   static viewFromType(type: string): PanelView | undefined {
-    const match = type.match(/^kilo-code\.new\.(\w+)Panel$/)
-    if (!match) return undefined
-    const view = match[1] as PanelView
-    if (!(view in PANEL_TITLES)) return undefined
-    return view
+    return type === "kilo-code.new.settingsPanel" ? "settings" : undefined
   }
 
   openPanel(view: PanelView, tab?: string): void {
@@ -97,9 +91,9 @@ export class SettingsEditorProvider implements vscode.Disposable {
       dark: vscode.Uri.joinPath(this.extensionUri, "assets", "icons", "kilo-dark.svg"),
     }
 
-    // Create a dedicated KiloProvider for this panel so it has full
-    // backend connectivity (config, providers, agents, profile, auth).
-    const provider = new KiloProvider(this.extensionUri, this.connectionService, this.context, {
+    // Create a dedicated SettingsProvider for this panel so it has
+    // backend connectivity (config, providers, auth) for the settings page.
+    const provider = new SettingsProvider(this.extensionUri, this.connectionService, this.context, {
       projectDirectory,
       hideTopBar: true,
     })
@@ -116,7 +110,7 @@ export class SettingsEditorProvider implements vscode.Disposable {
     // "Developer: Reload Webviews" which re-creates the JS context).
     const readyDisposable = panel.webview.onDidReceiveMessage((msg) => {
       if (msg.type === "webviewReady") {
-        // Small delay to let KiloProvider's own webviewReady handler finish first
+        // Small delay to let SettingsProvider's own webviewReady handler finish first
         setTimeout(() => {
           provider.postMessage({ type: "navigate", view, tab: this.tabs.get(view) })
         }, 50)

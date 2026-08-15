@@ -121,6 +121,9 @@ export const dict = {
     "Connect to your local {{provider}} server. Leave the API key empty if the server does not require one (default for localhost).",
   "provider.connect.atomicChat.description":
     "Connect to Atomic Chat on your machine (default http://127.0.0.1:1337). No API key is required for the local server — start Atomic Chat, load a model, then connect.",
+  "provider.connect.kiloGateway.byok.prefix": "Or connect with your own key on ",
+  "provider.connect.kiloGateway.byok.link": "Kilo Gateway",
+  "provider.connect.kiloGateway.byok.suffix": ".",
   "provider.connect.apiKey.label": "{{provider}} API key",
   "provider.connect.apiKey.label.optional": "{{provider}} API key (optional)",
   "provider.connect.apiKey.placeholder": "API key",
@@ -318,6 +321,7 @@ export const dict = {
   "settings.providers.connected.environmentDescription": "Connected from your environment variables",
   "settings.providers.action.signInChatGPT": "Sign in with ChatGPT",
   "settings.providers.custom.description": "Add a custom provider by base URL.",
+  "settings.providers.group.recommended": "Recommended",
 
   "provider.custom.title": "Custom provider",
   "provider.custom.description.prefix": "Configure a custom provider. See the ",

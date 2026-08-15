@@ -1,13 +1,11 @@
-import { Component, createSignal, createEffect, createMemo, on, Show } from "solid-js"
+import { Component, createSignal, createEffect, on, Show } from "solid-js"
 import { Icon } from "@kilocode/kilo-ui/icon"
 import { Tabs } from "@kilocode/kilo-ui/tabs"
 import { Button } from "@kilocode/kilo-ui/button"
 import { Tooltip } from "@kilocode/kilo-ui/tooltip"
-import { showToast } from "@kilocode/kilo-ui/toast"
 import { useVSCode } from "../../context/vscode"
 import { useLanguage } from "../../context/language"
 import { useConfig } from "../../context/config"
-import { useSession } from "../../context/session"
 import ProvidersTab from "./ProvidersTab"
 import AutocompleteTab from "./AutocompleteTab"
 import CommitMessageTab from "./CommitMessageTab"
@@ -26,31 +24,14 @@ const Settings: Component<SettingsProps> = (props) => {
   const language = useLanguage()
   const vscode = useVSCode()
   const { isDirty, saving, saveError, saveConfig, discardConfig } = useConfig()
-  const session = useSession()
   const visibleTabs = new Set(["providers", "autocomplete", "commitMessage", "language", "aboutKiloCode"])
   const initialTab = props.tab && visibleTabs.has(props.tab) ? props.tab : "providers"
   const [active, setActive] = createSignal(initialTab)
   const [errorExpanded, setErrorExpanded] = createSignal(false)
 
-  const busyCount = () => Object.values(session.allStatusMap()).filter((s) => s.type === "busy").length
-
-  const handleSave = () => {
-    const busy = busyCount()
-    if (busy === 0) {
-      saveConfig()
-      return
-    }
-    const msg = busy === 1 ? language.t("settings.saveBar.warning.one") : language.t("settings.saveBar.warning.many")
-    showToast({
-      variant: "error",
-      title: msg,
-      persistent: true,
-      actions: [
-        { label: language.t("settings.saveBar.saveAnyway"), onClick: saveConfig },
-        { label: language.t("settings.saveBar.cancel"), onClick: "dismiss" },
-      ],
-    })
-  }
+  // The chat/session layer was removed in Phase 5, so saving no longer needs
+  // to warn about in-flight agent sessions — just persist directly.
+  const handleSave = () => saveConfig()
 
   const open = (scope: "local" | "global") => {
     vscode.postMessage(configMessage(scope, language.t))

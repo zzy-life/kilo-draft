@@ -15,10 +15,9 @@ import {
   onCleanup,
   Show,
   createSelector,
-  useContext,
   untrack,
 } from "solid-js"
-import type { Accessor, Component } from "solid-js"
+import type { Component } from "solid-js"
 import { Virtualizer, type VirtualizerHandle } from "virtua/solid"
 import { PopupSelector } from "./PopupSelector"
 import { Button } from "@kilocode/kilo-ui/button"
@@ -28,10 +27,9 @@ import { Icon } from "@kilocode/kilo-ui/icon"
 import { Tooltip } from "@kilocode/kilo-ui/tooltip"
 import { useProvider } from "../../context/provider"
 import type { EnrichedModel } from "../../context/provider"
-import { useSession, SessionContext } from "../../context/session"
 import { useLanguage } from "../../context/language"
 import { useVSCode } from "../../context/vscode"
-import type { ModelSelection } from "../../types/messages"
+import type { ModelSelection, ModelUsageMap } from "../../types/messages"
 import { isEnterKeyCommitNotIme } from "../../utils/ime-enter"
 import {
   isSmall,
@@ -102,6 +100,19 @@ interface ScrollAnchor {
   scroll: number
 }
 
+/**
+ * Surface of the removed chat/session layer (repository reduction Phase 5).
+ * Kept only so the short-circuited session branches below still type-check;
+ * `session` is always `undefined` at runtime, so favorites/usage stay
+ * unavailable. Matches the previous behavior when SessionProvider was absent.
+ */
+interface SessionLike {
+  favoriteModels(): readonly { providerID: string; modelID: string }[]
+  modelUsageHistory(): ModelUsageMap
+  recentModels(): readonly ModelSelection[]
+  toggleFavorite(providerID: string, modelID: string): void
+}
+
 // ---------------------------------------------------------------------------
 // Reusable base component
 // ---------------------------------------------------------------------------
@@ -147,9 +158,11 @@ export const ModelSelectorBase: Component<ModelSelectorBaseProps> = (props) => {
   const { connected, models, findModel } = useProvider()
   const language = useLanguage()
   const vscode = useVSCode()
-  // Session context is optional — ModelSelectorBase is also used in Settings
-  // where SessionProvider may not be mounted.
-  const session = useContext(SessionContext)
+  // The chat/session layer was removed (repository reduction Phase 5), so
+  // favorites/usage ranking are always unavailable here. Session-dependent
+  // branches below short-circuit on `session` being undefined, matching the
+  // previous behavior when SessionProvider was not mounted.
+  const session = undefined as SessionLike | undefined
   const uid = createUniqueId()
   const listID = `${uid}-models`
   const previewID = `${uid}-preview`
@@ -1152,30 +1165,3 @@ export const ModelSelectorBase: Component<ModelSelectorBaseProps> = (props) => {
   )
 }
 
-// ---------------------------------------------------------------------------
-// Chat-specific wrapper (backwards-compatible default export)
-// ---------------------------------------------------------------------------
-
-interface ModelSelectorProps {
-  sessionID?: Accessor<string | undefined>
-}
-
-export const ModelSelector: Component<ModelSelectorProps> = (props) => {
-  const session = useSession()
-  const id = () => props.sessionID?.()
-
-  return (
-    <ModelSelectorBase
-      value={session.selected(id())}
-      onSelect={(providerID, modelID) => {
-        session.selectModel(providerID, modelID, id())
-      }}
-      onPick={() => {
-        requestAnimationFrame(() => window.dispatchEvent(new CustomEvent("focusPrompt", { detail: { restore: true } })))
-      }}
-      onCancel={() => {
-        requestAnimationFrame(() => window.dispatchEvent(new CustomEvent("focusPrompt", { detail: { restore: true } })))
-      }}
-    />
-  )
-}

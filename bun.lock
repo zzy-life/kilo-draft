@@ -444,7 +444,7 @@
     },
     "packages/kilo-vscode": {
       "name": "kilo-draft",
-      "version": "0.0.1",
+      "version": "0.0.2",
       "dependencies": {
         "@anthropic-ai/sdk": "^0.39.0",
         "@kilocode/kilo-gateway": "workspace:*",

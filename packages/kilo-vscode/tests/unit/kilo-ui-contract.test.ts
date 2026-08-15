@@ -28,21 +28,6 @@ const KILO_MESSAGE_HIGHLIGHT_FILE = path.join(MONOREPO_ROOT, "packages/kilo-ui/s
 const KILO_BASIC_TOOL_CSS_FILE = path.join(MONOREPO_ROOT, "packages/kilo-ui/src/components/basic-tool.css")
 const KILO_MESSAGE_PART_CSS_FILE = path.join(MONOREPO_ROOT, "packages/kilo-ui/src/components/message-part.css")
 const SHELL_ROLLING_FILE = path.join(MONOREPO_ROOT, "packages/kilo-ui/src/components/shell-rolling-results.tsx")
-const ASSISTANT_MESSAGE_FILE = path.join(
-  MONOREPO_ROOT,
-  "packages/kilo-vscode/webview-ui/src/components/chat/AssistantMessage.tsx",
-)
-const TASK_HEADER_FILE = path.join(MONOREPO_ROOT, "packages/kilo-vscode/webview-ui/src/components/chat/TaskHeader.tsx")
-const CONTEXT_TAB_FILE = path.join(
-  MONOREPO_ROOT,
-  "packages/kilo-vscode/webview-ui/src/components/settings/ContextTab.tsx",
-)
-const PROMPT_INPUT_FILE = path.join(
-  MONOREPO_ROOT,
-  "packages/kilo-vscode/webview-ui/src/components/chat/PromptInput.tsx",
-)
-const TRANSCRIPT_PARTS_FILE = path.join(MONOREPO_ROOT, "packages/kilo-vscode/webview-ui/src/utils/transcript-parts.ts")
-const CHAT_LAYOUT_FILE = path.join(MONOREPO_ROOT, "packages/kilo-vscode/webview-ui/src/styles/chat-layout.css")
 
 function check(code: string): { ok: boolean; output: string } {
   const result = Bun.spawnSync(["bun", "--preload", WORKER_URL, "--conditions=browser", "-e", code], {
@@ -321,35 +306,6 @@ describe("HighlightedText @mention regex fallback and click handler (source)", (
   })
 })
 
-describe("AssistantMessage visible row contract (source)", () => {
-  const src = fs.readFileSync(ASSISTANT_MESSAGE_FILE, "utf-8")
-  const parts = fs.readFileSync(TRANSCRIPT_PARTS_FILE, "utf-8")
-
-  it("filters suppressed tools that have no visible renderer", () => {
-    expect(parts).toContain('part.state.status === "completed" && !!ToolRegistry.render(part.tool)')
-  })
-
-  it("filters pending questions until their dock request exists", () => {
-    expect(src).toContain('part.state.status !== "pending" && part.state.status !== "running"')
-    expect(src).toContain('matchToolRequest(part, "question", session.questions())')
-  })
-
-  it("filters completed synthetic text and redaction-only reasoning", () => {
-    expect(parts).toContain("part.synthetic && message?.time.completed")
-    expect(parts).toContain('.text?.replace("[REDACTED]", "").trim()')
-  })
-
-  it("uses the plan exit card only when plan metadata is renderable", () => {
-    expect(src).toContain("if (!planExitInfo(part)) return")
-  })
-
-  it("uses the native recall tool without a separate memory badge", () => {
-    const tools = fs.readFileSync(KILO_MESSAGE_PART_FILE, "utf-8")
-    expect(src).not.toContain("assistant-memory-badge")
-    expect(tools).toContain("ToolRegistry.render(part.tool) ?? McpTool")
-  })
-})
-
 describe("Native tool summary contract (source)", () => {
   const tools = fs.readFileSync(KILO_MESSAGE_PART_FILE, "utf-8")
   const css = fs.readFileSync(KILO_BASIC_TOOL_CSS_FILE, "utf-8")
@@ -365,45 +321,6 @@ describe("Native tool summary contract (source)", () => {
     expect(css).toMatch(/\[data-slot="basic-tool-tool-info"\][\s\S]*?flex: 1 1 auto;/)
     expect(css).toMatch(/\[data-slot="basic-tool-tool-subtitle"\][\s\S]*?flex: 1 1 auto;/)
     expect(css).toMatch(/\[data-slot="basic-tool-tool-arg"\][\s\S]*?max-width: 24ch;/)
-  })
-})
-
-describe("Memory control placement contract (source)", () => {
-  const header = fs.readFileSync(TASK_HEADER_FILE, "utf-8")
-  const settings = fs.readFileSync(CONTEXT_TAB_FILE, "utf-8")
-  const prompt = fs.readFileSync(PROMPT_INPUT_FILE, "utf-8")
-
-  it("keeps memory controls out of the task header", () => {
-    expect(header).not.toContain("useMemory")
-    expect(header).not.toContain('name="memory"')
-  })
-
-  it("shows storage inspection in settings without a manual rebuild action", () => {
-    expect(settings).toContain("settings.context.memory.storage.title")
-    expect(settings).toContain("settings.context.memory.status.enabledTokens")
-    expect(settings).toContain("memory.inspect()")
-    expect(settings).not.toContain("memory.rebuild()")
-    expect(settings).not.toContain("lastOperationCount")
-    expect(settings).not.toContain("sessionTokens")
-  })
-
-  it("expands bare memory commands into inline completion", () => {
-    expect(prompt).toContain('const value = "/memory "')
-    expect(prompt).toContain("slash.onInput(value, value.length)")
-  })
-})
-
-describe("Assistant transcript spacing contract (source)", () => {
-  const css = fs.readFileSync(CHAT_LAYOUT_FILE, "utf-8")
-
-  it("uses a 6px gap between virtualized assistant rows", () => {
-    expect(css).toMatch(/\.vscode-session-turn\[data-row="assistant"\]\s*\{\s*padding-bottom: 6px;/)
-  })
-
-  it("removes spacing from assistant rows without visible content", () => {
-    expect(css).toMatch(
-      /\.vscode-session-turn\[data-row="assistant"\]:has\(> \.vscode-session-turn-assistant:empty\)\s*\{\s*padding-bottom: 0;/,
-    )
   })
 })
 

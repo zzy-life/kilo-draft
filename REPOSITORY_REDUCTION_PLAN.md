@@ -367,6 +367,119 @@ packages/kilo-vscode/src/commands/toggle-auto-approve.ts
 - 扩展启动接线减少。
 - 两项保留功能正常。
 
+### 阶段 5 任务清单（2026-08-14 起，跨会话推进）
+
+> 本清单供跨会话跟踪。每完成一项把 `[ ]` 改为 `[x]` 并在「进度」小节追加一行。一次会话做不完，允许后续会话继续。
+
+**方案确认（2026-08-14）**：最小配置入口采用「保留精简设置 Webview」——复用现有设置页与后端配置/API Key 存储机制，不引入 VS Code 原生设置同步层。
+
+**UX 确认（2026-08-15，用户澄清）**：点击活动栏扩展图标应打开**宽幅设置页（编辑器区域面板）**，效果等同旧「聊天页顶部 Settings 按钮」打开的宽面板；**不要**窄侧栏里的设置页。实现：侧栏改为启动器视图（`src/settings-launcher.ts`），点击后打开 `SettingsEditorProvider.openPanel("settings")` 并收起侧栏（`workbench.action.closeSidebar`）。
+
+**已完成调查（2026-08-14）**：
+
+- 设置面板不是独立 Webview：`SettingsEditorProvider` 内部为每个面板创建完整 `KiloProvider`（`SettingsEditorProvider.ts:100-105`），与侧栏共用同一个 `dist/webview.js`（唯一 webview 入口 `webview-ui/src/index.tsx`，`esbuild.js:271-299`），靠 `navigate` 消息切视图（`App.tsx:252-275`）。
+- 保留功能依赖：补全读 VS Code 设置 `kilo-code.new.autocomplete.*`（`services/autocomplete/AutocompleteServiceManager.ts:42-60`），FIM 经 `client.kilo.fim` 走后端；提交信息读后端配置 `commit_message.model` + VS Code 设置 `kilo-code.new.languageCommitMessage`（`services/commit-message/index.ts:104-107`）。两者都只依赖 `KiloConnectionService`，不直接依赖聊天 UI。
+- 设置保存消息：`updateConfig`→`client.global.config.update`/`client.config.update`（`provider-actions.ts:248-254`）、`updateSetting`→写 VS Code 设置（`KiloProvider.ts:3794-3822`）、`connectProvider`/`saveCustomProvider`→`client.auth.set` 写 API Key（`provider-actions.ts:295-314,425-489`）。
+- 保留的设置 tab 范围已基本被 `Settings.tsx:30` 的 `visibleTabs` 框出：providers / autocomplete / commitMessage / language / aboutKiloCode；`components/settings/` 下大量未引用 tab（ModelsTab、DisplayTab、ContextTab 等）是死代码。
+- package.json 中存在声明但从未注册的死命令：`explainCode`/`fixCode`/`improveCode`/`addToContext`/`terminalAddToContext`/`terminalFixCommand`/`terminalExplainCommand`/`focusChatInput`/`toggleChatSearch`。
+
+**任务清单**：
+
+- [x] **T0 安全清理 package.json 死命令**：删除声明但未注册的聊天命令（explainCode/fixCode/improveCode/addToContext/terminalAddToContext/terminalFixCommand/terminalExplainCommand/focusChatInput/toggleChatSearch）、对应 submenu（editorContextMenu/terminalContextMenu）与 editor/context、terminal/context、相关快捷键（focusChatInput、addToContext）。
+- [x] **T1 建立最小设置 Provider（必须先解决，核心）**：
+  - [x] 新建 `src/SettingsProvider.ts`，替代 `KiloProvider` 服务设置面板。需处理消息：`webviewReady`、`requestConfig`、`requestGlobalConfig`、`updateConfig`、`updateSetting`、`requestAutocompleteSettings`、`requestProviders`、`connectProvider`、`authorizeProviderOAuth`、`completeProviderOAuth`、`disconnectProvider`、`saveCustomProvider`、`fetchCustomProviderModels`、`setLanguage`、`openConfigFile`、`closePanel`、`navigate`、`settingsTabChanged`。
+  - [x] 复用 `provider-actions.ts` 的 config/auth 写入与 `buildWebviewHtml`（`src/utils.ts:55-114`）装配 webview。
+  - [x] 迁移 `syncWebviewState` / `sendConfig` / `sendProviders` 最小逻辑（参考 `KiloProvider.ts`）。
+  - [x] 改造 `SettingsEditorProvider.ts`：用 `SettingsProvider` 替代 `KiloProvider`。
+  - [x] 删除 `src/KiloProvider.ts` 及 `src/kilo-provider/` 中仅被聊天使用的目录。
+- [x] **T2 精简 Webview（设置页保留，聊天删除）**：
+  - [x] `App.tsx`：已重写为仅设置页；删除 ChatView/HistoryView/ProfileView 分支、DataBridge、SidebarTopBar、聊天副作用 import。
+  - [x] `provider-shell.tsx`：已精简为只保留 `Root`，移除 Session/Chat 片段与 SpeechToTextPrewarm。
+  - [x] `Settings.tsx`：已移除 `useSession().allStatusMap()` 的 busy 警告依赖，保存直接调 `saveConfig()`。
+  - [x] 删除 `webview-ui/src/components/chat/`、`components/history/`、`components/profile/`、`components/speech-to-text/`（**级联**：`tsconfig.json` include `src/**/*` 覆盖 stories，须同步删除聊天 stories；Playwright spec 引用 stories 属 T5）。
+  - [x] 精简 `webview-ui/src/context/`：删除 session/transcript/agent-requirements/permission/feedback/memory 等聊天 context。**关键耦合**：`components/shared/ModelSelector.tsx` 的 `ModelSelectorBase`（AutocompleteTab/CommitMessageTab 使用）模块级 `import { useSession, SessionContext } from context/session`（`ModelSelector.tsx:31`），运行时用 `if (!session)` 守卫（`ModelSelector.tsx:152,249-291`）。删除 `context/session.tsx` 前必须先解除该 import——方案：新建最小 model-favorites context（favoriteModels/modelUsageHistory/toggleFavorite）或把 ModelSelectorBase 的 session 用法改为 props。
+  - [x] 删除未启用的死设置 tab（ModelsTab、DisplayTab、ContextTab、AgentBehaviourTab、SandboxingTab、CheckpointsTab、ExperimentalTab、IndexingTab、BrowserTab、McpEditView、agent-behaviour/ 等，它们引用聊天 context，`Settings.tsx:30` 的 visibleTabs 未包含）。
+  - [x] 精简 `types/messages/`、`hooks/`、`styles/`、`stories/` 中的聊天部分。**注意**：`styles/chat.css` 是 webview 唯一样式入口，`@import` 了 `settings.css`/`model-selector.css`/`dialogs.css` 等全部样式；`App.tsx` 必须保留 `import "./styles/chat.css"`，删除聊天时只能裁剪被 import 的聊天样式，不能删整个入口。其它样式文件（如 `settings.css`）无独立 import。（**types/messages 的聊天消息联合类型未裁剪，推迟至 T6 谨慎处理**）
+- [x] **T3 清理 extension.ts 激活接线**：已重写 `src/extension.ts`——删除 `KiloProvider` 创建与聊天 sidebar view 注册、TabPanel 序列化器与 `tabPanels`/`openKiloInNewTab`、聊天命令（plusButtonClicked/historyButtonClicked/cycleAgentMode/cyclePreviousAgentMode/profileButtonClicked/openIndexingSettings/showMemory/toggleMemory/generateTerminalCommand/openInTab/reload/sidebarTitle.*）、URI 深链；新增 `SettingsLauncherProvider` 使活动栏图标打开宽设置面板；保留 autocomplete、commit-message、`settingsButtonClicked`、设置面板序列化器、heap-snapshot。**注意**：`SettingsEditorProvider` 仍用完整 `KiloProvider`（T1 未做），`extension.ts` 已不再直接创建 KiloProvider。package.json 中已移除的命令/菜单/配置残留属 T4。
+- [x] **T4 清理 package.json 贡献点**：
+  - [x] `commands` 数组已清理：仅剩 `settingsButtonClicked`、autocomplete.*（4 个）、`generateCommitMessage`、`pauseCommitMessageGeneration`、`takeHeapSnapshot`。
+  - [x] **悬空菜单/快捷键已清理**：删除 `menus.commandPalette`（sidebarTitle.*）、整个 `menus.view/title`（openInTab + sidebarTitle.*）、整个 `menus.editor/title`（openInTab + plusButtonClicked/historyButtonClicked/profileButtonClicked/settingsButtonClicked）、keybindings 中 `generateTerminalCommand`/`cycleAgentMode`/`cyclePreviousAgentMode`。已确认 `autocomplete.showIncompatibilityExtensionPopup` 仍注册（`services/autocomplete/index.ts:46`），其 keybinding 保留。
+  - [x] **保留** `viewsContainers.activitybar` 与 `views`（`kilo-code.SidebarProvider` 启动器视图必须保留）；保留 `scm/title`、`scm/input`。
+  - [x] `configuration` 键：**未盲删**——逐一验证后保留 `language`（LanguageTab + AutocompleteServiceManager）、`languageCommitMessage`（提交信息）、`autocomplete.*`（补全）、`fontSize`（webview）、`claudeCodeCompat`（`server-manager.ts:95`）、`extraCaCerts`（`server-manager.ts:116`）、`agentWorkStyle`（kilo-provider/work-style，本轮未确认保留组件使用，暂留）；删除确认无人读取的死键：`model.providerID`/`model.modelID`（无 reader）、`indexing.showButtonWhenDisabled`、`maxCost`、`showTaskTimeline`、`showTokenThroughput`、`showAutoApprovalReason`、`chat.shiftTabCyclesVariant`（reader 均在已删的 KiloProvider/kilo-provider 死文件或已删 webview 死 tab 中）。
+  - ~~T4 重复条目~~（原方案曾建议删除 activitybar/views，与 2026-08-15 确认的启动器方案矛盾，已按保留执行）。
+- [x] **T5 清理测试/构建配置**：删除引用 `KiloProvider` 与 chat 组件的单测、聊天 Playwright spec 与 stories；检查 esbuild.js / tsconfig / knip / eslint.config.mjs 对 `src/KiloProvider.ts` 的专项规则（`eslint.config.mjs:40`）。详见下方进度（2026-08-15 本轮完成）。
+- [x] **T6 清理残留符号**：全仓搜索残留命令 ID、viewType、消息类型、i18n key 引用。详见下方进度（2026-08-15 本轮完成）。
+- [ ] **T7 人工验收**：按「8. 人工验证清单」逐项确认补全、提交信息、设置入口。
+
+**进度**：
+
+- 2026-08-14：完成调查与方案确认；写入本任务清单。
+- 2026-08-15：完成 T0（package.json 死命令清理）。完成 T2 的 Webview 入口精简（App.tsx 重写为仅设置页、provider-shell 只保留 Root、Settings.tsx 移除 useSession）——中间态安全：KiloProvider 仍处理全部设置消息，聊天组件暂为死代码未删除。剩余：聊天目录/context/stories 删除（含 ModelSelectorBase/session 耦合处理）、T1 最小 SettingsProvider、T3 extension.ts 接线、T4 贡献点清理、T5 测试/构建清理。
+- 2026-08-15（继续）：用户澄清 UX——活动栏图标应打开**宽幅设置页**而非窄侧栏设置。新增 `src/settings-launcher.ts`（`SettingsLauncherProvider`，viewType `kilo-code.SidebarProvider`），点击后 `settingsEditorProvider.openPanel("settings")` + 延迟 50ms `workbench.action.closeSidebar`。重写 `extension.ts`：删除 KiloProvider/聊天命令/URI 深链/TabPanel，保留设置面板/补全/提交信息。package.json `commands` 数组已清理。
+- 2026-08-15（停止点）：用户指示停止继续改动，未完成任务已更新到本清单。当前状态：**中间态，未构建验证**。遗留不一致需下轮处理：① package.json 的 `menus.commandPalette`/`view/title`/`editor/title` 与 3 个 keybindings 仍引用已移除命令（悬空，功能无害但未清理）；② `SettingsEditorProvider` 仍用完整 `KiloProvider`（T1 未做）；③ 聊天组件目录/context/stories 未删除（T2 剩余）；④ `extension.ts` 已移除命令的菜单快捷键在 T4 收尾。
+- 2026-08-15（本轮，跨会话推进）：完成 **T2** 全部剩余与 **T4** 全部收尾；**T1 完成研究但未实现**（用户中途叫停，只做文档记录）。
+
+  **T2 已删除（webview 设置页保留、聊天清空）**：
+  - 整目录：`components/chat/`（43 文件）、`components/history/`、`components/profile/`、`components/speech-to-text/`、`hooks/`（12 文件）、`context/onboarding/`。
+  - `context/` 删除 38 个聊天 context：session.tsx、transcript-rows/transcript-search、agent-requirements、permission-queue、feedback、memory、notifications、indexing、image-models、kilo-embedding-models、speech-to-text-models、local-tabs、work-style、worktree-mode、session-*（agent/cloud-prune/errors/merge/model-selector/model-store/outcome/parts/preferences/queue/utils/variants/variant-store）、abort-state、cost-alert、model-selection、model-usage、part-stash、todo-revert。
+  - `components/settings/` 删除死 tab：ModelsTab、DisplayTab、ContextTab、AgentBehaviourTab、SandboxingTab、CheckpointsTab、ExperimentalTab、IndexingTab、BrowserTab、McpEditView、ModeCreateView、ModeEditView、PermissionEditor、agent-behaviour/、agent-behaviour-patches、indexing-tab-state、mode-io、mode-model、permission-utils、sandboxing。
+  - `components/shared/` 删除死组件：AccountSwitcher、BalanceChip、BranchSelect、ModeSwitcher、SandboxButton、SessionRenameEditor、ThinkingSelector、TurnOutcome、WorkingIndicator、WorkStylePicker、working-indicator-utils。
+  - `utils/` 删除 19 个聊天 util（含 timeline/、transcript-parts），保留 8 个被引用 util。
+  - `styles/` 删除 22 个聊天样式，`chat.css` 精简为仅 @import model-selector/dialogs/settings/high-contrast 4 个（App.tsx 仍 `import "./styles/chat.css"`）。
+  - `stories/` 删除 8 个聊天 story，重写 `StoryProviders.tsx`（移除 Session/Feedback/Notifications/Memory/Indexing/KiloEmbedding/TranscriptSearch context）、`settings.stories.tsx`（仅保留 5 个有效 story）、`shared.stories.tsx`（移除依赖 session 的 2 个 story）；`anaconda-desktop.stories.tsx` 保留。Storybook main.ts 用 glob，无需改。
+  - **session 解耦方案（未用新 context，改为直置 undefined）**：`ModelSelector.tsx` 删除 `import { useSession, SessionContext }`、`useContext(SessionContext)` 改 `const session = undefined`、删除末尾死 `ModelSelector` chat 包装；`ModelPreview.tsx` 删除 SessionContext import 与星标块。设置页恒传 `favorites={false}`，行为不变。
+  - **附带精简**：`context/display.tsx` 移除 throughput/autoApprovalReason/thinking 折叠，只留 fontSize；`context/config.tsx` 移除 indexing/chat/throughput/autoApproval 的 settings 请求与 `loadedSettings` 分支。
+  - **验证**：webview `src` 全部相对 import 可解析；无对已删除目录/context/hooks/utils/stories 的残留引用。
+
+  **T4 已收尾**：删除全部悬空菜单（commandPalette/view/title/editor/title）与 3 个 keybinding；删除 8 个死 configuration 键；保留 activitybar/views/SidebarProvider 启动器与 scm 菜单；修复删除后遗留的 JSON 尾逗号（`node JSON.parse` 通过）。
+
+  **T1 未实现（研究已完成）**：已通读 `KiloProvider.ts` 消息处理器（webviewReady/requestConfig/requestGlobalConfig/requestAutocompleteSettings/updateConfig/updateSetting/requestProviders/connectProvider*/disconnectProvider/saveCustomProvider/fetchCustomProviderModels/setLanguage/openConfigFile/openVSCodeSettings/reload/resetAllSettings/resetReadNotifications/persistModelSelectorExpanded/requestModelSelectorExpanded/copyToClipboard/saveImage/telemetry）、`syncWebviewState`、`fetchAndSendConfig/GlobalConfig/ConfigUpdated/Providers`、`handleUpdateConfig`（含 config-bindings/fetchSnapshot）、`handleUpdateSetting`、`initializeConnection`、`postMessage`、`dispose`、`buildWebviewHtml`、`config-snapshot.ts`、`config-bindings.ts`。新建 `src/SettingsProvider.ts` 所需代码路径均已定位（provider-actions.ts 复用、fetchSnapshot、ConfigBindings、buildAutocompleteSettingsMessage/watchAutocompleteConfig/validAutocompleteSetting、openConfig、saveImage、fetchOpenAIModels、watchFontSizeConfig、connectionService.onStateChange/onEventFiltered/connect/getServerInfo/getServerConfig/notifyLanguageChanged/notifyModelSelectorExpandedChanged、`extensionDataReady` 在 `KiloProvider.ts:1645` 发送）。**下轮从「编写 SettingsProvider.ts → 改造 SettingsEditorProvider → 删除 KiloProvider.ts」继续**。
+
+- 2026-08-15（本轮）：**完成 T1 全部实现**（用户指示停止进一步改动，仅更新文档）。
+
+  **T1 已实现**：
+  - 新建 `src/SettingsProvider.ts`（约 880 行）：最小设置 Provider，复用 `provider-actions.ts`（buildActionContext/fetchProviderData/computeDefaultSelection/connectProviderAction/authorizeOAuthAction/completeOAuthAction/disconnectProviderAction/saveCustomProviderAction/resolveStoredKey）、`buildWebviewHtml`（`src/utils.ts`）、`fetchSnapshot`（config-snapshot.ts）、`ConfigBindings`（config-bindings.ts）、`buildAutocompleteSettingsMessage/watchAutocompleteConfig/validAutocompleteSetting`（services/autocomplete/settings.ts）、`openConfig`、`saveImage`、`fetchOpenAIModels`、`watchFontSizeConfig`。
+  - 消息处理（对照 webview 设置页实际发送）：`webviewReady`、`requestConfig`、`requestGlobalConfig`、`requestAutocompleteSettings`、`updateConfig`（含 overlayUpdate + binding 校验 + drainPendingPrompts）、`updateSetting`（autocomplete 校验）、`requestProviders`、`connectProvider/authorizeProviderOAuth/completeProviderOAuth/disconnectProvider/saveCustomProvider`、`fetchCustomProviderModels`、`setLanguage`、`openConfigFile`、`saveImage`、`reload`、`openVSCodeSettings`、`resetAllSettings`、`resetReadNotifications`、`openExternal`（补充，原 KiloProvider 无 handler）、`copyToClipboard`、`requestModelSelectorExpanded/persistModelSelectorExpanded`；`webviewFocusChanged`/`settingsTabChanged`/`closePanel` 忽略（无 focusContext；后两者由 SettingsEditorProvider 处理）。
+  - 状态同步：`doInitializeConnection`（connect → onStateChange → syncWebviewState → fetchAndSendProviders+fetchAndSendConfig → `extensionDataReady`）、`syncWebviewState`（ready/connectionState/workspaceDirectory/fontSize）、`refreshConfig`、`postConfigFailure`、`handleReload`、`handleResetAllSettings`（重置 `kilo-code.new.*` + 清 modelSelectorExpanded/dismissedNotificationIds + 重发 autocompleteSettings + 重拉 config）。
+  - **明确不做**（移除或超出范围，与裁剪方向一致）：chat/session/agent/permission/MCP/memory/notifications 列表/remote/indexing/sandboxing/telemetry 推送、SSE session 事件过滤、profileData 拉取、Kilo Gateway `login` 设备授权（Profile 视图已删、无展示授权码的 UI）。
+  - 改造 `src/SettingsEditorProvider.ts`：`SettingsProvider` 替代 `KiloProvider`（构造参数 `{ projectDirectory, hideTopBar: true }` 不变）。
+  - 删除 `src/KiloProvider.ts`（190KB）；删除 `src/kilo-provider/` 中仅被聊天使用的 41 个文件 + `handlers/` 目录（abort/agent-requirements*/auto-approval-reason-settings/background-process/chat-settings/command-completion/commands/early-message/export-transcript/file-*/followup-session/fork-session/git-changes-*/git-status/indexing-settings/mcp-oauth/memory/message-files/message-page/model-state/model-usage/native-tab-title/network/options/remove-config-item/rename-session/session-search/slim-metadata/task-session/throughput-settings/visible-task-streams/work-style* 与 handlers/{auth,cloud-session,permission-handler,question,suggestion}）。
+  - **保留的 kilo-provider 文件**（SettingsProvider/共享代码复用）：`config-bindings.ts`、`config-snapshot.ts`、`config-file.ts`（open-config 依赖）、`font-size.ts`、`notifications.ts`、`open-config.ts`、`save-image.ts`、`session-stream-scheduler.ts`（kilo-provider-utils.ts 导出引用）。
+  - **验证**：IDE 诊断确认 `SettingsProvider.ts`/`SettingsEditorProvider.ts`/`extension.ts`/`settings-launcher.ts`/`kilo-provider-utils.ts` 无类型错误；grep 确认保留代码（src 非测试）无对 KiloProvider 或已删 kilo-provider 模块的 import。按用户指示未做构建验证。
+  - **遗留至 T5**：① 删除引用 KiloProvider 与已删 kilo-provider 模块的单测（kilo-provider-*.test.ts、chat 相关单测等）；② `eslint.config.mjs:40` 等对 `src/KiloProvider.ts` 的专项规则；③ esbuild.js / tsconfig / knip 中相关条目检查。
+
+- 2026-08-15（本轮）：**完成 T5 与 T6**（用户指示本轮做 T5/T6；未做构建验证，仅 IDE 诊断 + import 存在性脚本核对）。
+
+  **T5 已完成**：
+  - 用脚本按「相对 import 目标存在性」全量扫描 `tests/unit/`、`tests/*.spec.ts`、`webview-ui/src/**/*.stories.tsx`，识别并删除引用已删模块的失效文件：
+    - 删除 **103 个单测**（97 个直接 import 失效 + `font-size-arch`/`message-contract`/`new-worktree-dialog-sandbox`/`revert-checkpoints` 4 个以字符串路径引用 `src/KiloProvider.ts` 或已删 chat 组件 + 引用失效 fixtures 的 2 个）；保留 99 个有效单测。
+    - 删除 **9 个失效 Playwright spec**（`accessibility`/`diff-scroll-preservation`/`history-accessibility`/`indexing-provider-blur-race`/`model-selector-accessibility`/`permission-diff`/`permission-dock-dropdown`/`settings-accessibility`/`skills-settings-responsive`，均引用已删 profile/agentmanager/chat/history/indexing/permission/sandboxing/agent-behaviour/session-tabs stories）。保留 `markdown-incremental-dom`/`markdown-mermaid`/`visual-regression`（后者动态拉取现存 stories）。
+    - 删除 **2 个失效 fixtures**（`question-dock-disposal.tsx`/`session-tab-switcher.tsx`，引用已删 `components/chat/*`）+ `tests/fixtures/` 目录。**关键判定**：`kilo-ui-contract.test.ts` 通过 `Bun.spawnSync` 在 `packages/kilo-ui` 内运行，引用 `kilo-ui` 的 message-part/data/basic-tool（均存在），**保留**。
+  - 清理 `eslint.config.mjs` 中对已删文件的 8 个复杂度规则块（`src/KiloProvider.ts`、`webview-ui/agent-manager/AgentManagerApp.tsx`、`src/agent-manager/AgentManagerProvider.ts`、`webview-ui/src/components/chat/PromptInput.tsx`、`src/legacy-migration/migration-service.ts`、`webview-ui/src/components/migration/MigrationWizard.tsx`、`webview-ui/src/context/session.tsx`、`webview-ui/src/utils/errorUtils.ts`），并把 `WorktreeManager.ts + QuestionDock.tsx` 合并块精简为仅 `WorktreeManager.ts`；保留仍存在文件的规则（BracketMatchingService、kilo-provider-utils、server.tsx 等）。
+  - esbuild.js / tsconfig（含 webview）/ knip.json / script/*.ts 均无对已删模块的引用，无需改动；`package.json` `test:unit`（`bun test tests/unit/`）自动发现剩余测试。
+
+  **T6 已完成**：
+  - 命令 ID：全仓搜索已删命令（explainCode/fixCode/improveCode/addToContext/terminal*/focusChatInput/toggleChatSearch/plusButtonClicked/historyButtonClicked/cycleAgentMode/profileButtonClicked/openInTab/generateTerminalCommand/sidebarTitle.*/kiloclaw/marketplace）无残留。
+  - viewType：删除 `extension.ts` 中 `profilePanel` serializer（`settingsViews` 改为仅 `["settingsPanel"]`）；`SettingsEditorProvider.PanelView` 由 `"settings"|"profile"|"indexing"` 精简为仅 `"settings"`，`viewFromType` 只认 `kilo-code.new.settingsPanel`，旧 profile/indexing 面板反序列化时会被 dispose；`PANEL_TITLES` 同步精简。
+  - 死配置：删除 `package.json` 中 `kilo-code.new.agentWorkStyle`（T1 已删 kilo-provider/work-style*，确认无 reader）；删除 `extension.ts` 中 `setContext("kilo-code.new.isCursor", …)`（T4 已删 view/title、editor/title 菜单，无 when 消费该 context）及其 import。
+  - i18n key：脚本提取保留 webview 代码全部 `t("…")`，发现 4 个缺失 key（`provider.connect.kiloGateway.byok.prefix/link/suffix`、`settings.providers.group.recommended`），已补入 `webview-ui/src/i18n/en.ts`（其余语言经 `t()` 回退到 en），复查 259 个 used keys 全部有定义。
+  - 已删模块 import：src/ webview-ui/ script/ 相对 import 全量检查无失效引用（autocomplete 的 `.js` 后缀为 ES module 风格正常引用）；IDE 诊断确认改动文件与全仓无类型错误。
+
+  **遗留（后续阶段处理，本轮不扩大范围）**：
+  - `knip` 报告 8 个 unused files + 18 个 unused exports + 4 个 unused types（`src/speech-to-text/*`、`src/agent-manager/*` 若干、`src/services/telemetry/webview-state.ts`、`src/review-utils.ts`、`src/indexing-consent.ts`、`src/shared/sandbox-session.ts` 等）。已用 git 比对确认被删测试**不引用**这些导出，属 T1–T4 遗留死代码，建议随阶段 3/7/10 的功能整体清理时处理（agent-manager、telemetry、speech-to-text、sandbox 均为待删功能）。
+  - `webview-ui/src/types/messages/` 的聊天消息联合类型（webview-messages.ts 1452 行、extension-messages.ts 1310 行等，含 workStyleLoaded、sendMessage 等已删消息成员）未裁剪：它们被保留设置页 `postMessage`/`ExtensionMessage` 类型检查引用且彼此互相 import，裁剪需同步重构联合类型，风险高收益低，建议在阶段 6/8 重构调用层时处理。
+  - i18n 文件中的死 key（workStyle.*、聊天/通知/索引相关等）未清空：属阶段 10「删除失效多语言文案」，且 `t()` 缺失时回退 en 不破坏运行。
+  - **`tests/unit/kilo-ui-contract.test.ts` 部分失效（本轮运行 `bun test` 后发现）**：该文件 3 个 describe 块用 `readFileSync` 读取 T2 已删的 webview 文件——`AssistantMessage visible row contract`（`components/chat/AssistantMessage.tsx`、`utils/transcript-parts.ts`）、`Memory control placement contract`（`chat/TaskHeader.tsx`、`settings/ContextTab.tsx`、`chat/PromptInput.tsx`）、`Assistant transcript spacing contract`（`styles/chat-layout.css`）——运行时抛 `ENOENT`，且 6 个对应常量成为未使用定义。其余 describe（引用 `packages/kilo-ui` 的 message-part/data/basic-tool/shell-rolling 等，均存在）**保留**。**处理方式（待继续）**：删除这 3 个 describe 块与 6 个常量定义，保留 kilo-ui 契约部分。（**已于 2026-08-15 收尾轮处理，见下方进度；`bun test tests/unit/kilo-ui-contract.test.ts` 恢复 35 pass / 0 fail**）
+  - **本轮 `bun test tests/unit/` 结果**：1241 pass / 27 fail / 9 errors。失败集中在 `worktree-manager`（git push 环境差异）、`ProjectContexts`、`GitOps/GitStatsPoller`（git 环境）、`Bubblewrap`（Windows 缓存权限）等 agent-manager/git 环境类问题，与本次删除无关（剩余测试 import 与 preload 均已核对完整）；上述 kilo-ui-contract 的 ENOENT error 是唯一与本轮删除直接相关的运行失败。
+
+- 2026-08-15（本轮，**第五阶段收尾**）：完成第五阶段剩余的全部代码收尾，仅剩 T7 人工验收（用户执行）。
+
+  **第五阶段收尾已完成**：
+  - 用字符串路径扫描补上 T5「相对 import 存在性扫描」遗漏的死测试：删除 `tests/unit/session-select-connection.test.ts`（整文件依赖 T2 已删的 `webview-ui/src/context/session.tsx`）与 `tests/unit/question-dock-contract.test.ts`（整文件依赖 T2 已删的 `webview-ui/src/components/chat/QuestionDock.tsx`）。
+  - 修复 `tests/unit/kilo-ui-contract.test.ts`：删除引用已删 webview 文件的 3 个 describe 块（`AssistantMessage visible row contract` / `Memory control placement contract` / `Assistant transcript spacing contract`）与 6 个死常量（`ASSISTANT_MESSAGE_FILE`/`TASK_HEADER_FILE`/`CONTEXT_TAB_FILE`/`PROMPT_INPUT_FILE`/`TRANSCRIPT_PARTS_FILE`/`CHAT_LAYOUT_FILE`）；保留引用 `packages/kilo-ui` 的契约部分。
+  - **验证**：`bun test tests/unit/kilo-ui-contract.test.ts` 恢复 **35 pass / 0 fail**；全包 grep 确认无对已删目录（chat/history/profile/speech-to-text 组件、context/session、transcript-parts、chat-layout）的字符串引用。`context/provider.ts` 缺失不构成问题：`import ... from "../../context/provider"` 经 TS 扩展解析落到 `context/provider.tsx`（存在）。按用户指示未做构建验证。
+  - **第五阶段剩余**：仅 T7 人工验收——按「8. 人工验证清单」确认代码补全、Git 提交信息、设置入口（活动栏图标打开宽幅设置页）以及「被移除功能」项均符合预期。
+
 ## 阶段 5：移除普通 Agent 聊天和会话 UI
 
 ### 原因
@@ -401,7 +514,7 @@ packages/kilo-vscode/src/kilo-provider/
 
 ### 验收
 
-- Activity Bar 中不再有聊天侧栏。
+- Activity Bar 中不再有聊天侧栏，点击之后直接打开设置页。
 - 扩展激活不再创建 `KiloProvider`。
 - 不再有 Session、Agent、Tool 或 Permission 交互。
 - OpenAI 配置入口仍可用。
