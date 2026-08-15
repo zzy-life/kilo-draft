@@ -83,7 +83,7 @@
         {
           "type": "webview",
           "id": "kilo-code.SidebarProvider",
-          "name": "Kilo Code"
+          "name": "Kilo Settings"
         }
       ]
     },

@@ -373,7 +373,7 @@ packages/kilo-vscode/src/commands/toggle-auto-approve.ts
 
 **方案确认（2026-08-14）**：最小配置入口采用「保留精简设置 Webview」——复用现有设置页与后端配置/API Key 存储机制，不引入 VS Code 原生设置同步层。
 
-**UX 确认（2026-08-15，用户澄清）**：点击活动栏扩展图标应打开**宽幅设置页（编辑器区域面板）**，效果等同旧「聊天页顶部 Settings 按钮」打开的宽面板；**不要**窄侧栏里的设置页。实现：侧栏改为启动器视图（`src/settings-launcher.ts`），点击后打开 `SettingsEditorProvider.openPanel("settings")` 并收起侧栏（`workbench.action.closeSidebar`）。
+**UX 确认（2026-08-15，用户澄清）**：设置入口采用「侧栏导航 + 宽幅内容」两栏形态。活动栏 Kilo 图标打开**窄侧栏设置导航**（`src/settings-nav.ts` 的 `SettingsNavProvider`，viewType `kilo-code.SidebarProvider`），点击某一项（providers / autocomplete / commitMessage / language / aboutKiloCode）后再打开**宽幅设置页（编辑器区域面板）** `SettingsEditorProvider.openPanel("settings", tab)` 显示该 tab 内容，侧栏保持打开便于快速切换。`Settings.tsx` 不再渲染内嵌导航（移除 `Tabs.List`）。导航标签 zh/zht/en 内嵌于扩展（`TAB_LABELS`），其余语言回退英文。原「点击活动栏直接打开宽面板并收起侧栏」的启动器方案（`src/settings-launcher.ts`）已移除。
 
 **已完成调查（2026-08-14）**：
 

@@ -1,6 +1,6 @@
 import * as vscode from "vscode"
 import { SettingsEditorProvider } from "./SettingsEditorProvider"
-import { SettingsLauncherProvider } from "./settings-launcher"
+import { SettingsNavProvider } from "./settings-nav"
 import { KiloConnectionService } from "./services/cli-backend"
 import { registerAutocompleteProvider } from "./services/autocomplete"
 import { ensureBackendForAutocomplete } from "./services/autocomplete/ensure-backend"
@@ -53,13 +53,14 @@ export function activate(context: vscode.ExtensionContext) {
   const settingsEditorProvider = new SettingsEditorProvider(context.extensionUri, connectionService, context)
   context.subscriptions.push(settingsEditorProvider)
 
-  // The activity-bar container hosts a launcher: clicking the icon opens the
-  // wide Settings panel and collapses the sidebar. There is no chat sidebar.
-  const settingsLauncher = new SettingsLauncherProvider(context.extensionUri, () => {
-    settingsEditorProvider.openPanel("settings")
+  // The activity-bar container hosts the settings navigation as a narrow
+  // sidebar: clicking an item opens the wide Settings editor panel on that
+  // tab while keeping the sidebar open for quick tab switching.
+  const settingsNav = new SettingsNavProvider(context.extensionUri, (tab) => {
+    settingsEditorProvider.openPanel("settings", tab)
   })
   context.subscriptions.push(
-    vscode.window.registerWebviewViewProvider(SettingsLauncherProvider.viewType, settingsLauncher, {
+    vscode.window.registerWebviewViewProvider(SettingsNavProvider.viewType, settingsNav, {
       webviewOptions: { retainContextWhenHidden: true },
     }),
   )

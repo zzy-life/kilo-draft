@@ -85,7 +85,9 @@ const Settings: Component<SettingsProps> = (props) => {
         </Tooltip>
       </div>
 
-      {/* Settings tabs */}
+      {/* Settings tabs. The navigation (Tabs.List) moved to the narrow
+          activity-bar sidebar (SettingsNavProvider); this panel only shows
+          the content of the tab selected there. */}
       <Tabs
         orientation="vertical"
         variant="settings"
@@ -93,29 +95,6 @@ const Settings: Component<SettingsProps> = (props) => {
         onChange={onTabChange}
         style={{ flex: 1, overflow: "hidden" }}
       >
-        <Tabs.List>
-          <Tabs.Trigger value="providers" aria-label={language.t("settings.providers.title")}>
-            <Icon name="providers" />
-            <span class="label">{language.t("settings.providers.title")}</span>
-          </Tabs.Trigger>
-          <Tabs.Trigger value="autocomplete" aria-label={language.t("settings.autocomplete.title")}>
-            <Icon name="code-lines" />
-            <span class="label">{language.t("settings.autocomplete.title")}</span>
-          </Tabs.Trigger>
-          <Tabs.Trigger value="commitMessage" aria-label={language.t("settings.commitMessage.title")}>
-            <Icon name="edit" />
-            <span class="label">{language.t("settings.commitMessage.title")}</span>
-          </Tabs.Trigger>
-          <Tabs.Trigger value="language" aria-label={language.t("settings.language.title")}>
-            <Icon name="speech-bubble" />
-            <span class="label">{language.t("settings.language.title")}</span>
-          </Tabs.Trigger>
-          <Tabs.Trigger value="aboutKiloCode" aria-label={language.t("settings.aboutKiloCode.title")}>
-            <Icon name="help" />
-            <span class="label">{language.t("settings.aboutKiloCode.title")}</span>
-          </Tabs.Trigger>
-        </Tabs.List>
-
         <Tabs.Content value="providers">
           <h3>{language.t("settings.providers.title")}</h3>
           <ProvidersTab />
