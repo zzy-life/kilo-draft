@@ -1,6 +1,8 @@
 import type { Command } from "@/command"
-import type { ReviewCommand } from "@kilocode/kilo-telemetry"
 import REVIEW from "./review.txt"
+
+// kilocode_change - review command literal moved here after kilo-telemetry removal
+export type ReviewCommand = "review"
 
 const legacy = {
   "local-review": {

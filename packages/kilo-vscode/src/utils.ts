@@ -62,7 +62,7 @@ export function buildWebviewHtml(
     title: string
     port?: number
     extraStyles?: string
-    /** Sidebar top bar visibility and telemetry surface for the shared webview bundle (App.tsx). Unused by the Agent Manager bundle. */
+    /** Sidebar top bar visibility and surface for the shared webview bundle (App.tsx). Unused by the Agent Manager bundle. */
     topBar?: boolean
     topBarSurface?: string
     /** Extra global assignments appended to the inline bootstrap script (e.g. mode flags the bundle reads at mount). */

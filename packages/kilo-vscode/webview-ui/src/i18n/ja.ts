@@ -689,10 +689,6 @@ export const dict = {
     "これはVS Code拡張機能固有の設定のみをデフォルト値にリセットします。モードや自動承認ルールなど、CLIと共有される設定はCLI設定ファイルに保存されており、リセットされません。",
   "settings.aboutKiloCode.resetSettings.button": "すべての設定をリセット",
   "settings.aboutKiloCode.resetSettings.notificationsButton": "Reset Read Notifications",
-  "settings.aboutKiloCode.telemetry.title": "テレメトリ",
-  "settings.aboutKiloCode.telemetry.description":
-    "テレメトリは VS Code の組み込みテレメトリ設定によって制御されます。無効にするには、設定 > テレメトリ > Telemetry Level に移動して「off」に設定してください。変更を適用するには、VS Code を再起動してください。",
-  "settings.aboutKiloCode.telemetry.openSettings": "テレメトリ設定を開く",
 
   "settings.agentBehaviour.subtab.agents": "エージェント",
   "settings.agentBehaviour.subtab.mcpServers": "MCPサーバー",

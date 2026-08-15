@@ -250,7 +250,6 @@ export const TaskTool = Tool.define(
       const runTask = Effect.fn("TaskTool.runTask")(
         function* () {
           const parts = yield* ops.resolvePromptParts(params.prompt)
-          KiloSessionProcessor.markReviewTelemetry(parts, params.command) // kilocode_change - carry review command into child session telemetry
           const result = yield* ops.prompt({
             messageID: MessageID.ascending(),
             sessionID: nextSession.id,

@@ -1,7 +1,6 @@
 import { Effect, Schema } from "effect"
 import * as Tool from "./tool"
 import { WarpGrepClient } from "@morphllm/morphsdk/tools/warp-grep/client" // kilocode_change
-import { Telemetry } from "@kilocode/kilo-telemetry" // kilocode_change
 import { Instance } from "../kilocode/instance" // kilocode_change
 import { EventV2Bridge } from "@/event-v2-bridge" // kilocode_change
 import { TuiEvent } from "@/server/tui-event" // kilocode_change
@@ -33,8 +32,6 @@ export const CodebaseSearchTool = Tool.define(
             always: ["*"],
             metadata: { query: params.query },
           })
-          Telemetry.trackToolUsed("codebase_search", ctx.sessionID) // kilocode_change
-
           const apiKey = process.env["MORPH_API_KEY"]
 
           // FREE_PERIOD_TODO: Remove proxy fallback — require apiKey, error if missing:

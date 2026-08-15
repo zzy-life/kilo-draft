@@ -684,10 +684,6 @@ export const dict = {
     "การดำเนินการนี้จะรีเซ็ตเฉพาะการตั้งค่าเฉพาะของส่วนขยาย VS Code กลับเป็นค่าเริ่มต้นเท่านั้น การตั้งค่าที่ใช้ร่วมกับ CLI เช่น โหมดและกฎการอนุมัติอัตโนมัติ จะถูกเก็บไว้ในการกำหนดค่า CLI และจะไม่ถูกรีเซ็ต",
   "settings.aboutKiloCode.resetSettings.button": "รีเซ็ตการตั้งค่าทั้งหมด",
   "settings.aboutKiloCode.resetSettings.notificationsButton": "Reset Read Notifications",
-  "settings.aboutKiloCode.telemetry.title": "Telemetry",
-  "settings.aboutKiloCode.telemetry.description":
-    'Telemetry ถูกควบคุมโดยการตั้งค่า Telemetry ในตัวของ VS Code หากต้องการปิดใช้งาน ให้ไปที่ Settings > Telemetry > Telemetry Level แล้วตั้งค่าเป็น "off" รีสตาร์ท VS Code เพื่อให้การเปลี่ยนแปลงมีผล',
-  "settings.aboutKiloCode.telemetry.openSettings": "เปิดการตั้งค่า Telemetry",
 
   "settings.agentBehaviour.subtab.agents": "ตัวแทน",
   "settings.agentBehaviour.subtab.mcpServers": "เซิร์ฟเวอร์ MCP",

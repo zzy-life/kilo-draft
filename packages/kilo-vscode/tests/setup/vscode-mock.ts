@@ -39,7 +39,6 @@ const mockVscode = {
     appName: "VS Code",
     language: "en",
     machineId: "test-machine",
-    isTelemetryEnabled: false,
     shell: "/bin/bash",
     openExternal: noop,
   },

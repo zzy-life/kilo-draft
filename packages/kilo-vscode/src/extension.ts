@@ -5,7 +5,6 @@ import { KiloConnectionService } from "./services/cli-backend"
 import { registerAutocompleteProvider } from "./services/autocomplete"
 import { ensureBackendForAutocomplete } from "./services/autocomplete/ensure-backend"
 import { AutocompleteServiceManager } from "./services/autocomplete/AutocompleteServiceManager"
-import { TelemetryProxy } from "./services/telemetry"
 import { registerCommitMessageService } from "./services/commit-message"
 import { registerHeapSnapshot } from "./commands/heap-snapshot"
 import { markWorkspace } from "./util/spotlight"
@@ -17,33 +16,14 @@ import { markWorkspace } from "./util/spotlight"
 export function activate(context: vscode.ExtensionContext) {
   console.log("Kilo Code extension is now active")
 
-  const telemetry = TelemetryProxy.getInstance()
-
   // Create shared connection service (one server for all webviews)
   const connectionService = new KiloConnectionService(context)
 
-  // Configure telemetry and reload autocomplete when the backend reconnects.
+  // Reload autocomplete when the backend reconnects.
   const unsubscribeStateChange = connectionService.onStateChange((state) => {
     if (state !== "connected") return
-    const config = connectionService.getServerConfig()
-    if (config) {
-      telemetry.configure(config.baseUrl, config.password)
-      // Sync the CLI's PostHog client with the current consent state. The
-      // CLI reads KILO_TELEMETRY_LEVEL once at spawn, so without this call
-      // a fresh CLI started while VS Code telemetry was off would stay
-      // opted out for the rest of the session.
-      telemetry.setEnabled(vscode.env.isTelemetryEnabled)
-    }
     AutocompleteServiceManager.getInstance()?.load()
   })
-
-  // Propagate runtime telemetry consent changes to the CLI subprocess so its
-  // PostHog client stays in sync with the user's VS Code telemetry setting.
-  context.subscriptions.push(
-    vscode.env.onDidChangeTelemetryEnabled((enabled) => {
-      telemetry.setEnabled(enabled)
-    }),
-  )
 
   for (const folder of vscode.workspace.workspaceFolders ?? []) {
     void markWorkspace(folder.uri.fsPath, (msg) => console.warn(`[Kilo New] ${msg}`))
@@ -102,8 +82,4 @@ export function activate(context: vscode.ExtensionContext) {
       connectionService.dispose()
     },
   })
-}
-
-export function deactivate() {
-  TelemetryProxy.getInstance().shutdown()
 }

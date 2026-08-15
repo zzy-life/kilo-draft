@@ -707,10 +707,6 @@ export const dict = {
     "Ceci réinitialise uniquement les paramètres spécifiques à l'extension VS Code à leurs valeurs par défaut. Les paramètres partagés avec le CLI, tels que les modes et les règles d'approbation automatique, sont stockés dans la configuration du CLI et ne seront pas réinitialisés.",
   "settings.aboutKiloCode.resetSettings.button": "Réinitialiser tous les paramètres",
   "settings.aboutKiloCode.resetSettings.notificationsButton": "Reset Read Notifications",
-  "settings.aboutKiloCode.telemetry.title": "Télémétrie",
-  "settings.aboutKiloCode.telemetry.description":
-    'La télémétrie est contrôlée par le paramètre de télémétrie intégré de VS Code. Pour la désactiver, allez dans Paramètres > Télémétrie > Niveau de télémétrie et réglez-le sur "off". Redémarrez VS Code pour appliquer la modification.',
-  "settings.aboutKiloCode.telemetry.openSettings": "Ouvrir les paramètres de télémétrie",
 
   "settings.agentBehaviour.subtab.agents": "Agents",
   "settings.agentBehaviour.subtab.mcpServers": "Serveurs MCP",

@@ -667,10 +667,6 @@ export const dict = {
     "此操作仅将 VS Code 扩展专属设置重置为默认值。与 CLI 共享的设置（如模式和自动审批规则）存储在 CLI 配置中，不会被重置。",
   "settings.aboutKiloCode.resetSettings.button": "重置所有设置",
   "settings.aboutKiloCode.resetSettings.notificationsButton": "Reset Read Notifications",
-  "settings.aboutKiloCode.telemetry.title": "遥测",
-  "settings.aboutKiloCode.telemetry.description":
-    '遥测由 VS Code 的内置遥测设置控制。若要将其禁用，请转到「设置」>「遥测」>「遥测级别」并将其设置为 "off"。重启 VS Code 以应用更改。',
-  "settings.aboutKiloCode.telemetry.openSettings": "打开遥测设置",
 
   "settings.agentBehaviour.subtab.agents": "代理",
   "settings.agentBehaviour.subtab.mcpServers": "MCP 服务器",

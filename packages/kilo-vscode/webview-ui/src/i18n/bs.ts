@@ -694,10 +694,6 @@ export const dict = {
     "Ovo resetuje samo postavke specifične za VS Code ekstenziju na njihove zadane vrijednosti. Postavke koje se dijele s CLI-jem, kao što su načini rada i pravila automatskog odobravanja, pohranjene su u CLI konfiguraciji i neće biti resetovane.",
   "settings.aboutKiloCode.resetSettings.button": "Resetuj sve postavke",
   "settings.aboutKiloCode.resetSettings.notificationsButton": "Reset Read Notifications",
-  "settings.aboutKiloCode.telemetry.title": "Telemetrija",
-  "settings.aboutKiloCode.telemetry.description":
-    'Telemetrija je kontrolisana ugrađenom postavkom za telemetriju u VS Code-u. Da biste je onemogućili, idite na Postavke > Telemetrija > Nivo telemetrije i postavite na "off". Ponovo pokrenite VS Code da biste primijenili promjenu.',
-  "settings.aboutKiloCode.telemetry.openSettings": "Otvori postavke telemetrije",
 
   "settings.agentBehaviour.subtab.agents": "Agenti",
   "settings.agentBehaviour.subtab.mcpServers": "MCP serveri",

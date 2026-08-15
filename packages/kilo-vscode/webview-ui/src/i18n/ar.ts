@@ -678,10 +678,6 @@ export const dict = {
     "يؤدي هذا إلى إعادة تعيين الإعدادات الخاصة بامتداد VS Code فقط إلى قيمها الافتراضية. الإعدادات المشتركة مع CLI، مثل الأوضاع وقواعد الموافقة التلقائية، مخزّنة في تكوين CLI ولن تتأثر.",
   "settings.aboutKiloCode.resetSettings.button": "إعادة تعيين جميع الإعدادات",
   "settings.aboutKiloCode.resetSettings.notificationsButton": "Reset Read Notifications",
-  "settings.aboutKiloCode.telemetry.title": "Telemetry",
-  "settings.aboutKiloCode.telemetry.description":
-    'يتم التحكم في Telemetry بواسطة إعداد Telemetry المدمج في VS Code. لتعطيله، انتقل إلى الإعدادات > Telemetry > Telemetry Level واضبطه على "off". أعد تشغيل VS Code لتطبيق التغيير.',
-  "settings.aboutKiloCode.telemetry.openSettings": "فتح إعدادات Telemetry",
 
   "settings.agentBehaviour.subtab.agents": "الوكلاء",
   "settings.agentBehaviour.subtab.mcpServers": "خوادم MCP",

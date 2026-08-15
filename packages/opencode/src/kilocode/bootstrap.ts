@@ -11,7 +11,6 @@ import { SessionSummary } from "@/session/summary"
 import { SessionExport } from "@/kilocode/session-export"
 import { createWorkspaceProvider } from "@/kilocode/session-export/workspace-provider"
 import { Instance } from "@/kilocode/instance"
-import { Identity } from "@kilocode/kilo-telemetry"
 import { MemoryLifecycle } from "@/kilocode/memory/turn"
 import { MemoryService } from "@kilocode/kilo-memory/effect/service"
 import { MemoryEvents } from "@/kilocode/memory/events"
@@ -52,14 +51,16 @@ export namespace KilocodeBootstrap {
         yield* bus.subscribeCallback(MemoryEvents.Updated, (evt) =>
           KiloToolRegistry.invalidateMemoryEnabled(evt.properties.directory),
         )
-        // Session export bootstrap.
+        // Session export bootstrap. The anonymous ID is read from the legacy
+        // telemetry-id file (if present) — kilo-telemetry was removed, so it is
+        // consumed but no longer created here.
         yield* Effect.gen(function* () {
           if (!SessionExport.enabled) return
           const anon = yield* EffectBridge.fromPromise(() =>
-            Identity.getMachineId().catch((err) => {
-              log.warn("session export identity failed", { err })
-              return undefined
-            }),
+            import("node:fs/promises")
+              .then(({ readFile }) => readFile(path.join(Global.Path.data, "telemetry-id"), "utf8"))
+              .then((text) => text.trim() || undefined)
+              .catch(() => undefined),
           )
           SessionExport.init({
             agentVersion: InstallationVersion,

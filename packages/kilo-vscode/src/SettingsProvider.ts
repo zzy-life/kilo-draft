@@ -58,8 +58,7 @@ import { resolveProjectDirectory } from "./project-directory"
  *
  * Deliberately NOT implemented here (removed or out of scope): chat sessions,
  * agents, permissions, MCP, memory, notifications feed, remote/cloud, indexing,
- * sandboxing, telemetry push and Kilo Gateway device login (no UI remains for
- * the auth code flow).
+ * sandboxing and Kilo Gateway device login (no UI remains for the auth code flow).
  */
 
 interface SettingsProviderOptions {
@@ -87,8 +86,7 @@ export class SettingsProvider implements vscode.Disposable {
   private connectionState: "connecting" | "connected" | "disconnected" | "error" = "connecting"
   private connectionGeneration = 0
   private isWebviewReady = false
-  private readonly extensionVersion =
-    vscode.extensions.getExtension("kilocode.kilo-code")?.packageJSON?.version ?? "unknown"
+  private readonly extensionVersion: string
   private cachedProvidersMessage: unknown = null
   /** Provider API keys retained extension-side for authenticated model fetches (#10139). */
   private storedProviderKeys: Record<string, StoredProviderKey> = {}
@@ -117,6 +115,7 @@ export class SettingsProvider implements vscode.Disposable {
     private readonly opts: SettingsProviderOptions = {},
   ) {
     this.projectDirectory = opts.projectDirectory
+    this.extensionVersion = this.extensionContext?.extension.packageJSON?.version ?? "unknown"
   }
 
   /** Shared SDK KiloClient or null when not yet connected. */
@@ -885,7 +884,7 @@ export class SettingsProvider implements vscode.Disposable {
     if (confirmed !== "Reset") return
 
     const prefix = "kilo-code.new."
-    const ext = vscode.extensions.getExtension("kilocode.kilo-code")
+    const ext = this.extensionContext?.extension
     const properties = ext?.packageJSON?.contributes?.configuration?.properties as Record<string, unknown> | undefined
     if (!properties) return
 

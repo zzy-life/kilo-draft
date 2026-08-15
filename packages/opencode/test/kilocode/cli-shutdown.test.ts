@@ -1,8 +1,6 @@
 import { afterEach, beforeEach, describe, expect, mock, test } from "bun:test"
 
 const calls: string[] = []
-const timeouts: Array<number | undefined> = []
-let err: unknown
 let exit: string | number | null | undefined
 
 mock.module("@opencode-ai/core/global", () => ({
@@ -12,24 +10,6 @@ mock.module("@opencode-ai/core/global", () => ({
 mock.module("@opencode-ai/core/installation/version", () => ({
   InstallationBuildKind: "release",
   InstallationVersion: "test",
-}))
-
-mock.module("@kilocode/kilo-telemetry", () => ({
-  Telemetry: {
-    async init() {
-      calls.push("telemetry:init")
-    },
-    async updateIdentity() {},
-    trackCliStart() {},
-    trackCliExit(code?: number) {
-      calls.push(`track:${code ?? "undefined"}`)
-    },
-    async shutdown(timeout?: number) {
-      calls.push("telemetry")
-      timeouts.push(timeout)
-      if (err) throw err
-    },
-  },
 }))
 
 mock.module("@kilocode/kilo-gateway", () => ({
@@ -117,8 +97,6 @@ for (const path of [
 describe("KiloCli.shutdown", () => {
   beforeEach(() => {
     calls.length = 0
-    timeouts.length = 0
-    err = undefined
     exit = process.exitCode
     process.exitCode = undefined
   })
@@ -127,14 +105,12 @@ describe("KiloCli.shutdown", () => {
     process.exitCode = exit
   })
 
-  test("keeps telemetry shutdown timeout best-effort and still disposes instances", async () => {
-    err = "Timeout while shutting down PostHog. Some events may not have been sent."
+  test("shuts down session export and disposes instances", async () => {
     process.exitCode = 0
     const { KiloCli } = await import("../../src/kilocode/cli/setup")
     await expect(KiloCli.shutdown()).resolves.toBeUndefined()
 
-    expect(timeouts).toEqual([2000])
-    expect(calls).toEqual(["track:0", "session", "telemetry", "dispose"])
+    expect(calls).toEqual(["session", "dispose"])
     expect(process.exitCode).toBe(0)
   })
 
@@ -143,8 +119,7 @@ describe("KiloCli.shutdown", () => {
     const { KiloCli } = await import("../../src/kilocode/cli/setup")
     await KiloCli.shutdown()
 
-    expect(timeouts).toEqual([2000])
-    expect(calls).toEqual(["track:1", "session", "telemetry", "dispose"])
+    expect(calls).toEqual(["session", "dispose"])
     expect(process.exitCode).toBe(1)
   })
 

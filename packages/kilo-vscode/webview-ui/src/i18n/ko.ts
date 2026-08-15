@@ -688,10 +688,6 @@ export const dict = {
     "이 기능은 VS Code 확장 프로그램 전용 설정만 기본값으로 초기화합니다. 모드 및 자동 승인 규칙과 같이 CLI와 공유되는 설정은 CLI 구성에 저장되며 초기화되지 않습니다.",
   "settings.aboutKiloCode.resetSettings.button": "모든 설정 초기화",
   "settings.aboutKiloCode.resetSettings.notificationsButton": "Reset Read Notifications",
-  "settings.aboutKiloCode.telemetry.title": "원격 측정",
-  "settings.aboutKiloCode.telemetry.description":
-    '원격 측정은 VS Code에 내장된 원격 측정 설정으로 제어됩니다. 비활성화하려면 설정 > 원격 측정 > 원격 측정 수준으로 이동하여 "off"로 설정하세요. 변경 사항을 적용하려면 VS Code를 다시 시작하세요.',
-  "settings.aboutKiloCode.telemetry.openSettings": "원격 측정 설정 열기",
 
   "settings.agentBehaviour.subtab.agents": "에이전트",
   "settings.agentBehaviour.subtab.mcpServers": "MCP 서버",

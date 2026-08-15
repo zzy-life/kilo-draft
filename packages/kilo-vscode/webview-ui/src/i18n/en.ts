@@ -674,10 +674,6 @@ export const dict = {
     "This resets only VS Code extension-specific settings to their default values. Settings shared with the CLI, such as modes and auto-approve rules, are stored in the CLI configuration and will not be reset.",
   "settings.aboutKiloCode.resetSettings.button": "Reset All Settings",
   "settings.aboutKiloCode.resetSettings.notificationsButton": "Reset Read Notifications",
-  "settings.aboutKiloCode.telemetry.title": "Telemetry",
-  "settings.aboutKiloCode.telemetry.description":
-    'Telemetry is controlled by VS Code\'s built-in telemetry setting. To disable it, go to Settings > Telemetry > Telemetry Level and set it to "off". Restart VS Code to apply the change.',
-  "settings.aboutKiloCode.telemetry.openSettings": "Open Telemetry Settings",
 
   "settings.agentBehaviour.subtab.agents": "Agents",
   "settings.agentBehaviour.subtab.mcpServers": "MCP Servers",

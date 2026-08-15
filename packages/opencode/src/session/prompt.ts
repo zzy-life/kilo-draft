@@ -1497,12 +1497,6 @@ export const layer = Layer.effect(
           latest.assistantMessage &&
           KiloSessionMessageOrder.compare(latest.userMessage, latest.assistantMessage) < 0
         // kilocode_change end
-        // kilocode_change start - carry local review command marker into LLM telemetry
-        const telemetry =
-          KiloSessionProcessor.extractReviewTelemetry(
-            msgs.findLast((m) => m.info.role === "user" && m.info.id === lastUser.id)?.parts ?? [],
-          ) ?? KiloSessionProcessor.extractSuggestionReviewTelemetry(lastAssistantMsg?.parts ?? [])
-        // kilocode_change end
 
         // Some providers return "stop" even when the assistant message contains
         // tool calls. Keep the loop running so tool results can be sent back to
@@ -1657,7 +1651,6 @@ export const layer = Layer.effect(
             assistantMessage: msg,
             sessionID,
             model,
-            telemetry, // kilocode_change
             snapshotInitialization: input.snapshotInitialization, // kilocode_change
           })
           .pipe(Effect.onInterrupt(() => finalize))
@@ -2406,7 +2399,6 @@ export const layer = Layer.effect(
       // kilocode_change end
 
       const templateParts = yield* resolvePromptParts(template)
-      KiloSessionProcessor.markReviewTelemetry(templateParts, input.command) // kilocode_change - mark review commands for completion telemetry
       const inputFiles = new Set(
         input.parts?.filter((part) => new URL(part.url).protocol === "file:").map((part) => fileURLToPath(part.url)),
       )

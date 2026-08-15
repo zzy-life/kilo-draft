@@ -416,10 +416,7 @@ const live: Layer.Layer<
             },
           ],
         }),
-        // kilocode_change start - disable AI SDK span recording (ai.* / gen_ai.*)
-        experimental_telemetry: { isEnabled: false },
       })
-      // kilocode_change end
       // kilocode_change start - capture eligible session export request completion off the stream path
       if (!exportable) return { type: "ai-sdk" as const, result }
       return {

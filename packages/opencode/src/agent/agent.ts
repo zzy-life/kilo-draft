@@ -25,7 +25,6 @@ import { Skill } from "../skill"
 import { Effect, Context, Layer, Schema } from "effect"
 import { InstanceState } from "@/effect/instance-state"
 import * as Option from "effect/Option"
-import * as OtelTracer from "@effect/opentelemetry/Tracer"
 import { AbsolutePath, type DeepMutable } from "@opencode-ai/core/schema"
 // kilocode_change start
 import * as KiloAgent from "@/kilocode/agent"
@@ -595,9 +594,6 @@ const layer = Layer.effect(
         const isOpenaiOauth = model.providerID === "openai" && authInfo?.type === "oauth"
 
         const params = {
-          // kilocode_change start - enable telemetry with custom PostHog tracer
-          experimental_telemetry: KiloAgent.telemetryOptions(cfg),
-          // kilocode_change end
           temperature: 0.3,
           messages: [
             ...(isOpenaiOauth

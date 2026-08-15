@@ -1,11 +1,8 @@
-import crypto from "crypto"
 import * as vscode from "vscode"
 import { t } from "../i18n"
-import { TelemetryProxy, TelemetryEventName } from "../telemetry"
 import { AutocompleteStatusBar } from "./AutocompleteStatusBar"
 import { AutocompleteCodeActionProvider } from "./AutocompleteCodeActionProvider"
 import { AutocompleteInlineCompletionProvider } from "./classic-auto-complete/AutocompleteInlineCompletionProvider"
-import { AutocompleteTelemetry } from "./classic-auto-complete/AutocompleteTelemetry"
 import { NextEditInlineCompletionProvider } from "./next-edit/NextEditInlineCompletionProvider"
 import { disposeLog } from "./next-edit/log"
 import { NextEditSuggestionManager } from "./next-edit/NextEditSuggestionManager"
@@ -66,8 +63,6 @@ export class AutocompleteServiceManager {
   private readonly context: vscode.ExtensionContext
   private settings: AutocompleteServiceSettings | null = null
 
-  private taskId: string | null = null
-
   // Status bar integration
   private statusBar: AutocompleteStatusBar | null = null
   private sessionCost: number = 0
@@ -113,7 +108,6 @@ export class AutocompleteServiceManager {
       this.updateCostTracking.bind(this),
       () => this.settings,
       workspacePath,
-      new AutocompleteTelemetry(),
       (status) => this.handleFatalAutocompleteError(status),
     )
     // Cache the resolved ignore controller for synchronous snippet filtering.
@@ -144,23 +138,6 @@ export class AutocompleteServiceManager {
         return toAllowedMercuryRecentSnippets(raw, (path) => ignore.validateAccess(path))
       },
       onFatalError: (status) => this.handleFatalAutocompleteError(status),
-      onSuggestion: (event) => {
-        const eventName =
-          event.status === "error"
-            ? TelemetryEventName.AUTOCOMPLETE_LLM_REQUEST_FAILED
-            : event.shown
-              ? TelemetryEventName.AUTOCOMPLETE_LLM_SUGGESTION_RETURNED
-              : TelemetryEventName.AUTOCOMPLETE_LLM_REQUEST_COMPLETED
-        TelemetryProxy.capture(eventName, {
-          mode: "next-edit",
-          model: getAutocompleteModel(this.settings?.provider, this.settings?.model).id,
-          latencyMs: event.latencyMs,
-          inputTokens: event.inputTokens,
-          outputTokens: event.outputTokens,
-          shown: event.shown,
-          errorStatus: event.errorStatus,
-        })
-      },
     })
 
     // Reload when CLI backend connection state changes so autocomplete
@@ -273,8 +250,6 @@ export class AutocompleteServiceManager {
       enableSmartInlineTaskKeybinding: false,
     })
 
-    TelemetryProxy.capture(TelemetryEventName.GHOST_SERVICE_DISABLED)
-
     await this.load()
   }
 
@@ -338,11 +313,6 @@ export class AutocompleteServiceManager {
     if (!editor) {
       return
     }
-
-    this.taskId = crypto.randomUUID()
-    TelemetryProxy.capture(TelemetryEventName.INLINE_ASSIST_AUTO_TASK, {
-      taskId: this.taskId,
-    })
 
     const document = editor.document
 

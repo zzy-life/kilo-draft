@@ -1085,11 +1085,6 @@ export interface ExtensionDataReadyMessage {
   type: "extensionDataReady"
 }
 
-export interface TelemetryStateMessage {
-  type: "telemetryState"
-  enabled: boolean
-}
-
 export interface ProviderOAuthReadyMessage {
   type: "providerOAuthReady"
   requestId: string
@@ -1309,7 +1304,6 @@ export type ExtensionMessage =
   | McpStatusLoadedMessage
   | ClearPendingPromptsMessage
   | ExtensionDataReadyMessage
-  | TelemetryStateMessage
   | ValidateFilesResultMessage
   | ClipboardWriteResultMessage
   | MemoryLoadedMessage

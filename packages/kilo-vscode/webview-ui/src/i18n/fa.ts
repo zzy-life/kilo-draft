@@ -674,10 +674,6 @@ export const dict = {
     "این گزینه فقط تنظیمات مخصوص افزونه VS Code را به مقادیر پیش‌فرض بازنشانی می‌کند. تنظیمات مشترک با CLI، مانند حالت‌ها و قوانین تأیید خودکار، در پیکربندی CLI ذخیره می‌شوند و بازنشانی نخواهند شد.",
   "settings.aboutKiloCode.resetSettings.button": "بازنشانی همه تنظیمات",
   "settings.aboutKiloCode.resetSettings.notificationsButton": "بازنشانی اعلان‌های خوانده‌شده",
-  "settings.aboutKiloCode.telemetry.title": "تله‌متری",
-  "settings.aboutKiloCode.telemetry.description":
-    "تله‌متری توسط تنظیمات داخلی تله‌متری VS Code کنترل می‌شود. برای غیرفعال کردن آن، به Settings > Telemetry > Telemetry Level بروید و آن را روی «off» تنظیم کنید. VS Code را مجدداً راه‌اندازی کنید تا تغییر اعمال شود.",
-  "settings.aboutKiloCode.telemetry.openSettings": "باز کردن تنظیمات تله‌متری",
 
   "settings.agentBehaviour.subtab.agents": "عوامل",
   "settings.agentBehaviour.subtab.mcpServers": "MCP Servers",

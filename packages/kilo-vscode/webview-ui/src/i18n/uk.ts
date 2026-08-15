@@ -681,10 +681,6 @@ export const dict = {
     "Це скине лише налаштування, специфічні для розширення VS Code, до стандартних значень. Налаштування, що зберігаються в конфігурації CLI (такі як режими та правила автоматичного схвалення), не будуть скинуті.",
   "settings.aboutKiloCode.resetSettings.button": "Скинути всі налаштування",
   "settings.aboutKiloCode.resetSettings.notificationsButton": "Reset Read Notifications",
-  "settings.aboutKiloCode.telemetry.title": "Телеметрія",
-  "settings.aboutKiloCode.telemetry.description":
-    'Телеметрія керується вбудованим налаштуванням телеметрії VS Code. Щоб вимкнути її, перейдіть до Налаштування > Телеметрія > Рівень телеметрії та встановіть значення "off". Перезапустіть VS Code, щоб застосувати зміну.',
-  "settings.aboutKiloCode.telemetry.openSettings": "Відкрити налаштування телеметрії",
 
   "settings.agentBehaviour.subtab.agents": "Агенти",
   "settings.agentBehaviour.subtab.mcpServers": "MCP-сервери",

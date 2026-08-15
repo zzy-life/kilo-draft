@@ -5,7 +5,6 @@ import { type IndexingTelemetryEvent, type VectorStoreSearchResult } from "@kilo
 import { toIndexingConfigInput, type IndexingConfig } from "@kilocode/kilo-indexing/config"
 import { hasIndexingPlugin } from "@kilocode/kilo-indexing/detect"
 import { IndexingStatus, disabledIndexingStatus } from "@kilocode/kilo-indexing/status"
-import { Telemetry } from "@kilocode/kilo-telemetry"
 import { fetchKiloEmbeddingModelCatalog } from "@kilocode/kilo-gateway"
 import { Instance } from "@/kilocode/instance"
 import { Bus } from "@/bus"
@@ -132,77 +131,6 @@ async function model(input: ReturnType<typeof toIndexingConfigInput>, auth: Kilo
     modelDimension: found.dimension,
     searchMinScore: input.searchMinScore ?? found.scoreThreshold,
   }
-}
-
-function trackTelemetry(event: IndexingTelemetryEvent): void {
-  if (event.type === "started") {
-    Telemetry.trackIndexingStarted({
-      trigger: event.trigger,
-      source: event.source,
-      mode: event.mode,
-      provider: event.provider,
-      vectorStore: event.vectorStore,
-      modelId: event.modelId,
-    })
-    return
-  }
-
-  if (event.type === "completed") {
-    Telemetry.trackIndexingCompleted({
-      trigger: event.trigger,
-      source: event.source,
-      mode: event.mode,
-      provider: event.provider,
-      vectorStore: event.vectorStore,
-      modelId: event.modelId,
-      filesIndexed: event.filesIndexed,
-      filesDiscovered: event.filesDiscovered,
-      totalBlocks: event.totalBlocks,
-      batchErrors: event.batchErrors,
-    })
-    return
-  }
-
-  if (event.type === "file_count") {
-    Telemetry.trackIndexingFileCount({
-      source: event.source,
-      mode: event.mode,
-      provider: event.provider,
-      vectorStore: event.vectorStore,
-      modelId: event.modelId,
-      discovered: event.discovered,
-      candidate: event.candidate,
-    })
-    return
-  }
-
-  if (event.type === "batch_retry") {
-    Telemetry.trackIndexingBatchRetry({
-      source: event.source,
-      mode: event.mode,
-      provider: event.provider,
-      vectorStore: event.vectorStore,
-      modelId: event.modelId,
-      attempt: event.attempt,
-      maxRetries: event.maxRetries,
-      batchSize: event.batchSize,
-      error: event.error,
-    })
-    return
-  }
-
-  Telemetry.trackIndexingError({
-    source: event.source,
-    trigger: event.trigger,
-    mode: event.mode,
-    provider: event.provider,
-    vectorStore: event.vectorStore,
-    modelId: event.modelId,
-    location: event.location,
-    error: event.error,
-    retryCount: event.retryCount,
-    maxRetries: event.maxRetries,
-  })
 }
 
 export namespace KiloIndexing {
@@ -367,9 +295,9 @@ export namespace KiloIndexing {
         delay,
       )
     })
-    const telemetry = Instance.bind((event: IndexingTelemetryEvent) => {
+    // kilocode_change - telemetry removed; worker still expects the hook
+    const telemetry = Instance.bind((_event: IndexingTelemetryEvent) => {
       if (disposed) return
-      trackTelemetry(event)
     })
     const warning = Instance.bind((item: IndexingWarning) => {
       if (disposed) return

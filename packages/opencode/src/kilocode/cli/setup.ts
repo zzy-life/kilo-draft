@@ -65,19 +65,8 @@ export namespace KiloCli {
     const { JsonMigration } = await import("@/kilocode/storage/json-migration")
     await JsonMigration.bootstrap()
 
-    const { AppRuntime } = await import("@/effect/app-runtime")
-    const { Config } = await import("@/config/config")
-    const cfg = await AppRuntime.runPromise(Config.Service.use((c) => c.getGlobal()))
-
-    const { Global } = await import("@opencode-ai/core/global")
-    const { Telemetry } = await import("@kilocode/kilo-telemetry")
-    await Telemetry.init({
-      dataPath: Global.Path.data,
-      version: InstallationVersion,
-      enabled: cfg.experimental?.openTelemetry !== false,
-    })
-
     const { Auth } = await import("@/auth")
+    const { AppRuntime } = await import("@/effect/app-runtime")
     const { migrateLegacyKiloAuth } = gateway
 
     // Migrate legacy Kilo CLI auth (~/.kilocode/cli/config.json) into auth.json if present.
@@ -85,40 +74,15 @@ export namespace KiloCli {
       async () => (await AppRuntime.runPromise(Auth.Service.use((s) => s.get("kilo")))) !== undefined,
       async (auth) => AppRuntime.runPromise(Auth.Service.use((s) => s.set("kilo", auth))),
     )
-
-    const auth = await AppRuntime.runPromise(Auth.Service.use((s) => s.get("kilo")))
-    if (auth) {
-      const token = auth.type === "oauth" ? auth.access : auth.key
-      const account = auth.type === "oauth" ? auth.accountId : undefined
-      await Telemetry.updateIdentity(token, account)
-    }
-
-    Telemetry.trackCliStart()
-    // Overlap the event upload with command execution so exit is not delayed by
-    // a network round trip (#10242).
-    Telemetry.flushInBackground()
   }
 
   // Runs from the `finally` block on every exit path.
   export async function shutdown(): Promise<void> {
     if (info) return
-    const { Telemetry } = await import("@kilocode/kilo-telemetry")
-    const code = typeof process.exitCode === "number" ? process.exitCode : undefined
-    Telemetry.trackCliExit(code)
     const { SessionExport } = await import("@/kilocode/session-export")
     const { KiloShutdown } = await import("@/kilocode/cli/shutdown")
-    const { create } = await import("@opencode-ai/core/util/log")
-    const log = create({ service: "kilocode.cli" })
     try {
       await SessionExport.shutdown()
-      // Bound telemetry shutdown so an unreachable endpoint (offline, firewall,
-      // DNS adblock resolving the host to 0.0.0.0) cannot block process exit on
-      // short-lived commands like `kilo --help` / `kilo --version` (#9788).
-      try {
-        await Telemetry.shutdown(2000)
-      } catch (err) {
-        log.warn("telemetry shutdown failed", { err })
-      }
     } finally {
       await KiloShutdown.run()
       const { InstanceRuntime } = await import("@/project/instance-runtime")

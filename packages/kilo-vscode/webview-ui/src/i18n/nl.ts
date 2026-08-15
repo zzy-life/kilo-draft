@@ -684,10 +684,6 @@ export const dict = {
     "Dit reset alleen VS Code-extensiespecifieke instellingen naar hun standaardwaarden. Instellingen die gedeeld worden met de CLI, zoals modi en regels voor automatisch goedkeuren, worden opgeslagen in de CLI-configuratie en worden niet gereset.",
   "settings.aboutKiloCode.resetSettings.button": "Alle instellingen resetten",
   "settings.aboutKiloCode.resetSettings.notificationsButton": "Reset Read Notifications",
-  "settings.aboutKiloCode.telemetry.title": "Telemetrie",
-  "settings.aboutKiloCode.telemetry.description":
-    'Telemetrie wordt beheerd door de ingebouwde telemetrie-instelling van VS Code. Om dit uit te schakelen, gaat u naar Instellingen > Telemetrie > Telemetrieniveau en stelt u dit in op "off". Herstart VS Code om de wijziging toe te passen.',
-  "settings.aboutKiloCode.telemetry.openSettings": "Telemetrie-instellingen openen",
 
   "settings.agentBehaviour.subtab.agents": "Agenten",
   "settings.agentBehaviour.subtab.mcpServers": "MCP Servers",

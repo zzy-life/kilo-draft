@@ -635,6 +635,58 @@ packages/kilo-vscode/src/services/telemetry/
 - 不初始化 PostHog 或 OpenTelemetry。
 - OpenAI 兼容接口仍独立可用。
 
+### 阶段 7.1：移除遥测（2026-08-15 执行）
+
+> 本小节独立于阶段 7 其余云服务/账号/Gateway 移除，先单独完成「遥测」这一功能组。
+
+**方案确认（2026-08-15，用户选择）**：
+
+1. **PostHog + OpenTelemetry 都移除**：删除 `packages/kilo-telemetry/` 包、CLI `/telemetry` HTTP 路由、VS Code `src/services/telemetry/`（TelemetryProxy），以及 AI SDK 的 OpenTelemetry 接线（`agent.ts` 的 `experimental_telemetry` + `@effect/opentelemetry` import、`llm.ts` 的 `experimental_telemetry: { isEnabled: false }`、`kilocode/agent/index.ts` 的 `telemetryOptions`）。
+2. **重新生成 SDK**：删除 CLI 侧 `/telemetry` 路由后运行 `bun ./script/generate.ts`，清除 `openapi.json` / `sdk.gen.ts` 中的 telemetry 客户端。
+3. **一并移除补全遥测**：删除 `AutocompleteTelemetry` 类及其在补全路径中的调用点（captureAcceptSuggestion / captureCacheHit 等），只保留补全逻辑本身。
+
+**任务清单**：
+
+- [x] T1 删除 `packages/kilo-telemetry/` 包目录，清理 `packages/opencode/package.json` 与 `bun.lock` 依赖。
+- [x] T2 移除 CLI 侧遥测调用点：
+  - `src/kilocode/cli/setup.ts`（Telemetry.init/trackCliStart/trackCliExit/shutdown/flushInBackground）。
+  - `src/kilocode/bootstrap.ts`（Identity 仅供 session-export anonId，需内联机器 ID 逻辑）。
+  - `src/auth/index.ts`（updateIdentity / trackAuthLogout）。
+  - `src/provider/auth.ts`（updateIdentity / trackAuthSuccess）。
+  - `src/session/llm/request.ts`（Identity import，确认用途后移除）。
+  - `src/kilocode/indexing.ts`、`src/kilocode/suggestion/index.ts`、`src/kilocode/plan-followup.ts`、`src/kilocode/session/processor.ts`、`src/kilocode/review/command.ts`、`src/kilocode/tool/chart.ts`、`src/tool/warpgrep.ts`、`src/kilocode/cli/cmd/tui/feedback.ts` 的 track*/ReviewCommand 引用。
+- [x] T3 移除 CLI HTTP `/telemetry` 路由：删除 `handlers/telemetry.ts`、`groups/telemetry.ts`，从 `api.ts`、`server.ts` 移除 `TelemetryApi`/`telemetryHandlers` 注册。
+- [x] T4 移除 OpenTelemetry 接线：`agent.ts` 的 `experimental_telemetry` + `OtelTracer` import、`llm.ts` 的 `experimental_telemetry`、`kilocode/agent/index.ts` 的 `telemetryOptions`。`@effect/opentelemetry` 依赖保留（上游 `packages/core/src/observability/otlp.ts` 使用）。
+- [x] T5 移除 VS Code 侧 telemetry：删除 `src/services/telemetry/` 目录；清理 `extension.ts` 的 TelemetryProxy 接线、`agent-manager/fork-session.ts`、补全服务中的 `AutocompleteTelemetry` 及 `TelemetryProxy.capture` 调用、`server-manager.ts` 的 `KILO_TELEMETRY_LEVEL` env、`AboutKiloCodeTab` 遥测 UI 与 i18n 文案、webview 消息类型。
+- [ ] T6 重新生成 SDK：`bun ./script/generate.ts` 清除 telemetry 客户端（脚本含 SDK 构建 + `bun dev generate`，按用户「不构建验证」指令待确认后运行）。
+- [x] T7 清理测试与文档：删除引用 kilo-telemetry / telemetry 路由的 CLI 测试与 VS Code 测试。
+
+**进度**：
+
+- 2026-08-15：完成方案确认，写入本计划。
+- 2026-08-15（本轮，**中间态，未构建验证**）：完成 T1 与 T2 大部分，用户叫停，遗留代码与断裂点如下。
+
+  **已完成**：
+  - `packages/kilo-telemetry/` 包目录已删除；`packages/opencode/package.json`、`bun.lock`（待下次 `bun install` 收敛）、`script/upstream/utils/config.ts`、`script/upstream/transforms/transform-package-json.ts`、`script/upstream/README.md`、`packages/kilo-vscode/script/prepare-sdk.ts` 中的 kilo-telemetry 引用已清理。
+  - CLI 侧遥测调用点已移除：`setup.ts`（Telemetry.init/trackCliStart/trackCliExit/shutdown/flushInBackground + `cfg`/`Config`）、`auth/index.ts`（updateIdentity/trackAuthLogout）、`provider/auth.ts`（updateIdentity/trackAuthSuccess）、`session/llm/request.ts`（Identity + HEADER_MACHINEID 请求头）、`indexing.ts`（trackTelemetry 函数删除，worker `telemetry` 回调保留为空操作）、`suggestion/index.ts`（trackSuggestionShown/Accepted）、`plan-followup.ts`（trackPlanFollowup）、`tool/chart.ts`、`tool/warpgrep.ts`（trackToolUsed）、`tui/feedback.ts`（文件删除，`submitFeedback` 无调用点）。
+  - ReviewTelemetry 标记链路已移除：`kilocode/session/processor.ts`（ReviewTelemetry 类型、reviewTelemetry/markReviewTelemetry/extractReviewTelemetry/suggestionReviewTelemetry/extractSuggestionReviewTelemetry/trackStep 全部删除）、共享 `session/processor.ts`（Input.telemetry、ctx.telemetry、trackStep 调用）、共享 `session/prompt.ts`（extractReviewTelemetry/extractSuggestionReviewTelemetry、`telemetry` 传参、markReviewTelemetry）、共享 `tool/task.ts`（markReviewTelemetry）。`review/command.ts` 的 `ReviewCommand` 类型改为本地 `"review"` 字面量。
+  - `bootstrap.ts` 的 session-export anonId 已解除对 `Identity` 的依赖，改为内联读取 `telemetry-id` 文件（遗留文件，不再创建）。
+
+  **遗留（下一步继续，已确认引用点但未改）**：
+  - **T3 HTTP 路由（当前代码已断裂）**：`handlers/telemetry.ts` 与 `groups/telemetry.ts` 已删除文件，但 `api.ts:45`（import TelemetryApi）与 `api.ts:114`（addHttpApi(TelemetryApi)）、`server.ts:29`（import telemetryHandlers）与 `server.ts:49`（telemetryHandlers 注册）仍引用已删文件——**这是当前唯一的编译断裂点**。
+  - T4 OpenTelemetry 接线：`agent.ts` 的 `experimental_telemetry: KiloAgent.telemetryOptions(cfg)` + `OtelTracer` import（死 import）、`llm.ts` 的 `experimental_telemetry: { isEnabled: false }`、`kilocode/agent/index.ts` 的 `telemetryOptions`。**注意**：`packages/core/src/observability/otlp.ts` 是上游 observability 基础设施（无 kilocode 标记），使用 `@effect/opentelemetry` / `@opentelemetry/*` 依赖，**不在移除范围**，对应依赖不能删。
+  - T5 VS Code 侧 telemetry：`src/services/telemetry/` 目录、`extension.ts`（TelemetryProxy 接线 + deactivate）、`agent-manager/fork-session.ts`、补全服务 `AutocompleteTelemetry`/`TelemetryProxy.capture`、`server-manager.ts` 的 `KILO_TELEMETRY_LEVEL` env、`AboutKiloCodeTab` 遥测 UI、i18n `settings.aboutKiloCode.telemetry.*` 文案、webview 消息类型（TelemetryStateMessage/TelemetryRequest）。
+  - T6 SDK 重新生成：`bun ./script/generate.ts` 清除 openapi.json / sdk.gen.ts 的 telemetry 客户端（在 T3 完成、断裂点修复后再跑）。
+  - T7 测试清理：CLI 测试（`test/kilocode/cli-shutdown.test.ts`、`test/session/prompt.test.ts`、`test/kilocode/plan-followup.test.ts`、`test/kilocode/suggestion/suggestion.test.ts`、`test/kilocode/telemetry/feedback.test.ts`、`test/kilocode/server/httpapi-public.test.ts`、`test/kilocode/server/httpapi-exercise-scenarios.ts` 等）与 VS Code 测试。
+
+- 2026-08-15（本轮，**完成 T3–T5 与 T7，仅剩 T6 待确认**）：完成以下收尾，未做构建验证（按用户指示）。
+
+  **T3 已完成**：`handlers/telemetry.ts` / `groups/telemetry.ts` 已删；`api.ts` 移除 `TelemetryApi` import（原 45 行）与 `.addHttpApi(TelemetryApi)`（原 114 行）；`server.ts` 移除 `telemetryHandlers` import（原 29 行）与注册（原 49 行）。全仓 grep 无 `TelemetryApi`/`telemetryHandlers`/`groups/telemetry`/`handlers/telemetry` 残留。
+  **T4 已完成**：`agent.ts` 删除 `import * as OtelTracer` 死 import 与 `experimental_telemetry: KiloAgent.telemetryOptions(cfg)` 块；`llm.ts` 删除 `experimental_telemetry: { isEnabled: false }` 块；`kilocode/agent/index.ts` 删除 `telemetryOptions` 函数。`@effect/opentelemetry` 依赖保留（`packages/core/src/observability/otlp.ts` 上游使用）。`agent.ts` 的 `KiloAgent` import 仍被 `prepare/patchAgents` 等使用，保留。
+  **T5 已完成**：删除 `src/services/telemetry/` 目录（5 文件）。`extension.ts` 移除 TelemetryProxy 接线、`onDidChangeTelemetryEnabled` 订阅与 `deactivate()`；`agent-manager/fork-session.ts` 移除 TelemetryProxy.capture 与 `PLATFORM` 常量；`server-manager.ts` 移除 `KILO_TELEMETRY_LEVEL` env；`connection-service.ts`/`utils.ts`/`SettingsProvider.ts` 更新 telemetry 注释。补全 telemetry：`AutocompleteServiceManager.ts` 移除 TelemetryProxy/AutocompleteTelemetry import、onSuggestion 回调、GHOST_SERVICE_DISABLED 与 INLINE_ASSIST_AUTO_TASK capture 及 taskId/crypto；`AutocompleteInlineCompletionProvider.ts` 移除 telemetry 字段/构造参数/全部 `telemetry?.` 调用与 `lastSuggestion`/`telemetryContext`；`NextEditInlineCompletionProvider.ts` 移除 onSuggestion 选项、`NextEditSuggestionEvent` 类型、`emitNotShown` 方法与 5 处调用；删除 `AutocompleteTelemetry.ts`、`telemetry-utils.ts`、死代码 `chat-autocomplete/` 目录；`types.ts` 删除无引用的 `LastSuggestionInfo`。webview：`AboutKiloCodeTab.tsx` 删除 Telemetry 区块与 `Icon` import；`webview-messages.ts` 删除 `TelemetryRequest`、`extension-messages.ts` 删除 `TelemetryStateMessage` 及联合类型成员；21 个 i18n 文件删除 `settings.aboutKiloCode.telemetry.*` 文案（括号平衡校验通过）。
+  **T7 已完成**：VS Code 侧删除 `autocomplete-telemetry-utils.test.ts`/`telemetry-errors.test.ts`/`telemetry-proxy-utils.test.ts`，`vscode-mock.ts` 移除 `isTelemetryEnabled`，`AutocompleteServiceManager.spec.ts` 移除 `AutocompleteTelemetry` 与 `@roo-code/telemetry` mock。CLI 侧删除 `telemetry/feedback.test.ts`、`session-processor-review-telemetry.test.ts`；`cli-shutdown.test.ts` 移除 kilo-telemetry mock 并更新断言为 `["session","dispose"]`；`prompt.test.ts` 删除 2 个 review-telemetry 测试块与 import；`plan-followup.test.ts` 删除 trackPlanFollowup spy 与断言；`suggestion.test.ts` 删除 6 个 telemetry 测试块与 import；`httpapi-public.test.ts` 删除 TelemetryPaths import 与 2 条路由；`httpapi-exercise-scenarios.ts` 删除 2 个 telemetry 场景。文档：`kilo-vscode/AGENTS.md` 与根 `CLAUDE.md` 删除 kilo-telemetry 包行。
+  **T6 待确认**：SDK 生成物（`openapi.json` `/telemetry/*`、`sdk.gen.ts` `Telemetry` 类、`types.gen.ts` `Telemetry*` 类型）仍含 telemetry 客户端。运行 `bun ./script/generate.ts` 含 SDK 构建与 `bun dev generate`，按用户「不进行构建验证」指令，待用户确认后再运行。
+
 ## 阶段 8：最小化 CLI 后端（保留核心，只删外围）
 
 ### 前置条件
